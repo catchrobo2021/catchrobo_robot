@@ -28,12 +28,12 @@
       </collision>
     </link>
 
-    <joint name="${prefix}gripper/joint1" type="revolute">
+    <joint name="${prefix}gripper/joint1" type="prismatic">
       <parent link="${prefix}gripper/base_link"/>
       <child link="${prefix}gripper/finger1"/>
-      <origin xyz="0.112 0 0" rpy="${90*M_PI/180} 0 ${90*M_PI/180}"/>
+      <origin xyz="0 0 0.01" rpy="${90*M_PI/180} 0 0"/>
       <axis xyz="0 0 1"/>
-      <limit lower="${-25*M_PI/180}" upper="${25*M_PI/180}" effort="6"
+      <limit lower="0" upper="0.05" effort="6"
               velocity="5" acceleration="5"/>
     </joint>
 
@@ -51,14 +51,14 @@
       </collision>
     </link>
 
-    <joint name="${prefix}gripper/joint2" type="revolute">
+    <joint name="${prefix}gripper/joint2" type="prismatic">
       <parent link="${prefix}gripper/base_link"/>
       <child link="${prefix}gripper/finger2"/>
-      <origin xyz="0.0956 0 0" rpy="${-90*M_PI/180} 0 ${-90*M_PI/180}"/>
+      <origin xyz="0 0 0.01" rpy="${90*M_PI/180} 0 0"/>
       <axis xyz="0 0 1"/>
-      <limit lower="${-150*M_PI/180}" upper="${150*M_PI/180}" effort="6"
+      <limit lower="0" upper="0.05" effort="6"
               velocity="5" acceleration="5"/>
-      <mimic joint="${prefix}gripper/joint1" multiplier="1" offset="0" />
+      <mimic joint="${prefix}gripper/joint1" multiplier="-1" offset="0" />
     </joint>
 
     <link name="${prefix}gripper/finger2">
@@ -78,7 +78,7 @@
     <joint name="${prefix}gripper/joint_tip" type="fixed">
       <parent link="${prefix}gripper/base_link"/>
       <child link="${prefix}gripper/link_tip"/>
-      <origin xyz="0.18 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0.03" rpy="0 0 0"/>
     </joint>
     <link name="${prefix}gripper/link_tip"/>
   
