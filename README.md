@@ -1,11 +1,11 @@
 # Catchrobo Battle Contest 2021 Firmware
 
-# Environment
+## Environment
 - ubuntu 18
 - ros melodic
 
-# How to use
-## Display robot in Rviz
+## How to use
+### Display robot in Rviz
 Without field:
 ```
 roslaunch catarm_description catarm_display.launch 
