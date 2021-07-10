@@ -8,21 +8,7 @@ Panels:
         - /Status1
         - /RobotModel1
         - /RobotModel1/Links1
-        - /RobotModel1/Links1/arm/link01
-        - /RobotModel1/Links1/arm/link11
-        - /RobotModel1/Links1/arm/link21
-        - /RobotModel1/Links1/arm/link31
-        - /RobotModel1/Links1/arm/link41
-        - /RobotModel1/Links1/arm/link51
-        - /RobotModel1/Links1/arm/link_tip1
-        - /RobotModel1/Links1/base/base_link1
-        - /RobotModel1/Links1/base/link_tip1
-        - /RobotModel1/Links1/gripper/base_link1
-        - /RobotModel1/Links1/gripper/finger11
-        - /RobotModel1/Links1/gripper/finger21
-        - /RobotModel1/Links1/gripper/link_tip1
-        - /RobotModel1/Links1/world1
-      Splitter Ratio: 0.5
+      Splitter Ratio: 0.5972973108291626
     Tree Height: 1086
   - Class: rviz/Selection
     Name: Selection
@@ -75,27 +61,27 @@ Visualization Manager:
       Links:
         All Links Enabled: true
         Expand Joint Details: false
-        Expand Link Details: true
+        Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
         arm/link0:
           Alpha: 1
-          Show Axes: true
+          Show Axes: false
           Show Trail: false
           Value: true
         arm/link1:
           Alpha: 1
-          Show Axes: true
+          Show Axes: false
           Show Trail: false
           Value: true
         arm/link2:
           Alpha: 1
-          Show Axes: true
+          Show Axes: false
           Show Trail: false
           Value: true
         arm/link3:
           Alpha: 1
-          Show Axes: true
+          Show Axes: false
           Show Trail: false
           Value: true
         arm/link4:
@@ -114,16 +100,16 @@ Visualization Manager:
           Show Trail: false
         base/base_link:
           Alpha: 1
-          Show Axes: true
+          Show Axes: false
           Show Trail: false
           Value: true
         base/link_tip:
           Alpha: 1
-          Show Axes: true
+          Show Axes: false
           Show Trail: false
         gripper/base_link:
           Alpha: 1
-          Show Axes: true
+          Show Axes: false
           Show Trail: false
           Value: true
         gripper/finger1:
@@ -178,25 +164,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.4513602256774902
+      Distance: 2.8158373832702637
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.4312072992324829
-        Y: 0.3932861387729645
-        Z: 0.6618230938911438
+        X: -0.7474959492683411
+        Y: 0.7510882019996643
+        Z: 0.14281007647514343
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.46539801359176636
+      Pitch: 0.3703983426094055
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.6386003494262695
+      Yaw: 2.1585981845855713
     Saved: ~
 Window Geometry:
   Displays:

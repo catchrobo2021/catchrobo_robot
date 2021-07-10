@@ -4,9 +4,9 @@
   <!-- Dependencies -->
   <xacro:include filename="$(find catarm_description)/urdf/materials.xacro"/>
   <xacro:include filename="$(find catarm_description)/urdf/common.xacro"/>
-  <xacro:include filename="$(find catarm_description)/urdf/base/CAT-BASE-001.urdf.xacro"/>
-  <xacro:include filename="$(find catarm_description)/urdf/arm/CAT-ARM-001.urdf.xacro"/>
-  <xacro:include filename="$(find catarm_description)/urdf/gripper/CAT-GRIPPER-001.urdf.xacro"/>
+  <xacro:include filename="$(find catarm_description)/urdf/base.urdf.xacro"/>
+  <xacro:include filename="$(find catarm_description)/urdf/arm.urdf.xacro"/>
+  <xacro:include filename="$(find catarm_description)/urdf/gripper.urdf.xacro"/>
 
   <!-- Link & Joint -->
   <link name="world"/>
