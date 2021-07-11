@@ -7,15 +7,15 @@
 ### Display robot in Rviz
 Without field:
 ```
-roslaunch catarm_description catarm_display.launch 
+roslaunch catchrobo_description catchrobo_display.launch 
 ```
 With field (blue/red):
 ```
-roslaunch catarm_description catarm_display.launch field:=blue
+roslaunch catchrobo_description catchrobo_display.launch field:=blue
 ```
 ### Execute motion planning with Moveit
 demo:
 ```
-roslaunch catarm_moveit demo.launch 
+roslaunch catchrobo_moveit demo.launch 
 ```
 ![demo](moveit_demo.png)

@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: catchrobo_description
+    relative_path: robots/catchrobo.urdf.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/catchrobo.srdf
+  CONFIG:
+    author_name: Yuta Kage
+    author_email: yuta0727leggodt@gmail.com
+    generated_timestamp: 1625922775
