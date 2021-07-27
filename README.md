@@ -8,6 +8,32 @@
 - moveit (see : https://moveit.ros.org/install/)
 - sudo apt install ros-melodic-joint-state-publisher-gui 
 
+
+## How to use
+### Display robot in Rviz
+Without field:
+```
+roslaunch catchrobo_description catchrobo_display.launch 
+```
+With field (blue/red):
+```
+roslaunch catchrobo_description catchrobo_display.launch field:=blue
+```
+### Execute motion planning with Moveit
+demo:
+```
+roslaunch catchrobo_moveit demo.launch 
+```
+![demo](moveit_demo.png)
+
+### feature_control
+- roslaunch catchrobo_manager bringup.launch
+- rosrun catchrobo_manager game_manager.py
+
+
+
+
+<!-- 
 ## IKFast  
 - download following by http://docs.ros.org/en/melodic/api/moveit_tutorials/html/doc/ikfast/ikfast_tutorial.html  (export MYROBOT_NAME=" catchrobo_description/robots/catchrobo")  
 - display collada file:
@@ -37,21 +63,4 @@ name              index parents
 - generate IK solver
 ```
 python `openrave-config --python-dir`/openravepy/_openravepy_/ikfast.py --robot=catchrobo_description/robots/catchrobo.dae --iktype=transform6d --baselink="2" --eelink="8" --savefile="`pwd`/catchrobo_IKFast/ikfast61_arm0.cpp"
-```
-
-## How to use
-### Display robot in Rviz
-Without field:
-```
-roslaunch catchrobo_description catchrobo_display.launch 
-```
-With field (blue/red):
-```
-roslaunch catchrobo_description catchrobo_display.launch field:=blue
-```
-### Execute motion planning with Moveit
-demo:
-```
-roslaunch catchrobo_moveit demo.launch 
-```
-![demo](moveit_demo.png)
+``` -->
