@@ -19,12 +19,7 @@
   </xacro:base>
 
   <xacro:arm prefix="" parent="base/link_tip">
-    <xacro:if value="${field=='blue'}">
-      <origin xyz="0 0 0.08" rpy="0 0 ${-90*M_PI/180}" />
-    </xacro:if>
-    <xacro:if value="${field=='red'}">
-      <origin xyz="0 0 0" rpy="0 0 ${90*M_PI/180}" />
-    </xacro:if>
+    <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:arm>
 
   <xacro:gripper prefix="" parent="arm/link_tip">

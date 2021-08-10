@@ -2,64 +2,33 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
   <!-- Field Side Parameters-->
-  <xacro:arg name="field" default="" />
+  <xacro:arg name="field" default=""/>
   <xacro:property name="field" value="$(arg field)" />
 
   <!-- Constants -->
-  <xacro:property name="visual_mesh_scale" value="1.0 1.0 1.0" />
-  <xacro:property name="collision_mesh_scale" value="1.0 1.0 1.0" />
+  <xacro:property name="visual_mesh_scale" value="1.0 1.0 1.0"/>
+  <xacro:property name="collision_mesh_scale" value="1.0 1.0 1.0"/>
 
   <!-- Link & Joint -->
   <xacro:macro name="base" params="parent *joint_origin">
-
+  
     <joint name="base/root" type="fixed">
-      <xacro:insert_block name="joint_origin" />
-      <parent link="${parent}" />
-      <child link="base/base_link" />
+      <xacro:insert_block name="joint_origin"/>
+      <parent link="${parent}"/>
+      <child link="base/base_link"/>
     </joint>
-
-    <!-- <link name="base/base_link">
-      <xacro:if value="${field=='blue'}">
-        <visual>
-          <geometry>
-            <mesh filename="package://catchrobo_description/mesh/base/base_blue.stl" scale="${visual_mesh_scale}" />
-          </geometry>
-          <material name="white" />
-        </visual>
-        <collision>
-          <geometry>
-            <mesh filename="package://catchrobo_description/mesh/base/base_blue.stl" scale="${collision_mesh_scale}" />
-          </geometry>
-        </collision>
-      </xacro:if>
-
-      <xacro:if value="${field=='red'}">
-        <visual>
-          <geometry>
-            <mesh filename="package://catchrobo_description/mesh/base/base_red.stl" scale="${visual_mesh_scale}" />
-          </geometry>
-          <material name="white" />
-        </visual>
-        <collision>
-          <geometry>
-            <mesh filename="package://catchrobo_description/mesh/base/base_red.stl" scale="${collision_mesh_scale}" />
-          </geometry>
-        </collision>
-      </xacro:if>
-    </link> -->
-
 
     <link name="base/base_link">
       <xacro:if value="${field=='blue'}">
         <visual>
           <geometry>
-            <mesh filename="package://catchrobo_description/mesh/base/blue_side_without_bisco_re.stl.stl" scale="${visual_mesh_scale}" />
+            <mesh filename="package://catchrobo_description/mesh/base/visual/base_blue_plane.stl" scale="${visual_mesh_scale}"/>
           </geometry>
-          <material name="white" />
+          <material name="white"/>
         </visual>
         <collision>
           <geometry>
-            <mesh filename="package://catchrobo_description/mesh/base/blue_side_without_bisco_re.stl.stl" scale="${collision_mesh_scale}" />
+            <mesh filename="package://catchrobo_description/mesh/base/collision/base_blue_plane.stl" scale="${collision_mesh_scale}"/>
           </geometry>
         </collision>
       </xacro:if>
@@ -67,30 +36,29 @@
       <xacro:if value="${field=='red'}">
         <visual>
           <geometry>
-            <mesh filename="package://catchrobo_description/mesh/base/red_side_without_bisco_re.stl" scale="${visual_mesh_scale}" />
+            <mesh filename="package://catchrobo_description/mesh/base/visual/base_red_plane.stl" scale="${visual_mesh_scale}"/>
           </geometry>
-          <material name="white" />
+          <material name="white"/>
         </visual>
         <collision>
           <geometry>
-            <mesh filename="package://catchrobo_description/mesh/base/red_side_without_bisco_re.stl" scale="${collision_mesh_scale}" />
+            <mesh filename="package://catchrobo_description/mesh/base/collision/base_red_plane.stl" scale="${collision_mesh_scale}"/>
           </geometry>
         </collision>
       </xacro:if>
     </link>
 
-
     <joint name="base/joint_tip" type="fixed">
-      <parent link="base/base_link" />
-      <child link="base/link_tip" />
+      <parent link="base/base_link"/>
+      <child link="base/link_tip"/>
       <xacro:if value="${field=='blue'}">
-        <origin xyz="-0.8 0.4 0.0044" rpy="0 0 0" />
+        <origin xyz="-0.795 0.390 0.0044" rpy="0 0 0"/>
       </xacro:if>
       <xacro:if value="${field=='red'}">
-        <origin xyz="0.8 0.4 0.0044" rpy="0 0 0" />
+        <origin xyz="0.795 0.390 0.0044" rpy="0 0 ${180*M_PI/180}"/>
       </xacro:if>
     </joint>
-    <link name="base/link_tip" />
+    <link name="base/link_tip"/>
 
   </xacro:macro>
 </robot>

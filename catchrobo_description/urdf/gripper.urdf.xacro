@@ -17,70 +17,127 @@
     <link name="${prefix}gripper/base_link">
       <visual>
         <geometry>
-          <mesh filename="package://catchrobo_description/mesh/gripper/base_link.stl" scale="${visual_mesh_scale}"/>
+          <mesh filename="package://catchrobo_description/mesh/gripper/visual/base_link.stl" scale="${visual_mesh_scale}"/>
         </geometry>
-        <material name="green"/>
+        <material name="white"/>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://catchrobo_description/mesh/gripper/base_link.stl" scale="${collision_mesh_scale}"/>
+          <mesh filename="package://catchrobo_description/mesh/gripper/collision/base_link.stl" scale="${collision_mesh_scale}"/>
         </geometry>
       </collision>
     </link>
 
+    <!-- Gripper 1 -->
     <joint name="${prefix}gripper/joint1" type="prismatic">
       <parent link="${prefix}gripper/base_link"/>
-      <child link="${prefix}gripper/finger1"/>
-      <origin xyz="0 -0.05 0.01" rpy="${90*M_PI/180} 0 ${180*M_PI/180}"/>
+      <child link="${prefix}gripper/finger1_1"/>
+      <origin xyz="0.06 -0.05 0.02335" rpy="${90*M_PI/180} 0 ${-90*M_PI/180}"/>
       <axis xyz="0 0 1"/>
       <limit lower="0" upper="0.05" effort="6"
               velocity="5" acceleration="5"/>
     </joint>
 
-    <link name="${prefix}gripper/finger1">
+    <link name="${prefix}gripper/finger1_1">
       <visual>
         <geometry>
-          <mesh filename="package://catchrobo_description/mesh/gripper/finger1.stl" scale="${visual_mesh_scale}"/>
+          <mesh filename="package://catchrobo_description/mesh/gripper/visual/finger.stl" scale="${visual_mesh_scale}"/>
         </geometry>
-        <material name="green"/>
+        <material name="orange"/>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://catchrobo_description/mesh/gripper/finger1.stl" scale="${collision_mesh_scale}"/>
+          <mesh filename="package://catchrobo_description/mesh/gripper/collision/finger.stl" scale="${collision_mesh_scale}"/>
         </geometry>
       </collision>
     </link>
 
-    <joint name="${prefix}gripper/joint2" type="prismatic">
+    <joint name="${prefix}gripper/joint1_mimic" type="prismatic">
       <parent link="${prefix}gripper/base_link"/>
-      <child link="${prefix}gripper/finger2"/>
-      <origin xyz="0 0.05 0.01" rpy="${90*M_PI/180} 0 0"/>
+      <child link="${prefix}gripper/finger1_2"/>
+      <origin xyz="-0.06 -0.05 0.02335" rpy="${90*M_PI/180} 0 ${90*M_PI/180}"/>
       <axis xyz="0 0 1"/>
       <limit lower="0" upper="0.05" effort="6"
               velocity="5" acceleration="5"/>
       <mimic joint="${prefix}gripper/joint1" multiplier="1" offset="0" />
     </joint>
 
-    <link name="${prefix}gripper/finger2">
+    <link name="${prefix}gripper/finger1_2">
       <visual>
         <geometry>
-          <mesh filename="package://catchrobo_description/mesh/gripper/finger2.stl" scale="${visual_mesh_scale}"/>
+          <mesh filename="package://catchrobo_description/mesh/gripper/visual/finger.stl" scale="${visual_mesh_scale}"/>
         </geometry>
-        <material name="green"/>
+        <material name="orange"/>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://catchrobo_description/mesh/gripper/finger2.stl" scale="${collision_mesh_scale}"/>
+          <mesh filename="package://catchrobo_description/mesh/gripper/collision/finger.stl" scale="${collision_mesh_scale}"/>
         </geometry>
       </collision>
     </link>
 
-    <joint name="${prefix}gripper/joint_tip" type="fixed">
+    <joint name="${prefix}gripper/grasping_frame1_joint" type="fixed">
       <parent link="${prefix}gripper/base_link"/>
-      <child link="${prefix}gripper/link_tip"/>
-      <origin xyz="0 0 0.03" rpy="0 0 0"/>
+      <child link="${prefix}gripper/grasping_frame1"/>
+      <origin xyz="0 -0.05 0.04835" rpy="0 0 0"/>
     </joint>
-    <link name="${prefix}gripper/link_tip"/>
+    <link name="${prefix}gripper/grasping_frame1"/>
+
+    <!-- Gripper 2 -->
+    <joint name="${prefix}gripper/joint2" type="prismatic">
+      <parent link="${prefix}gripper/base_link"/>
+      <child link="${prefix}gripper/finger2_1"/>
+      <origin xyz="0.06 0.05 0.02335" rpy="${90*M_PI/180} 0 ${-90*M_PI/180}"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="0" upper="0.05" effort="6"
+              velocity="5" acceleration="5"/>
+    </joint>
+
+    <link name="${prefix}gripper/finger2_1">
+      <visual>
+        <geometry>
+          <mesh filename="package://catchrobo_description/mesh/gripper/visual/finger.stl" scale="${visual_mesh_scale}"/>
+        </geometry>
+        <material name="orange"/>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://catchrobo_description/mesh/gripper/collision/finger.stl" scale="${collision_mesh_scale}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${prefix}gripper/joint2_mimic" type="prismatic">
+      <parent link="${prefix}gripper/base_link"/>
+      <child link="${prefix}gripper/finger2_2"/>
+      <origin xyz="-0.06 0.05 0.02335" rpy="${90*M_PI/180} 0 ${90*M_PI/180}"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="0" upper="0.05" effort="6"
+              velocity="5" acceleration="5"/>
+      <mimic joint="${prefix}gripper/joint2" multiplier="1" offset="0" />
+    </joint>
+
+    <link name="${prefix}gripper/finger2_2">
+      <visual>
+        <geometry>
+          <mesh filename="package://catchrobo_description/mesh/gripper/visual/finger.stl" scale="${visual_mesh_scale}"/>
+        </geometry>
+        <material name="orange"/>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://catchrobo_description/mesh/gripper/collision/finger.stl" scale="${collision_mesh_scale}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${prefix}gripper/grasping_frame2_joint" type="fixed">
+      <parent link="${prefix}gripper/base_link"/>
+      <child link="${prefix}gripper/grasping_frame2"/>
+      <origin xyz="0 0.05 0.04835" rpy="0 0 0"/>
+    </joint>
+    <link name="${prefix}gripper/grasping_frame2"/>
+    
   
   </xacro:macro>
 </robot>
