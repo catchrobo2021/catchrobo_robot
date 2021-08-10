@@ -10,10 +10,35 @@
     <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
     <group name="arm0">
+        <link name="arm/link0" />
+        <link name="arm/link1" />
+        <link name="arm/link2" />
+        <link name="arm/link3" />
+        <link name="arm/link4" />
+        <link name="arm/link5" />
+        <link name="arm/link_tip" />
+        <joint name="arm/root" />
+        <joint name="arm/joint1" />
+        <joint name="arm/joint2" />
+        <joint name="arm/joint3" />
+        <joint name="arm/joint4" />
+        <joint name="arm/joint5" />
+        <joint name="arm/joint_tip" />
         <chain base_link="arm/link0" tip_link="arm/link_tip" />
     </group>
+    <group name="hand">
+        <link name="gripper/base_link" />
+        <link name="gripper/finger1" />
+        <link name="gripper/finger2" />
+        <link name="gripper/link_tip" />
+        <joint name="gripper/root" />
+        <joint name="gripper/joint1" />
+        <joint name="gripper/joint2" />
+        <joint name="gripper/joint_tip" />
+        <chain base_link="gripper/base_link" tip_link="gripper/link_tip" />
+    </group>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="gripper0" parent_link="arm/link_tip" group="arm0" />
+    <end_effector name="gripper0" parent_link="arm/link_tip" group="hand" parent_group="arm0" />
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <disable_collisions link1="arm/link0" link2="arm/link1" reason="Adjacent" />
     <disable_collisions link1="arm/link0" link2="arm/link2" reason="Never" />

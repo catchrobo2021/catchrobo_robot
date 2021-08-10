@@ -26,6 +26,7 @@ class ActionState(object):
 
 class GameManager(object):
     def __init__(self):
+        self.BISCO_SIZE = 0.086,0.029,0.136
         self.BISCO_NUM = 27
         self._color = rospy.get_param("/color")
 
@@ -38,13 +39,17 @@ class GameManager(object):
         self._robot = moveit_commander.RobotCommander()
         rospy.loginfo(self._robot.get_group_names())
         self._arm = moveit_commander.MoveGroupCommander("arm0")
+        self._gripper = moveit_commander.MoveGroupCommander("hand")
+        self._arm.set_end_effector_link("gripper/link_tip")
+        # rospy.loginfo(self.variable.get_current_joint_values())
+        
 
         rospy.wait_for_service('compute_ik', timeout=10.0)  # Wait for 10 seconds and assumes we don't want IK
 
         self.compute_ik = rospy.ServiceProxy('compute_ik', GetPositionIK)
 
         self._pose_stamped = PoseStamped()
-        self._pose_stamped.header.frame_id ="/world" # Hard coded for now
+        self._pose_stamped.header.frame_id ="world" # Hard coded for now
         
         # Create a moveit ik request
         self._ik_request = PositionIKRequest() 
@@ -54,6 +59,28 @@ class GameManager(object):
         self._ik_request.attempts= 100
 
         self._pick_quat = tf.transformations.quaternion_from_euler(np.pi, 0,-np.pi/2)
+
+        self.AddBisco2Scene()
+
+    
+    def AddBisco2Scene(self):
+        self._scene = moveit_commander.PlanningSceneInterface()
+        rospy.sleep(1)
+
+        for i in range(self.BISCO_NUM):
+            if not self._biscos.isExist(i):
+                continue
+            p = PoseStamped()
+            p.header.frame_id = self._robot.get_planning_frame()
+            
+            p.pose.position = self._biscos.getPosi(i)
+            p.pose.position.z += self.BISCO_SIZE[2]/2 + 0.0005
+            p.pose.orientation.w = 1.0
+            size = self.BISCO_SIZE[0], self.BISCO_SIZE[1], self.BISCO_SIZE[2] - 0.001
+            self._scene.add_box("bisco{}".format(i), p,size)
+
+
+        
         
 
     def readCsvs(self):
@@ -65,10 +92,10 @@ class GameManager(object):
 
 
         bisco_csv = config_path + self._color + "_bisco.csv"
-        self._biscos =  ObjectDatabase(bisco_csv, "exist")
+        self._biscos =  ObjectDatabase("bisco", bisco_csv, "exist")
 
         shoot_csv = config_path +self._color+ "_shoot.csv"
-        self._shoots =  ObjectDatabase(shoot_csv, "open")
+        self._shoots =  ObjectDatabase("shoot", shoot_csv, "open")
     
     def checkGoCommon(self):
         if not self._can_go_common:
@@ -81,9 +108,9 @@ class GameManager(object):
         rospy.loginfo(self._arm.get_current_pose())
         pass
 
-    #[TODO]
-    def hand(self, close):
-        pass
+    def gripperMove(self, dist, wait):
+        self._gripper.set_joint_value_target([dist, dist])
+        self._gripper.go(wait)
 
     def goAboveObj(self, obj, above_val, mode):
         target_pose = Pose()
@@ -118,43 +145,7 @@ class GameManager(object):
         dt = rospy.Time.now().to_sec() - now.to_sec()
         rospy.loginfo("IK time : {}".format(dt))
 
-        # if mode == "free":
-        #     pose_stamped = PoseStamped()
-        #     pose_stamped.header.frame_id ="/world" # Hard coded for now
-        #     pose_stamped.header.stamp = rospy.Time.now()
-        #     pose_stamped.pose = goal 
-            
-        #     # Create a moveit ik request
-        #     ik_request = PositionIKRequest() 
-        #     ik_request.group_name = 'arm0' # Hard coded for now
-        #     ik_request.pose_stamped = pose_stamped
-        #     ik_request.timeout.secs = 0.1
-        #     ik_request.avoid_collisions = True 
-            
-        #     request_value = self.compute_ik(ik_request)
-
-        #     rospy.loginfo(request_value)
-        #     rospy.sleep(1)
-
-            
-        #     # goal = 
-        #     plan = RobotTrajectory()
-        #     plan.joint_trajectory.header.frame_id = "/world"
-        #     plan.joint_trajectory.joint_names =  ["arm/joint1", "arm/joint2","arm/joint3", "arm/joint4", "arm/joint5"]
-            
-        #     point = JointTrajectoryPoint()
-        #     point.positions = request_value.solution.joint_state.position
-
-        #     current_point = JointTrajectoryPoint()
-        #     current_point.positions = self._arm.get_current_joint_values()
-        #     plan.joint_trajectory.points = [ current_point, point]
-
-        #     ret = self._arm.execute(plan, wait=True)
-        
         if mode == "safe":
-            
-
-            # self._arm.set_pose_target(goal)
             now =  rospy.Time.now().to_sec()
             plan = self._arm.plan()
 
@@ -179,6 +170,34 @@ class GameManager(object):
 
         return ret
 
+    def goAboveBisco(self):
+        ret =  self.goAboveObj(self._biscos, 0.136 + 0.04, self._go_mode)
+        ret =  self.goAboveObj(self._biscos, 0.136 + 0.02, self._go_mode)
+        return ret
+
+    def goAboveShoot(self):
+        ret =  self.goAboveObj(self._shoots, 0.136 + 0.04, self._go_mode)
+        ret =  self.goAboveObj(self._shoots, 0.136 + 0.02, self._go_mode)
+        return ret
+
+    def graspBisco(self):
+        #[TODO] change for servo
+        touch_links = self._robot.get_link_names("hand")
+        box_name = self._biscos.getTargeName()
+        self._scene.attach_box(self._arm.get_end_effector_link(), box_name,touch_links=touch_links)
+        self.gripperMove(0.005, True)
+        ret =  self.goAboveObj(self._biscos, 0.136 + 0.04, self._go_mode)
+        return ret
+
+
+    def releaseBisco(self):
+        box_name = self._biscos.getTargeName()
+        self._scene.remove_attached_object(self._arm.get_end_effector_link(), name=box_name)
+        self.gripperMove(0, True)
+        rospy.sleep(0.1)
+        self._scene.remove_world_object(box_name) ### it need some minitues from remove_attached_object
+        
+
     def biscoAction(self):
         self._biscos.calcTargetId()
         target_id = self._biscos.getTargetId() 
@@ -191,15 +210,12 @@ class GameManager(object):
             #     self._next_action = ActionState.FINISH
             #     return
             self._biscos.updateState(target_id, False)
-            if not self._biscos.getTagetObj()["my_area"]:
-                return
-
+            # if not self._biscos.getTagetObj()["my_area"]:
+            #     return
             
-            if self.goAboveObj(self._biscos, 0.136 + 0.06,self._go_mode):
-                self.hand(close=False)
-                self.goAboveObj(self._biscos, 0.136 + 0.04, self._go_mode)
-                self.hand(close=True)
-                self.goAboveObj(self._biscos, 0.136 *2+ 0.05, self._go_mode)
+            # self.gripperMove(0.0, False) # open
+            if self.goAboveBisco():
+                self.graspBisco()
                 self._next_action = ActionState.SHOOT
             else:
                 rospy.logerr("cannot make path")
@@ -214,10 +230,9 @@ class GameManager(object):
             self._next_action = ActionState.FINISH
         else:
             self._shoots.updateState(target_id, False)
-            if self.goAboveObj(self._shoots, 0.136 *2+ 0.05,self._go_mode):
-                self.goAboveObj(self._shoots,0.136 + 0.04, self._go_mode)
-                self.hand(close=False)
-                self.goAboveObj(self._shoots,0.136 + 0.06, self._go_mode)
+            if self.goAboveShoot():
+                self.releaseBisco()
+                # self.goAboveObj(self._shoots,0.136 + 0.04, self._go_mode)
                 self._next_action = ActionState.BISCO
             else:
                 rospy.logerr("cannot make path")
@@ -230,6 +245,7 @@ class GameManager(object):
         self._go_mode = "safe"
         # rate = rospy.Rate(10)
         start_time = rospy.Time.now().to_sec()
+        self.gripperMove(0, True)
         while not rospy.is_shutdown():
             if self._next_action == ActionState.BISCO:
                 self.biscoAction()

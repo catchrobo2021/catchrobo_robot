@@ -5,8 +5,10 @@
     <param name="color" value="$(arg color)" />
     <!-- <node pkg="catchrobo_manager" name="game_manager" type="game_manager.py" output="screen" /> -->
 
-    <include file="$(find catchrobo_moveit)/launch/demo.launch">
+    <include file="$(find catchrobo_manager)/launch/demo.launch">
         <arg name="use_gui" value="true" />
+        <arg name="field" value="$(arg color)" />
+        <!-- <arg name="field" value="None" /> -->
     </include>
     <!-- <rosparam command="load" file="$(find catchrobo_manager)/config/test.yaml" /> -->
     <!-- <node pkg="task_switch" name="pose2marker_sphere" type="pose2marker_sphere.py">

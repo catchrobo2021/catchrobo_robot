@@ -7,7 +7,8 @@ from geometry_msgs.msg import Pose, Point, Quaternion
 
 
 class ObjectDatabase(object):
-    def __init__(self, csv, count_key):
+    def __init__(self, name,csv, count_key):
+        self._name = name
         self._objects = pd.read_csv(csv, index_col=0)
         self._count_key = count_key
     
@@ -35,7 +36,14 @@ class ObjectDatabase(object):
         posi.z = self._objects.loc[id,"z"]
         return posi
     
+    def getName(self, id):
+        return "{}{}".format(self._name, id)
 
+    def getTargeName(self):
+        return self.getName(self.getTargetId())
+
+    def isExist(self, id):
+        return self._objects.loc[id, "exist"]
 
 
 

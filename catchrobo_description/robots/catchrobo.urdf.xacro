@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <robot name="catchrobo" xmlns:xacro="http://ros.org/wiki/xacro">
 
+
+  <xacro:arg name="field" default="" />
+  <xacro:property name="field" value="$(arg field)" />
   <!-- Dependencies -->
   <xacro:include filename="$(find catchrobo_description)/urdf/materials.xacro" />
   <xacro:include filename="$(find catchrobo_description)/urdf/common.xacro" />
@@ -16,7 +19,12 @@
   </xacro:base>
 
   <xacro:arm prefix="" parent="base/link_tip">
-    <origin xyz="0 0 0" rpy="0 0 0" />
+    <xacro:if value="${field=='blue'}">
+      <origin xyz="0 0 0.08" rpy="0 0 ${-90*M_PI/180}" />
+    </xacro:if>
+    <xacro:if value="${field=='red'}">
+      <origin xyz="0 0 0" rpy="0 0 ${90*M_PI/180}" />
+    </xacro:if>
   </xacro:arm>
 
   <xacro:gripper prefix="" parent="arm/link_tip">
