@@ -39,7 +39,10 @@ class GameManager(object):
         self._robot = moveit_commander.RobotCommander()
         rospy.loginfo(self._robot.get_group_names())
         self._arm = moveit_commander.MoveGroupCommander("arm0")
-        self._gripper = moveit_commander.MoveGroupCommander("hand1")
+        self._gripper = [moveit_commander.MoveGroupCommander("hand1"), moveit_commander.MoveGroupCommander("hand2")]
+
+        self._target_gripper_id = 0
+        self._handling_box = [0, 0]
         # rospy.loginfo(self._arm.get_current_pose())
         # self._arm.set_end_effector_link("gripper/grasping_frame1")
         # rospy.loginfo(self._arm.get_current_pose())
@@ -119,14 +122,17 @@ class GameManager(object):
         pass
 
     def gripperMove(self, dist, wait):
-        self._gripper.set_joint_value_target([dist, dist])
-        self._gripper.go(wait)
+        self._gripper[self._target_gripper_id].set_joint_value_target([dist, dist])
+        self._gripper[self._target_gripper_id].go(wait)
 
     def goAboveObj(self, obj, above_val, mode):
         target_pose = Pose()
         target_pose.position = obj.getPosi(obj.getTargetId())
         # target_pose.position.x = 0.367048603838
-        # target_pose.position.y -= 0.05
+        if self._target_gripper_id == 0:
+            target_pose.position.y -= 0.05 # [TODO] switch hand
+        else:
+            target_pose.position.y += 0.05 # [TODO] switch hand
         target_pose.position.z += above_val
         
         target_pose.orientation = Quaternion(*self._pick_quat)
@@ -181,27 +187,29 @@ class GameManager(object):
         return ret
 
     def goAboveBisco(self):
+        ret =  self.goAboveObj(self._biscos, 0.136 + 0.06, self._go_mode)
         ret =  self.goAboveObj(self._biscos, 0.136 + 0.04, self._go_mode)
-        ret =  self.goAboveObj(self._biscos, 0.136 + 0.02, self._go_mode)
         return ret
 
     def goAboveShoot(self):
+        ret =  self.goAboveObj(self._shoots, 0.136 + 0.06, self._go_mode)
         ret =  self.goAboveObj(self._shoots, 0.136 + 0.04, self._go_mode)
-        ret =  self.goAboveObj(self._shoots, 0.136 + 0.02, self._go_mode)
         return ret
 
     def graspBisco(self):
         #[TODO] change for servo
-        touch_links = self._robot.get_link_names("hand")
-        box_name = self._biscos.getTargeName()
+        touch_links = self._robot.get_link_names("arm0")
+        self._handling_box[self._target_gripper_id] = self._biscos.getTargeName()
+        box_name = self._handling_box[self._target_gripper_id]
         self._scene.attach_box(self._arm.get_end_effector_link(), box_name,touch_links=touch_links)
         self.gripperMove(0.005, True)
-        ret =  self.goAboveObj(self._biscos, 0.136 + 0.04, self._go_mode)
+        ret =  self.goAboveObj(self._biscos, 0.136 + 0.06, self._go_mode)
         return ret
 
 
     def releaseBisco(self):
-        box_name = self._biscos.getTargeName()
+        # box_name = self._biscos.getTargeName()
+        box_name = self._handling_box[self._target_gripper_id]
         self._scene.remove_attached_object(self._arm.get_end_effector_link(), name=box_name)
         self.gripperMove(0, True)
         rospy.sleep(0.1)
@@ -258,9 +266,16 @@ class GameManager(object):
         self.gripperMove(0, True)
         while not rospy.is_shutdown():
             if self._next_action == ActionState.BISCO:
+                self._target_gripper_id = 0
                 self.biscoAction()
+                self._target_gripper_id = 1
+                self.biscoAction()
+
                 
             elif self._next_action == ActionState.SHOOT:
+                self._target_gripper_id = 0
+                self.shootAction()
+                self._target_gripper_id = 1
                 self.shootAction()
             elif self._next_action == ActionState.FINISH:
                 break
