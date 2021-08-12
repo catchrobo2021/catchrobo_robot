@@ -6,6 +6,9 @@ controller_list:
       - arm/joint3
       - arm/joint4
       - arm/joint5
-  - name: fake_hand_controller
+  - name: fake_hand2_controller
+    joints:
+      - gripper/joint2
+  - name: fake_hand1_controller
     joints:
       - gripper/joint1

@@ -39,8 +39,17 @@ class GameManager(object):
         self._robot = moveit_commander.RobotCommander()
         rospy.loginfo(self._robot.get_group_names())
         self._arm = moveit_commander.MoveGroupCommander("arm0")
-        self._gripper = moveit_commander.MoveGroupCommander("hand")
-        self._arm.set_end_effector_link("gripper/link_tip")
+        self._gripper = moveit_commander.MoveGroupCommander("hand1")
+        # rospy.loginfo(self._arm.get_current_pose())
+        # self._arm.set_end_effector_link("gripper/grasping_frame1")
+        # rospy.loginfo(self._arm.get_current_pose())
+        # rospy.loginfo(self._robot.get_link_names("hand1"))
+
+        # arm_link = self._robot.get_link_names("arm0")
+
+        # hand1_attached_link_names = arm_link + self._robot.get_link_names("hand1")
+        # rospy.loginfo(hand1_attached_link_names)
+        # rospy.sleep(10)
         # rospy.loginfo(self.variable.get_current_joint_values())
         
 
@@ -54,11 +63,12 @@ class GameManager(object):
         # Create a moveit ik request
         self._ik_request = PositionIKRequest() 
         self._ik_request.group_name = 'arm0' # Hard coded for now
+        # self._ik_request.ik_link_names = hand1_attached_link_names
         self._ik_request.timeout.secs = 0.1
         self._ik_request.avoid_collisions = True 
         self._ik_request.attempts= 100
 
-        self._pick_quat = tf.transformations.quaternion_from_euler(np.pi, 0,-np.pi/2)
+        self._pick_quat = tf.transformations.quaternion_from_euler(np.pi, 0,0)
 
         self.AddBisco2Scene()
 

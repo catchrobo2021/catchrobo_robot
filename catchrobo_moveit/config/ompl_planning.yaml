@@ -146,7 +146,33 @@ arm0:
     - LazyPRMstar
     - SPARS
     - SPARStwo
-hand:
+hand2:
+  default_planner_config: None
+  planner_configs:
+    - SBL
+    - EST
+    - LBKPIECE
+    - BKPIECE
+    - KPIECE
+    - RRT
+    - RRTConnect
+    - RRTstar
+    - TRRT
+    - PRM
+    - PRMstar
+    - FMT
+    - BFMT
+    - PDST
+    - STRIDE
+    - BiTRRT
+    - LBTRRT
+    - BiEST
+    - ProjEST
+    - LazyPRM
+    - LazyPRMstar
+    - SPARS
+    - SPARStwo
+hand1:
   default_planner_config: None
   planner_configs:
     - SBL
