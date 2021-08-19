@@ -6,5 +6,6 @@
     "python.analysis.extraPaths": [
         "/home/yutakage/catkin_ws/devel/lib/python2.7/dist-packages",
         "/opt/ros/melodic/lib/python2.7/dist-packages"
-    ]
+    ],
+    "python.formatting.provider": "black"
 }

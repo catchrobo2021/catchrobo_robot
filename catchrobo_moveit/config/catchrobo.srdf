@@ -46,6 +46,21 @@
         <joint name="gripper/joint1_mimic" />
         <joint name="gripper/grasping_frame1_joint" />
     </group>
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <group_state name="startup" group="arm0">
+        <joint name="arm/joint1" value="0" />
+        <joint name="arm/joint2" value="1.5707" />
+        <joint name="arm/joint3" value="-2.7925" />
+        <joint name="arm/joint4" value="1.22173" />
+        <joint name="arm/joint5" value="0" />
+    </group_state>
+    <group_state name="home" group="arm0">
+        <joint name="arm/joint1" value="-1.57" />
+        <joint name="arm/joint2" value="0.25" />
+        <joint name="arm/joint3" value="-2.63" />
+        <joint name="arm/joint4" value="0" />
+        <joint name="arm/joint5" value="0" />
+    </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="hand2" parent_link="arm/link_tip" group="hand2" parent_group="arm0" />
     <end_effector name="hand1" parent_link="arm/link_tip" group="hand1" parent_group="arm0" />

@@ -32,8 +32,18 @@ joint_limits:
     max_velocity: 20
     has_acceleration_limits: true
     max_acceleration: 20
+  gripper/joint1_mimic:
+    has_velocity_limits: true
+    max_velocity: 20
+    has_acceleration_limits: true
+    max_acceleration: 20
   gripper/joint2:
     has_velocity_limits: true
-    max_velocity: 10
+    max_velocity: 20
     has_acceleration_limits: true
-    max_acceleration: 10
+    max_acceleration: 20
+  gripper/joint2_mimic:
+    has_velocity_limits: true
+    max_velocity: 20
+    has_acceleration_limits: true
+    max_acceleration: 20

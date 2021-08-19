@@ -16,19 +16,20 @@ from moveit_msgs.msg import RobotTrajectory, PositionIKRequest
 from moveit_msgs.srv import GetPositionIK
 
 
-from catchrobo_manager.object_database import BiscoDatabase, ObjectDatabase
+from catchrobo_manager.object_database import ObjectDatabase
 from catchrobo_manager.my_moveit_robot import MyMoveitRobot
 
 
 class ActionState(object):
-    BISCO = 1
+    BISCO_BACKWARD = 1
+    BISCO_FORWARD = 2
     SHOOT = 3
     FINISH = 4
 
 
 class GripperNumber(object):
-    FORWARD = 1
-    BACKWARD = 0
+    FORWARD = 0
+    BACKWARD = 1
 
 
 class GameManager(object):
@@ -44,14 +45,11 @@ class GameManager(object):
         self._target_gripper_id = 0
         self._world_frame = "world"
 
-        self._next_action = ActionState.BISCO
+        self._next_action = ActionState.BISCO_BACKWARD
 
         self.ARM2GRIPPER = 0.05
         self.BISCO_ABOVE_Z = 0.136 + 0.06
-        self.BISCO_GRIP_Z = 0.136 + 0.04
-
-        self.MYAREA_GRASP_DIST = 0.03
-        self.COMMON_GRASP_DIST = 0.01
+        self.BISCO_GRIP_Z = 0.136 + 0.04 + 0.05
 
         common_pick_quat = tf.transformations.quaternion_from_euler(np.pi, 0, 0)
         self.COMMON_GRIP_QUAT = Quaternion(*common_pick_quat)
@@ -70,8 +68,8 @@ class GameManager(object):
         self.readCsvs()
 
         self.AddBisco2Scene()
-        self._mymoveit.goStartup()
-        self._mymoveit.goHome()
+        # self._mymoveit.goStartup()
+        # self._mymoveit.goHome()
 
     def AddBisco2Scene(self):
         for i in range(self.BISCO_NUM):
@@ -94,7 +92,7 @@ class GameManager(object):
         config_path = pkg_path + "/config/"
 
         bisco_csv = config_path + self._color + "_bisco.csv"
-        self._biscos = BiscoDatabase("bisco", bisco_csv, "exist")
+        self._biscos = ObjectDatabase("bisco", bisco_csv, "exist")
         shoot_csv = config_path + self._color + "_shoot.csv"
         self._shoots = ObjectDatabase("shoot", shoot_csv, "open")
 
@@ -104,19 +102,31 @@ class GameManager(object):
         # rate = rospy.Rate(10)
         start_time = rospy.Time.now().to_sec()
         while not rospy.is_shutdown():
-            if self._next_action == ActionState.BISCO:
-                ret = self.biscoAction()
-                self._next_action = ActionState.SHOOT
-                if ret is None:
+            if self._next_action == ActionState.BISCO_BACKWARD:
+                ret = self.oneBiscoAction(GripperNumber.BACKWARD)
+                if ret is True:
+                    self._next_action = ActionState.BISCO_FORWARD
+                elif ret is False:
+                    self._next_action = ActionState.BISCO_BACKWARD
+                elif ret is None:
                     self._next_action = ActionState.FINISH
+
+            if self._next_action == ActionState.BISCO_FORWARD:
+                ret = self.oneBiscoAction(GripperNumber.FORWARD)
+                if ret is True:
+                    self._next_action = ActionState.SHOOT
+                elif ret is False:
+                    self._next_action = ActionState.BISCO_FORWARD
+                elif ret is None:
+                    self._next_action = ActionState.SHOOT
+
             elif self._next_action == ActionState.SHOOT:
-                self.AboveHand()
                 ret = self.oneShootAction(GripperNumber.BACKWARD)
                 if ret is True:
                     ret = self.oneShootAction(GripperNumber.FORWARD)
                 if ret is None:
                     self._next_action = ActionState.FINISH
-                self._next_action = ActionState.BISCO
+                self._next_action = ActionState.BISCO_BACKWARD
             elif self._next_action == ActionState.FINISH:
                 break
 
@@ -137,77 +147,14 @@ class GameManager(object):
         rospy.loginfo(self._arm.get_current_pose())
         pass
 
-    def getGraspDist(self, target_id):
-        if self._biscos.getState(target_id, "my_area"):
-            dist = self.MYAREA_GRASP_DIST
-        else:
-            dist = self.COMMON_GRASP_DIST
-        return dist
-
-    def AboveHand(self):
-        target_pose = self._mymoveit.getTargetPose()
-        target_pose.position.z = self.BISCO_ABOVE_Z
-        self._mymoveit.setTargetPose(target_pose)
-        if not self._mymoveit.go():
-            rospy.logerr("cannot make path")
-            return False
-        return True
-
-    def biscoAction(self):
-        self._biscos.calcTargetTwin()
-        target_ids, is_twin = self._biscos.getTargetTwin()
-
-        if target_ids[0] is None:
+    def oneBiscoAction(self, target_gripper):
+        self._biscos.calcTargetId()
+        target_id = self._biscos.getTargetId()
+        print("target bisco: ", target_id)
+        if target_id is None:
             return None
 
-        if is_twin:
-            ret = self.normalGo2Bisco(GripperNumber.BACKWARD, target_ids[0])
-            ###### grip both
-            self._mymoveit.graspBisco(
-                GripperNumber.BACKWARD,
-                self._biscos.getName(target_ids[0]),
-                False,
-                self.getGraspDist(target_ids[0]),
-            )
-            self._gripping_bisco_id[GripperNumber.BACKWARD] = target_ids[0]
-            self._mymoveit.graspBisco(
-                GripperNumber.FORWARD,
-                self._biscos.getName(target_ids[1]),
-                True,
-                self.getGraspDist(target_ids[1]),
-            )
-            self._gripping_bisco_id[GripperNumber.FORWARD] = target_ids[1]
-
-            ### update bisco before go. without this, game cannot go next bisco if once fails to go.
-            self._biscos.updateState(target_ids[0], False)
-            self._biscos.updateState(target_ids[1], False)
-        else:
-            ###### gripper1
-            ret = self.normalGo2Bisco(GripperNumber.BACKWARD, target_ids[0])
-
-            self._mymoveit.graspBisco(
-                GripperNumber.BACKWARD,
-                self._biscos.getName(target_ids[0]),
-                True,
-                self.getGraspDist(target_ids[0]),
-            )
-            self._gripping_bisco_id[GripperNumber.BACKWARD] = target_ids[0]
-            self._biscos.updateState(target_ids[0], False)
-            ###### gripper2
-            if target_ids[1] is not None:
-                ret = self.normalGo2Bisco(GripperNumber.FORWARD, target_ids[1])
-                self._mymoveit.graspBisco(
-                    GripperNumber.FORWARD,
-                    self._biscos.getName(target_ids[1]),
-                    True,
-                    self.getGraspDist(target_ids[1]),
-                )
-                self._gripping_bisco_id[GripperNumber.FORWARD] = target_ids[1]
-                self._biscos.updateState(target_ids[1], False)
-
-        return ret
-
-    def normalGo2Bisco(self, target_gripper, target_id):
+        ###### above bisco
         target_pose = Pose()
         target_pose.position = self._biscos.getPosi(target_id)
         target_pose.position.z = self.BISCO_GRIP_Z
@@ -222,20 +169,28 @@ class GameManager(object):
 
         else:
             if target_gripper == GripperNumber.FORWARD:
-                add_y = self.ARM2GRIPPER
+                add_y = -self.ARM2GRIPPER
                 ## [TODO] for blue, * minus
             else:
-                add_y = -self.ARM2GRIPPER
+                add_y = self.ARM2GRIPPER
             target_pose.position.y += add_y
             target_pose.orientation = self.COMMON_GRIP_QUAT
 
         self._mymoveit.setTargetPose(target_pose)
-        # rospy.loginfo(target_pose)
+        rospy.loginfo(target_pose)
         # rospy.sleep(100)
+
+        ### update bisco before go. without this, game cannot go next bisco if once fails to go.
+        self._biscos.updateState(target_id, False)
 
         if not self._mymoveit.go():
             rospy.logerr("cannot make path")
             return False
+
+        ###### grip
+        self._mymoveit.graspBisco(target_gripper, self._biscos.getTargeName())
+        self._gripping_bisco_id[target_gripper] = target_id
+
         return True
 
     def oneShootAction(self, target_gripper):
