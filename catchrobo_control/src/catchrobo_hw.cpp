@@ -5,11 +5,15 @@
 #include <iostream> // for debug
 #include <math.h>
 
-MyRobo::MyRobo()
+#include <sstream>
+
+MyRobot::MyRobot()
 {
   for (size_t i = 0; i < joint_num; i++)
   {
-    std::string joint_name = "arm/joint" << i;
+    std::stringstream ss;
+    ss << "arm/joint" << i;
+    std::string joint_name = ss.str();
     hardware_interface::JointStateHandle state_handle(joint_name, &pos_[i], &vel_[i], &eff_[i]);
     jnt_state_interface.registerHandle(state_handle);
   }
@@ -18,19 +22,21 @@ MyRobo::MyRobo()
 
   for (size_t i = 0; i < joint_num; i++)
   {
-    std::string joint_name = "arm/joint" << i;
+    std::stringstream ss;
+    ss << "arm/joint" << i;
+    std::string joint_name = ss.str();
     hardware_interface::JointHandle pos_handle(jnt_state_interface.getHandle(joint_name), &cmd_[i]);
     jnt_cmd_interface.registerHandle(pos_handle);
   }
   registerInterface(&jnt_cmd_interface);
 }
 
-void MyRobo::read()
+void MyRobot::read(ros::Time time, ros::Duration period)
 {
   ////read from odrive
 }
 
-void MyRobo::write()
+void MyRobot::write(ros::Time time, ros::Duration period)
 {
 
   ////write for odrive

@@ -5,6 +5,9 @@
   <xacro:property name="visual_mesh_scale" value="1.0 1.0 1.0"/>
   <xacro:property name="collision_mesh_scale" value="1.0 1.0 1.0"/>
 
+
+  <xacro:include filename="$(find catchrobo_description)/urdf/arm.transmission.xacro"/>
+
   <!-- Link & Joint -->
   <xacro:macro name="arm" params="prefix parent *joint_origin">
 

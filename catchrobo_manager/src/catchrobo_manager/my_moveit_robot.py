@@ -12,11 +12,9 @@ import moveit_commander
 
 from geometry_msgs.msg import Pose, Point, Quaternion, PoseStamped
 from trajectory_msgs.msg import JointTrajectoryPoint
+from sensor_msgs.msg import JointState
 from moveit_msgs.msg import RobotTrajectory, PositionIKRequest
 from moveit_msgs.srv import GetPositionIK
-
-
-from catchrobo_manager.object_database import ObjectDatabase
 
 
 class MyMoveitRobot(object):
@@ -49,13 +47,21 @@ class MyMoveitRobot(object):
         self._ik_request.attempts = 1000
         self._handling_box = [0, 0]
 
+        self._pub_jointstate = rospy.Publisher("/move_group/fake_controller_joint_states", JointState, queue_size=1)
+        self._joint_states = JointState()
+        self._joint_states.header.frame_id = self._pose_stamped.header.frame_id
+        self._joint_states.name = rospy.get_param("/move_group/controller_list")[0]["joints"]
+
+
     def addBox2Scene(self, i, p, size):
         self._scene.add_box("bisco{}".format(i), p, size)
         rospy.sleep(0.1)
 
     def gripperMove(self, target_gripper, dist, wait):
-        self._gripper[target_gripper].set_joint_value_target([dist, dist])
-        self._gripper[target_gripper].go(wait)
+        temp = "gripper {}: {} cm".format(target_gripper, dist)
+        rospy.loginfo(temp)
+        # self._gripper[target_gripper].set_joint_value_target([dist, dist])
+        # self._gripper[target_gripper].go(wait)
 
     def goStartup(self):
         for i in range(2):
@@ -114,6 +120,26 @@ class MyMoveitRobot(object):
         #     ret = self._arm.execute(plan, wait=True)
 
         return ret
+    
+    ##### without ros control version
+    def execute(self, plan):
+        rospy.loginfo(plan)
+        # last_point = plan.joint_trajectory.points[0]
+        start_time = rospy.Time.now()
+        for i, point in enumerate(plan.joint_trajectory.points):
+            now = rospy.Time.now()
+            self._joint_states.header.seq = i
+            self._joint_states.header.stamp = now
+            
+            self._joint_states.position = point.positions[:5]
+            
+            # self.pubJointState()
+            self._pub_jointstate.publish(self._joint_states)
+
+            rest_time = point.time_from_start -  (now - start_time)
+            rospy.sleep(rest_time)
+        rospy.sleep(0.5)
+        
 
     def graspBisco(self, target_gripper, bisco_name, wait, dist):
         # [TODO] change for servo

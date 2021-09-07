@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
   ros::init(argc, argv, "trobo_control");
   ros::NodeHandle nh;
 
-  MyRobo my_robot;
+  MyRobot my_robot;
   controller_manager::ControllerManager cm(&my_robot, nh);
 
   ros::AsyncSpinner spinner(1);
@@ -15,8 +15,8 @@ int main(int argc, char *argv[])
 
   while (ros::ok())
   {
-    ros::Time now = my_robot.getTime();
-    ros::Duration dt = my_robot.getPeriod();
+    ros::Time now = ros::Time::now();
+    ros::Duration dt(0.01);
 
     // my_robot.read(now, dt);
     // cm.update(now, dt);
@@ -24,10 +24,10 @@ int main(int argc, char *argv[])
     // my_robot.write(now, dt);
     // dt.sleep();
 
-    my_robot.read();
+    my_robot.read(now, dt);
     cm.update(now, dt);
 
-    my_robot.write();
+    my_robot.write(now, dt);
     dt.sleep();
   }
   spinner.stop();

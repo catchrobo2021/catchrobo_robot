@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib_msgs
   control_msgs
   controller_manager
+  hardware_interface
   robot_state_publisher
   roscpp
   rospy
@@ -109,9 +110,9 @@ catkin_python_setup()
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES catchrobo_control
-#  CATKIN_DEPENDS actionlib actionlib_msgs control_msgs controller_manager robot_state_publisher roscpp rospy sensor_msgs std_msgs
+ INCLUDE_DIRS include
+ LIBRARIES catchrobo_control
+ CATKIN_DEPENDS controller_manager hardware_interface
 #  DEPENDS system_lib
 )
 
@@ -122,9 +123,25 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+include
   ${catkin_INCLUDE_DIRS}
 )
+# add_library(catchrobo_hw 
+#     src/catchrobo_hw.cpp
+# )
+# target_link_libraries(catchrobo_hw ${catkin_LIBRARIES})
+# add_executable(catchrobo_control_node
+#     src/catchrobo_control_node.cpp
+# )
+# target_link_libraries(catchrobo_control_node ${catkin_LIBRARIES} catchrobo_hw)
+
+
+add_executable(motoman_control_node
+    src/motoman_control_node.cpp
+)
+# add_dependencies(motoman_control_node ${motoman_control_node_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(motoman_control_node ${catkin_LIBRARIES})
+
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}

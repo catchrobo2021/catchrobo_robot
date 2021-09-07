@@ -166,7 +166,7 @@ class GameManager(object):
             self._mymoveit.graspBisco(
                 GripperNumber.BACKWARD,
                 self._biscos.getName(target_ids[0]),
-                False,
+                True,
                 self.getGraspDist(target_ids[0]),
             )
             self._gripping_bisco_id[GripperNumber.BACKWARD] = target_ids[0]

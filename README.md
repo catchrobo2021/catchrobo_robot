@@ -7,7 +7,7 @@
 ## Requirement
 - moveit (see : https://moveit.ros.org/install/)
 - sudo apt install ros-melodic-joint-state-publisher-gui 
-
+- pip install pandas
 
 ## How to use
 ### Display robot in Rviz

@@ -1,29 +1,21 @@
-#include <ros/ros.h>
 #include <hardware_interface/joint_command_interface.h>
 #include <hardware_interface/joint_state_interface.h>
 #include <hardware_interface/robot_hw.h>
-#include <map>
-#include <string>
-#include <vector>
 
-class MyRobo : public hardware_interface::RobotHW
+class MyRobot : public hardware_interface::RobotHW
 {
 public:
-  TRobo();
+  MyRobot();
+  void read(ros::Time, ros::Duration);
 
-  // ros::Time getTime() const { return ros::Time::now(); }
-  // ros::Duration getPeriod() const { return ros::Duration(0.01); }
+  void write(ros::Time, ros::Duration);
 
-  // void read(ros::Time, ros::Duration);
-  void read();
-  void write();
-
-protected:
+private:
   hardware_interface::JointStateInterface jnt_state_interface;
   hardware_interface::PositionJointInterface jnt_cmd_interface;
-  const int joint_num = 5;
-  double cmd_[joint_num];
-  double pos_[joint_num];
-  double vel_[joint_num];
-  double eff_[joint_num];
+  static const int joint_num = 5;
+  double cmd_[5];
+  double pos_[5];
+  double vel_[5];
+  double eff_[5];
 };
