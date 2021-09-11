@@ -5,6 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /MotionPlanning1
+        - /MotionPlanning1/Planning Request1
         - /TF1
         - /TF1/Frames1
       Splitter Ratio: 0.742560029
@@ -175,7 +176,7 @@ Visualization Manager:
         Interactive Marker Size: 0
         Joint Violation Color: 255; 0; 255
         Planning Group: arm0
-        Query Goal State: true
+        Query Goal State: false
         Query Start State: false
         Show Workspace: false
         Start State Alpha: 1
@@ -368,7 +369,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 1.87159657
+      Distance: 2.62597322
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -404,5 +405,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1828
-  X: 92
-  Y: 24
+  X: 2037
+  Y: 56

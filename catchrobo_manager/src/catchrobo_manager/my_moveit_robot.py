@@ -29,9 +29,8 @@ class MyMoveitRobot(object):
             moveit_commander.MoveGroupCommander("hand1"),
             moveit_commander.MoveGroupCommander("hand2"),
         ]
-        rospy.wait_for_service(
-            "compute_ik", timeout=10.0
-        )  # Wait for 10 seconds and assumes we don't want IK
+        rospy.wait_for_service("/get_planning_scene", timeout=10.0)
+        rospy.wait_for_service("compute_ik", timeout=10.0)
 
         self.compute_ik = rospy.ServiceProxy("compute_ik", GetPositionIK)
 
@@ -53,8 +52,8 @@ class MyMoveitRobot(object):
         self._joint_states.name = rospy.get_param("/move_group/controller_list")[0]["joints"]
 
 
-    def addBox2Scene(self, i, p, size):
-        self._scene.add_box("bisco{}".format(i), p, size)
+    def addBox2Scene(self, name, p, size):
+        self._scene.add_box(name, p, size)
         rospy.sleep(0.1)
 
     def gripperMove(self, target_gripper, dist, wait):
@@ -157,6 +156,9 @@ class MyMoveitRobot(object):
         self._scene.remove_attached_object(
             self._arm.get_end_effector_link(), name=box_name
         )
-        self.gripperMove(target_gripper, 0, True)
+        rospy.loginfo("remove start")
         rospy.sleep(0.1)
         self._scene.remove_world_object(box_name)
+        rospy.sleep(0.1)
+        self.gripperMove(target_gripper, 0, True)
+        

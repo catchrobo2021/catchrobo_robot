@@ -7,10 +7,10 @@ from geometry_msgs.msg import Pose, Point, Quaternion
 
 
 class ObjectDatabase(object):
-    def __init__(self, name, csv, count_key):
-        self._name = name
+    def __init__(self, csv, count_key):
         self._objects = pd.read_csv(csv, index_col=0)
         self._count_key = count_key
+        self._twin = False
 
     def calcTargetId(self):
         exist = self._objects[self._count_key]
@@ -52,7 +52,34 @@ class ObjectDatabase(object):
 
     def getState(self, id, key):
         return self._objects.loc[id, key]
+    
+    def getObj(self, id):
+        if id is None:
+            return None
+        else:
+            return self._objects.loc[id]
+    
+    def delete(self, ids):
+        for id in ids:
+            self._objects.loc[id, self._count_key] = False
 
+    def calcTargetTwin(self):
+        self.calcTargetId()
+        first = self.getTargetId()
+        if first is None:
+            self._target_ids = None, None
+            self._twin = False
+            return
+
+        self.updateState(first, False)
+
+        self.calcTargetId()
+        second = self.getTargetId()
+        self.updateState(first, True)
+        self._target_ids = first, second
+    
+    def getTargetTwin(self):
+        return self._target_ids, self._twin
 
 class BiscoDatabase(ObjectDatabase):
     def calcTargetTwin(self):
@@ -81,5 +108,4 @@ class BiscoDatabase(ObjectDatabase):
                 if abs(first - second) == 1:
                     self._twin = True
 
-    def getTargetTwin(self):
-        return self._target_ids, self._twin
+

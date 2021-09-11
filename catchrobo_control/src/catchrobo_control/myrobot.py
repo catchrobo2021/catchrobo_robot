@@ -7,7 +7,7 @@ from catchrobo_control.okamoto import Okamoto
 class MyRobot(object):
     def __init__(self):
         motors = [Okamoto() for _ in range(5)]
-        self._position = [0 for _ in range(5)]
+        self._position =  [0, 1.5707, -2.7925, 1.22173, 0]
 
     def write(self, position):
         self._position = position

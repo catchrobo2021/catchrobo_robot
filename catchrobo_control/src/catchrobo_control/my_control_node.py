@@ -29,7 +29,6 @@ class Robot(object):
         self._as.start()
         self._joint_states = JointState()
         self._joint_states.name = ["arm/joint{}".format(i+1) for i in range(5)]
-        self._joint_states.position = [0 for _ in range(len(self._joint_states.name))]
         self._lock = thread.allocate_lock()
         
     def spin(self):
