@@ -59,6 +59,7 @@ class joint_controller:
         # init module
         communication_freq = 500
         self._hardware = MyHardwareBridge(communication_freq, "can0","can")
+        self._hardware.enable_all_joints()
         rospy.Timer(rospy.Duration(1.0 / communication_freq), self.controlCallback)
         rospy.spin()
 
@@ -67,16 +68,14 @@ class joint_controller:
             position[i] += self._joint_position_offset[i]
 
     def communicate(self):
-        rospy.logerr_once(self._joint_control)
-        self.addOffset(self._joint_control.position)
-        rospy.logerr_once(self._joint_control)
+        #self.addOffset(self._joint_control.position)
         self._hardware.communicate(self._joint_control) # send data to joints
         joint = self._hardware.get_data()            # receive data from joints
         # publish joint states to topic
         self._joint_state.position = joint[:self.JOINT_NUM]
         self._joint_state.velocity = joint[self.JOINT_NUM:self.JOINT_NUM*2]
         self._joint_state.effort = joint[self.JOINT_NUM*2:self.JOINT_NUM*3]
-        self.addOffset(self._joint_state.position)
+        #self.addOffset(self._joint_state.position)
         self._joint_state_publisher.publish(self._joint_state)
     
 
@@ -98,6 +97,7 @@ class joint_controller:
     
 
     def servoOnCallback(self,data):
+        rospy.loginfo("Turn on")
         if data.data is True:
             self._hardware.enable_all_joints()
         else:
@@ -122,7 +122,7 @@ class joint_controller:
                 invalid_goal_flag = True
                 
         if invalid_goal_flag is True:
-                rospy.logwarn("Invalid goal ignored")
+                rospy.logwarn_once("Invalid goal ignored")
         else:
             for i in range(self.JOINT_NUM):
                 self._joint_control.position[i] = data.position[i]
