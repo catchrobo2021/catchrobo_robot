@@ -1,5 +1,5 @@
 <launch>
-        <rosparam command="load" file="$(find quadruped_ctrl)/config/hardware_config.yaml"/>
-        <node name="joint_controller" pkg="quadruped_ctrl" type="joint_controller.py" output="screen"/>
+        <rosparam command="load" file="$(find catchrobo_driver)/config/hardware_config.yaml"/>
+        <node name="joint_controller" pkg="catchrobo_driver" type="joint_controller.py" output="screen"/>
         
 </launch>

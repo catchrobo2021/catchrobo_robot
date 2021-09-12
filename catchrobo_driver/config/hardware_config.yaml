@@ -1,21 +1,18 @@
 joint1:
   id: 1
-  name: front_right_leg/joint1
+  name: arm/joint1
   position:
-    max: 1.6
-    min: -1.6
-    init: 0.0
-    error: 0.1
+    limit:
+      max: 1.6
+      min: -1.6
+    tolerence: 0.2
+    offset: 0.0
   velocity:
-    max: 10.0
+    limit: 10.0
     default: 5.0
   acceleration: 
-    max: 10.0
     default: 5.0
-  current: 10.0
-  kp:
-    max: 50.0
-    default: 50.0
-  kd: 
-    max: 1.0
-    default: 0.5
+  current: 
+    limit: 10.0
+  kp: 50.0
+  kd: 0.3
