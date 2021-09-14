@@ -17,7 +17,7 @@ class MyHardwareBridge(MyHardwareBase):
                 self._motor_module = MotorCan(port, timeout)
                 rospy.loginfo("Connected to port " + port)
             except:
-                rospy.logerr("Port "+ port + " not found")
+                rospy.logfatal("Port "+ port + " not found")
 
     def communicate(self, joint_control):
         for i in range(self.MOTOR_NUM):
@@ -38,7 +38,7 @@ class MyHardwareBridge(MyHardwareBase):
                     self._joint_data[i + self.MOTOR_NUM * 1] = vel * -1.0 # really?
                     self._joint_data[i + self.MOTOR_NUM * 2] = current * -1.0 # really?
             else:
-                rospy.logerr_once("Joint " + str(i+1) + " not connected")
+                rospy.logfatal_once("Joint " + str(i+1) + " not connected")
                 pass
 
     def reset_robot(self):
@@ -50,12 +50,12 @@ class MyHardwareBridge(MyHardwareBase):
     def enable_all_joints(self):
         for i in range(self.MOTOR_NUM):
             self._motor_module.enable_motor(i + 1)
-        rospy.loginfo("Enable all joints")
+        rospy.loginfo_once("Enable all joints")
 
     def disable_all_joints(self):
         for i in range(self.MOTOR_NUM):
             self._motor_module.disable_motor(i + 1)
-        rospy.logwarn_once("Disable all joints")
+        rospy.loginfo_once("Disable all joints")
 
     def get_data(self):
         return self._joint_data

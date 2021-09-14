@@ -59,7 +59,6 @@ class joint_controller:
         # init module
         communication_freq = 500
         self._hardware = MyHardwareBridge(communication_freq, "can0","can")
-        self._hardware.enable_all_joints()
         rospy.Timer(rospy.Duration(1.0 / communication_freq), self.controlCallback)
         rospy.spin()
 
@@ -97,7 +96,6 @@ class joint_controller:
     
 
     def servoOnCallback(self,data):
-        rospy.loginfo("Turn on")
         if data.data is True:
             self._hardware.enable_all_joints()
         else:

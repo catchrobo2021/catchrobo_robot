@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 import rospy
-import sys
-sys.path.append('/home/yutakage/catkin_ws/src/catchrobo_robot/catchrobo_driver/src')
 from catchrobo_msgs.msg import CatchroboJointControl
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Bool
@@ -45,9 +43,6 @@ class test:
         self._initial_position = [0] * self.JOINT_NUM
         self._initial_time = [0] * self.JOINT_NUM
         self._count = 0
-
-
-        self._servo_on_publisher.publish(True)
         rospy.Timer(rospy.Duration(0.01), self.controlCallback)
         rospy.spin()
     
