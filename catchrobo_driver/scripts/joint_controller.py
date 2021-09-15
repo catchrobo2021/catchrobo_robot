@@ -37,7 +37,7 @@ class joint_controller:
         joint_state.velocity = [0] * self.JOINT_NUM
         joint_state.effort = [0] * self.JOINT_NUM
         for i in range(self.JOINT_NUM):
-            joint_state.name[i] = rosparam.get_param("joint"+str(i+1)+"/name") 
+            joint_state.name[i] = rosparam.get_param("arm/joint"+str(i+1)+"/name") 
         self._joint_state = joint_state
 
         # state flags
@@ -55,16 +55,16 @@ class joint_controller:
         self._joint_velocity_limit = []
         self._joint_currernt_limit = []
         for i in range(self.JOINT_NUM):
-            self._joint_position_limit_max.append(rosparam.get_param("joint"+str(i+1)+"/position/limit/max"))
-            self._joint_position_limit_min.append(rosparam.get_param("joint"+str(i+1)+"/position/limit/min"))
-            self._joint_position_offset.append(rosparam.get_param("joint"+str(i+1)+"/position/offset"))
-            self._joint_velocity_limit.append(rosparam.get_param("joint"+str(i+1)+"/velocity/limit"))
-            self._joint_currernt_limit.append(rosparam.get_param("joint"+str(i+1)+"/current/limit"))
+            self._joint_position_limit_max.append(rosparam.get_param("arm/joint"+str(i+1)+"/position/limit/max"))
+            self._joint_position_limit_min.append(rosparam.get_param("arm/joint"+str(i+1)+"/position/limit/min"))
+            self._joint_position_offset.append(rosparam.get_param("arm/joint"+str(i+1)+"/position/offset"))
+            self._joint_velocity_limit.append(rosparam.get_param("arm/joint"+str(i+1)+"/velocity/limit"))
+            self._joint_currernt_limit.append(rosparam.get_param("arm/joint"+str(i+1)+"/current/limit"))
 
         # set kp, kd
         for i in range(self.JOINT_NUM):
-            joint_control.kp[i]  = rosparam.get_param("joint"+str(i+1)+"/kp")
-            joint_control.kd[i]  = rosparam.get_param("joint"+str(i+1)+"/kd")
+            joint_control.kp[i]  = rosparam.get_param("arm/joint"+str(i+1)+"/kp")
+            joint_control.kd[i]  = rosparam.get_param("arm/joint"+str(i+1)+"/kd")
 
         # set diagnostic updater
         self._diagnostic_updater = diagnostic_updater.Updater()
@@ -72,7 +72,7 @@ class joint_controller:
         self._diagnostic_updater.add("robot_state",self.diagnosticUpdater)
 
         # init module
-        communication_freq = 500
+        communication_freq = rosparam.get_param("arm/communincation_frequency") 
         self._hardware = MyHardwareBridge(communication_freq, "can0","can",self.JOINT_NUM)
         self.disableAllJoints()
 

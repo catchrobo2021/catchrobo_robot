@@ -1,31 +1,31 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root version="2.3.8">
- <tabbed_widget name="Main Window" parent="main_window">
+ <tabbed_widget parent="main_window" name="Main Window">
   <Tab containers="1" tab_name="tab1">
    <Container>
     <DockSplitter count="3" sizes="0.332961;0.334078;0.332961" orientation="-">
      <DockArea name="...">
-      <plot mode="TimeSeries" style="Lines">
-       <range bottom="-1.648931" top="1.674811" right="10.959877" left="5.961759"/>
+      <plot style="Lines" mode="TimeSeries">
+       <range left="180.842713" top="1.112060" right="185.852287" bottom="-1.099194"/>
        <limitY/>
-       <curve name="/joint_states/arm/joint1/position" color="#1f77b4"/>
-       <curve name="/set_joint_goal/position.0" color="#ff7f0e"/>
+       <curve color="#1f77b4" name="/joint_states/arm/joint1/position"/>
+       <curve color="#1f77b4" name="/joint_control/position.0"/>
       </plot>
      </DockArea>
      <DockArea name="...">
-      <plot mode="TimeSeries" style="Lines">
-       <range bottom="-4.953846" top="5.107692" right="10.959877" left="5.961759"/>
+      <plot style="Lines" mode="TimeSeries">
+       <range left="180.842713" top="4.023626" right="185.852287" bottom="-3.891758"/>
        <limitY/>
-       <curve name="/joint_states/arm/joint1/velocity" color="#d62728"/>
-       <curve name="/set_joint_goal/velocity.0" color="#f14cc1"/>
+       <curve color="#d62728" name="/joint_states/arm/joint1/velocity"/>
+       <curve color="#d62728" name="/joint_control/velocity.0"/>
       </plot>
      </DockArea>
      <DockArea name="...">
-      <plot mode="TimeSeries" style="Lines">
-       <range bottom="-1.861319" top="1.914066" right="10.959877" left="5.961759"/>
+      <plot style="Lines" mode="TimeSeries">
+       <range left="180.842713" top="1.342198" right="185.852287" bottom="-1.307033"/>
        <limitY/>
-       <curve name="/joint_states/arm/joint1/effort" color="#1ac938"/>
-       <curve name="/set_joint_goal/effort.0" color="#9467bd"/>
+       <curve color="#1ac938" name="/joint_states/arm/joint1/effort"/>
+       <curve color="#1ac938" name="/joint_control/effort.0"/>
       </plot>
      </DockArea>
     </DockSplitter>
@@ -58,8 +58,8 @@
   <plugin ID="UDP Server"/>
   <plugin ID="WebSocket Server"/>
   <plugin ID="ZMQ Subscriber"/>
-  <plugin ID="ROS /rosout Visualization" status="idle"/>
-  <plugin ID="ROS Topic Re-Publisher" status="idle"/>
+  <plugin status="idle" ID="ROS /rosout Visualization"/>
+  <plugin status="idle" ID="ROS Topic Re-Publisher"/>
  </Plugins>
  <!-- - - - - - - - - - - - - - - -->
  <previouslyLoaded_Datafiles/>

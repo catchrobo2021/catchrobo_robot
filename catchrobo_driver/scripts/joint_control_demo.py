@@ -31,7 +31,7 @@ class test:
         joint_state.velocity = [0] * self.JOINT_NUM
         joint_state.effort = [0] * self.JOINT_NUM
         for i in range(self.JOINT_NUM):
-            joint_state.name[i] = rosparam.get_param("joint"+str(i+1)+"/name")
+            joint_state.name[i] = rosparam.get_param("arm/joint"+str(i+1)+"/name")
         self._joint_state = joint_state
         
         # params
@@ -59,8 +59,8 @@ class test:
                 self._has_arrived[i] = False
                 self._initial_position[i] = self._joint_state.position[i]
                 self._initial_time[i] = time.time()
-                self._velocity_max[i] = rosparam.get_param("joint"+str(i+1)+"/velocity/default")
-                self._acceleration[i] = rosparam.get_param("joint"+str(i+1)+"/acceleration/default")
+                self._velocity_max[i] = rosparam.get_param("arm/joint"+str(i+1)+"/velocity/default")
+                self._acceleration[i] = rosparam.get_param("arm/joint"+str(i+1)+"/acceleration/default")
 
             # calculte position and velocity when joint has not reached target position yet
             if self._has_arrived[i] is False:
