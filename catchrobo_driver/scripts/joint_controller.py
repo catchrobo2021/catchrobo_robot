@@ -64,7 +64,7 @@ class joint_controller:
         # set kp, kd
         for i in range(self.JOINT_NUM):
             joint_control.kp[i]  = rosparam.get_param("joint"+str(i+1)+"/kp")
-            joint_control.kp[i]  = rosparam.get_param("joint"+str(i+1)+"/kp")
+            joint_control.kd[i]  = rosparam.get_param("joint"+str(i+1)+"/kd")
 
         # set diagnostic updater
         self._diagnostic_updater = diagnostic_updater.Updater()
