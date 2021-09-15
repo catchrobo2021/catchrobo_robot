@@ -15,4 +15,4 @@ joint1:
   current: 
     limit: 10.0
   kp: 50.0
-  kd: 0.2
+  kd: 0.5

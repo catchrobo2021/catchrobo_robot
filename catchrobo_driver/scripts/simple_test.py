@@ -11,7 +11,7 @@ class test:
     def __init__(self):
         rospy.init_node("joint_control")
         communication_freq = 100
-        self._hardware = MyHardwareBridge(communication_freq, "can0","can")
+        self._hardware = MyHardwareBridge(communication_freq, "can0","can",1)
         joint_control = CatchroboJointControl()
         joint_control.position = [0] * 12
         joint_control.velocity = [0] * 12
@@ -31,9 +31,7 @@ class test:
             self._add *= -1
         self._joint_control.position[4] = target
         self._hardware.communicate(self._joint_control)
-        imu, joint = self._hardware.get_data()
-        print("des: ", self._joint_control.position[4])
-        print("ret: ", joint[4])
+        joint = self._hardware.get_data()
 
 
 if __name__ == "__main__":

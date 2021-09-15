@@ -11,8 +11,8 @@ class test:
     def __init__(self):
         self.JOINT_NUM = 1 # number of joints
         rospy.init_node("joint_control_test")
-        self._servo_on_publisher = rospy.Publisher('set_servo_on', Bool, queue_size=10)
-        self._joint_control_publisher = rospy.Publisher('set_joint_goal', CatchroboJointControl, queue_size=10)
+        self._servo_on_publisher = rospy.Publisher('enable_joints', Bool, queue_size=10)
+        self._joint_control_publisher = rospy.Publisher('joint_control', CatchroboJointControl, queue_size=10)
         rospy.Subscriber("joint_states", JointState, self.jointStateCallback)
 
         # joint control command
@@ -108,7 +108,7 @@ class test:
         if self._count is 0:
             
             if self._has_arrived[0] is True:
-                self._position[0] = 90.0 / 180.0 * 3.14
+                self._position[0] = 60.0 / 180.0 * 3.14
                 self._count += 1
         else:
             if self._has_arrived[0] is True:
