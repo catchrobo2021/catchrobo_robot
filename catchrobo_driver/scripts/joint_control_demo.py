@@ -1,20 +1,23 @@
 #!/usr/bin/env python
 import rospy
-from catchrobo_msgs.msg import CatchroboJointControl
 from sensor_msgs.msg import JointState
-from std_msgs.msg import Bool
+from catchrobo_msgs.msg import CatchroboJointControl
+from std_msgs.msg import Bool,Float32
 import math
 import time
 import rosparam
+
 
 class test:
     def __init__(self):
         self.JOINT_NUM = 1 # number of joints
         rospy.init_node("joint_control_test")
         self._servo_on_publisher = rospy.Publisher('enable_joints', Bool, queue_size=10)
-        self._joint_control_publisher = rospy.Publisher('joint_control', CatchroboJointControl, queue_size=10)
+        self._joint_control_publisher = rospy.Publisher('joint_control',CatchroboJointControl , queue_size=10)
         rospy.Subscriber("joint_states", JointState, self.jointStateCallback)
 
+        # joint control command
+        #self._joint_target_pos = [0] * self.JOINT_NUM
         # joint control command
         joint_control = CatchroboJointControl()
         joint_control.position = [0] * self.JOINT_NUM
