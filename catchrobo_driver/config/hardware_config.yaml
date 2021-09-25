@@ -5,15 +5,15 @@ arm:
     name: arm/joint1
     position:
       limit:
-        max: 1.6
-        min: -1.6
+        max: 10.0
+        min: -10.0
       tolerence: 0.3
       offset: 0.0
     velocity:
       limit: 10.0
       default: 5.0
     acceleration: 
-      default: 5.0
+      default: 3.0
     current: 
       limit: 10.0
     kp: 50.0

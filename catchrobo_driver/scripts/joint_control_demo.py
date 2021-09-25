@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import rospy
 from sensor_msgs.msg import JointState
-from catchrobo_msgs.msg import CatchroboJointControl
 from std_msgs.msg import Bool,Float32
 import math
 import time
@@ -13,17 +12,14 @@ class test:
         self.JOINT_NUM = 1 # number of joints
         rospy.init_node("joint_control_test")
         self._servo_on_publisher = rospy.Publisher('enable_joints', Bool, queue_size=10)
-        self._joint_control_publisher = rospy.Publisher('joint_control',CatchroboJointControl , queue_size=10)
+        self._joint_control_publisher = rospy.Publisher('joint_control',JointState, queue_size=10)
         rospy.Subscriber("joint_states", JointState, self.jointStateCallback)
 
         # joint control command
-        #self._joint_target_pos = [0] * self.JOINT_NUM
-        # joint control command
-        joint_control = CatchroboJointControl()
+        joint_control = JointState()
+        joint_control.name = [""]
         joint_control.position = [0] * self.JOINT_NUM
         joint_control.velocity = [0] * self.JOINT_NUM
-        joint_control.kp = [0] * self.JOINT_NUM
-        joint_control.kd = [0] * self.JOINT_NUM
         joint_control.effort = [0] * self.JOINT_NUM
         self._joint_control = joint_control
 
@@ -111,7 +107,7 @@ class test:
         if self._count is 0:
             
             if self._has_arrived[0] is True:
-                self._position[0] = 60.0 / 180.0 * 3.14
+                self._position[0] = 60.0 / 180.0 * 3.14*2
                 self._count += 1
         else:
             if self._has_arrived[0] is True:

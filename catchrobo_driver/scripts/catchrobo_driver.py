@@ -3,7 +3,6 @@ from logging import error
 import rospy
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Bool,Float32
-from catchrobo_msgs.msg import CatchroboJointControl
 import rosparam
 import roslib
 roslib.load_manifest('diagnostic_updater')
@@ -18,15 +17,14 @@ class catchrobo_driver:
         self.JOINT_NUM = 1 # number of joints
         rospy.init_node("catcrobo_driver")
         rospy.Subscriber("enable_joints", Bool, self.enableJointsCallback)
-        rospy.Subscriber("joint_control", CatchroboJointControl, self.jointControlCallback)
+        rospy.Subscriber("joint_control", JointState, self.jointControlCallback)
         self._joint_state_publisher = rospy.Publisher('joint_states', JointState, queue_size=100)
 
         # joint control command
-        joint_control = CatchroboJointControl()
+        joint_control = JointState()
+        joint_control.name = [""]
         joint_control.position = [0] * self.JOINT_NUM
         joint_control.velocity = [0] * self.JOINT_NUM
-        joint_control.kp = [0] * self.JOINT_NUM
-        joint_control.kd = [0] * self.JOINT_NUM
         joint_control.effort = [0] * self.JOINT_NUM
         self._joint_control = joint_control
 
@@ -174,10 +172,10 @@ class catchrobo_driver:
         # check if recveived goal is valid
         for i in range(self.JOINT_NUM):
             if abs(self._joint_state.position[i] - data.position[i]) > self._joint_position_tolerence[i]:
-                rospy.logwarn("Joint "+ str(i+1) + " target position gap detected")
+                rospy.logwarn_throttle(1,"Joint "+ str(i+1) + " target position gap detected")
                 invalid_goal_flag = True
             if self._joint_position_limit_max[i] <= data.position[i] and data.data[i] <= self._joint_position_limit_min[i]:
-                rospy.logwarn("Joint "+ str(i+1) + " target position violating joint limit")
+                rospy.logwarn_throttle(1,"Joint "+ str(i+1) + " target position violating joint limit")
                 invalid_goal_flag = True
                 
         if invalid_goal_flag is False:
@@ -186,7 +184,7 @@ class catchrobo_driver:
                 self._joint_control.velocity[i] = data.velocity[i]
                 self._joint_control.effort[i] = data.effort[i]
         else:
-            rospy.logwarn("Invalid goal ignored")
+            pass
             
     def controllCallback(self,event):
         # over write control command if joints are not enabled:
