@@ -1,19 +1,13 @@
 #!/usr/bin/env python3
 import time
 import rospy
-import logging
 import odrive
 from odrive.enums import *
 from odrive.utils import * 
 
-logging.basicConfig()
-default_logger = logging.getLogger(__name__)
-default_logger.setLevel(logging.INFO)
-
 class ODriveNode(object):
 
     def __init__(self):
-        self.logger = default_logger
         self.cpr = 2**14
         self.driver = None
     
@@ -45,8 +39,6 @@ class ODriveNode(object):
         if self.driver:
             rospy.loginfo("Already connected. Disconnecting and reconnecting.")
         try:
-            rospy.loginfo(serial_number)
-            rospy.loginfo(type(serial_number))
             #self.driver = odrive.find_any(serial_number=serial_number, timeout=timeout)
             self.driver = odrive.find_any()
             self.axes = (self.driver.axis0, self.driver.axis1)
@@ -191,12 +183,10 @@ class ODriveNode(object):
         self.axes[axis].requested_state  = AXIS_STATE_CLOSED_LOOP_CONTROL
         return True
 
-    def search_index(self , axis=0 , mode=0):
-        if mode == 1:
-            self.search(axis)
-            while self.axes[axis].current_state != AXIS_STATE_IDLE:
-                time.sleep(0.1)
-        self.axes[axis].requested_state  = AXIS_STATE_CLOSED_LOOP_CONTROL
+    def search_index(self , axis=0):
+        self.search(axis)
+        while self.axes[axis].current_state != AXIS_STATE_IDLE:
+            time.sleep(0.1)
         return True
 
     def idle(self, axis=0): self.axes[axis].requested_state = AXIS_STATE_IDLE

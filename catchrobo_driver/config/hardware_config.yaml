@@ -13,20 +13,23 @@ arm:
       axis: 0
     limit:
       position:
-        max: 10.0
-        min: -10.0
+        max: 2.0
+        min: -2.0
       velocity: 10.0
       current: 10.0
     tolerence: 0.3
     offset: 0.0
     kp: 50.0
     kd: 0.5
+    default:
+      velocity: 50
+      acceleration: 5.0
 
   joint2:
     name: arm/joint2
     odrive:
-      id: 1
-      axis: 0
+      id: 0
+      axis: 1
     limit:
       position:
         max: 10.0
@@ -37,6 +40,9 @@ arm:
     offset: 0.0
     kp: 50.0
     kd: 0.5
+    default:
+      velocity: 3.0
+      acceleration: 5.0
 
   joint3:
     name: arm/joint3
@@ -53,6 +59,9 @@ arm:
     offset: 0.0
     kp: 50.0
     kd: 0.5
+    default:
+      velocity: 3.0
+      acceleration: 5.0
 
   joint4:
     name: arm/joint4
@@ -69,6 +78,9 @@ arm:
     offset: 0.0
     kp: 50.0
     kd: 0.5
+    default:
+      velocity: 3.0
+      acceleration: 5.0
 
   joint5:
     name: arm/joint5
@@ -85,3 +97,6 @@ arm:
     offset: 0.0
     kp: 50.0
     kd: 0.5
+    default:
+      velocity: 3.0
+      acceleration: 5.0

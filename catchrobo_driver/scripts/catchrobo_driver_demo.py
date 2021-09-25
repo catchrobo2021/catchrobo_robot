@@ -9,7 +9,7 @@ import rosparam
 
 class test:
     def __init__(self):
-        self.JOINT_NUM = 1 # number of joints
+        self.JOINT_NUM = 2 # number of joints
         rospy.init_node("joint_control_test")
         self._servo_on_publisher = rospy.Publisher('enable_joints', Bool, queue_size=10)
         self._joint_control_publisher = rospy.Publisher('joint_control',JointState, queue_size=10)
@@ -58,8 +58,8 @@ class test:
                 self._has_arrived[i] = False
                 self._initial_position[i] = self._joint_state.position[i]
                 self._initial_time[i] = time.time()
-                self._velocity_max[i] = rosparam.get_param("arm/joint"+str(i+1)+"/velocity/default")
-                self._acceleration[i] = rosparam.get_param("arm/joint"+str(i+1)+"/acceleration/default")
+                self._velocity_max[i] = rosparam.get_param("arm/joint"+str(i+1)+"/default/velocity")
+                self._acceleration[i] = rosparam.get_param("arm/joint"+str(i+1)+"/default/acceleration")
 
             # calculte position and velocity when joint has not reached target position yet
             if self._has_arrived[i] is False:

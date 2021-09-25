@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 from odrive_node import ODriveNode
 from sensor_msgs.msg import JointState
+import time
+
+
 
 class Motor:
     def __init__(self, serial_number, axis,driver_id):
@@ -28,6 +31,7 @@ class ODriveBridge:
     def connect(self):
         for i in range(self.ODRIVE_NUM):
             self._odrv[i].connect(serial_number=self._serial_number[i])
+            time.sleep(1)
             
     def disconnect(self):
         for i in range(self.ODRIVE_NUM):
@@ -46,10 +50,11 @@ class ODriveBridge:
     def engage_all(self,index_search=False):
         for i in range(self.MOTOR_NUM):
             self.engage(joint=i, index_search=index_search)
+            time.sleep(0.1)
 
     def idle_all(self):
         for i in range(self.MOTOR_NUM):
-            self.idle(joint=i, index_search=False)
+            self.idle(joint=i)
 
     def set_mode(self, mode):
         for i in range(self.MOTOR_NUM):
@@ -68,8 +73,14 @@ class ODriveBridge:
         for i in range(self.MOTOR_NUM):
             motor_state.position[i] = self._odrv[self._joint_config[i][0]].get_pos(axis = self._joint_config[i][1])
             motor_state.velocity[i] = self._odrv[self._joint_config[i][0]].get_vel(axis = self._joint_config[i][1])
-            motor_state.effort = self._odrv[self._joint_config[i][0]].get_current(axis = self._joint_config[i][1])
+            motor_state.effort[i] = self._odrv[self._joint_config[i][0]].get_current(axis = self._joint_config[i][1])
         return motor_state
 
-    def search_index(self):
-        search_index
+    def search_index(self,joint):
+        self._odrv[self._joint_config[joint][0]].search_index(axis=self._joint_config[joint][1])
+        return True
+
+    def search_index_all(self):
+        for i in range(self.MOTOR_NUM):
+            self.search_index(joint=i)
+            time.sleep(0.1)
