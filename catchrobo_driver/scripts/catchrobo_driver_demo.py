@@ -17,10 +17,12 @@ class test:
 
         # joint control command
         joint_control = JointState()
-        joint_control.name = [""]
+        joint_control.name = [""] * self.JOINT_NUM
         joint_control.position = [0] * self.JOINT_NUM
         joint_control.velocity = [0] * self.JOINT_NUM
         joint_control.effort = [0] * self.JOINT_NUM
+        for i in range(self.JOINT_NUM):
+            joint_control.name[i] = rosparam.get_param("arm/joint"+str(i+1)+"/name")
         self._joint_control = joint_control
 
         # joint state feedback
