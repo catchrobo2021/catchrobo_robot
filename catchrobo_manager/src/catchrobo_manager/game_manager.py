@@ -31,15 +31,16 @@ class GameManager(object):
 
         self._can_go_common = False
         self._next_action = ActionState.BISCO
+        # self._mymoveit = MyMoveitRobot()
         
-        self._actions = Actions()
+        self._action_planner = Actions()
         self._target_biscos = [None, None]
         self._color = rospy.get_param("/color")
-        
 
     def init(self):
         self.readCsvs()
-        self._actions.init(self._biscos)
+        self._action_planner.init(self._biscos)
+        # rospy.sleep(30)
 
     # [TODO] load from the retry point
     def readCsvs(self):
@@ -69,23 +70,25 @@ class GameManager(object):
                 ##### calc next bisco
                 target_ids, is_twin, targets = self.calcTarget(self._biscos, "box")
                 ##### if no bisco, finish
-                if target_ids[0] is None:
+                if target_ids[0] is None and target_ids[1] is None:
                     self._next_action = ActionState.FINISH
                     continue
                 ##### grip bisco
-                ret = self._actions.biscoAction(targets, is_twin)
-                self._biscos.delete(target_ids)
+                ret = self._action_planner.biscoAction(targets, is_twin)
+
+                clear_ids = np.array(ret) * np.array(target_ids)
+                self._biscos.delete(clear_ids)
                 self._target_biscos = targets
                 self._next_action = ActionState.SHOOT
                     
             elif self._next_action == ActionState.SHOOT:
                 target_ids, is_twin, targets = self.calcTarget(self._shoots, "shoot")
                 ##### if no bisco, finish
-                if target_ids[0] is None:
+                if target_ids[0] is None and target_ids[1] is None:
                     self._next_action = ActionState.FINISH
                     continue
 
-                ret = self._actions.shootAction(targets, self._target_biscos)
+                ret = self._action_planner.shootAction(targets, self._target_biscos)
                 self._shoots.delete(target_ids)
                 self._next_action = ActionState.BISCO
                 if ret is None:

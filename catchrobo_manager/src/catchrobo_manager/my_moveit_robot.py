@@ -29,9 +29,9 @@ class MyMoveitRobot(object):
             moveit_commander.MoveGroupCommander("hand1"),
             moveit_commander.MoveGroupCommander("hand2"),
         ]
-        rospy.wait_for_service("/get_planning_scene", timeout=10.0)
+        
         rospy.wait_for_service("compute_ik", timeout=10.0)
-
+        rospy.wait_for_service("/get_planning_scene", timeout=10.0)
         self.compute_ik = rospy.ServiceProxy("compute_ik", GetPositionIK)
 
         self._pose_stamped = PoseStamped()
@@ -50,11 +50,13 @@ class MyMoveitRobot(object):
         self._joint_states = JointState()
         self._joint_states.header.frame_id = self._pose_stamped.header.frame_id
         self._joint_states.name = rospy.get_param("/move_group/controller_list")[0]["joints"]
+        
 
 
     def addBox2Scene(self, name, p, size):
-        self._scene.add_box(name, p, size)
         rospy.sleep(0.1)
+        self._scene.add_box(name, p, size)
+        
 
     def gripperMove(self, target_gripper, dist, wait):
         temp = "gripper {}: {} cm".format(target_gripper, dist)

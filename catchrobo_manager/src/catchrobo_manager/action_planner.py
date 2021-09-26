@@ -34,11 +34,11 @@ def getObjectPosi(obj):
 def getName(id):
     return "bisco{}".format(id)
 
-class Actions(object):
+class ActionPlanner(object):
     def __init__(self):
         rospy.init_node("GameManager")
 
-        self._mymoveit = MyMoveitRobot()
+        
         self.BISCO_SIZE = 0.086, 0.029, 0.136
         self.BISCO_NUM = 27
         self._color = rospy.get_param("/color")
@@ -68,12 +68,6 @@ class Actions(object):
         self.MY_GRIP_QUAT = Quaternion(*my_pick_quat)
         self._joy_msg = None
 
-        rospy.Subscriber("/joy",Joy, self.joyCallback )
-
-    def joyCallback(self, msg):
-        self._joy_msg = msg
-        # rospy.loginfo(msg)
-
     def init(self, biscos):
         self.AddBisco2Scene(biscos)
         # self._mymoveit.goStartup()
@@ -92,68 +86,30 @@ class Actions(object):
             self._mymoveit.addBox2Scene(getName(i), p, size)
     
     def biscoAction(self, targets,is_twin):
-        #### special case
-        ret = [False, False]
-        # if targets[0].name == 0:
-        #     ret[0] = self.arriveBisco(GripperNumber.GRIPPER2, targets[0])
-        #     self._mymoveit.graspBisco(
-        #         GripperNumber.GRIPPER2,
-        #         getName(targets[0].name),
-        #         True,
-        #         self.getGraspDist(targets[0]),
-        #     )
-        #     return ret
-            # if targets[1] is not None:
-            #     ###### move
-            #     self.AboveHand(targets)
-            #     ret = self.arriveBisco(GripperNumber.GRIPPER1, targets[1])
-            #     ###### grip2
-            #     self._mymoveit.graspBisco(
-            #         GripperNumber.GRIPPER1,
-            #         getName(targets[1].name),
-            #         True,
-            #         self.getGraspDist(targets[1]),
-            #     )
-            # return ret
+        actions = []
 
-        ##### move for grip1
-        ret[0] = self.arriveBisco(GripperNumber.GRIPPER1, targets[0])
         if is_twin:
-            ret[1] = ret[0] 
-            
-            ###### grip both without move
-            self._mymoveit.graspBisco(
-                GripperNumber.GRIPPER1,
-                getName(targets[0].name),
-                False,
-                self.getGraspDist(targets[0]),
-            )
-            self._mymoveit.graspBisco(
-                GripperNumber.GRIPPER2,
-                getName(targets[1].name),
-                True,
-                self.getGraspDist(targets[1]),
-            )
+            action = self.arriveBisco(GripperNumber.GRIPPER1, targets[0])
+            actions.append(action)
+            action = self.graspAction(GripperNumber.GRIPPER1, targets[0], False)
+            actions.append(action)
+            action = self.graspAction(GripperNumber.GRIPPER2, targets[1], True)
+            actions.append(action)
         else:            
-            ###### gripper1
-            self._mymoveit.graspBisco(
-                GripperNumber.GRIPPER1,
-                getName(targets[0].name),
-                True,
-                self.getGraspDist(targets[0]),
-            )
+            action = self.arriveBisco(GripperNumber.GRIPPER1, targets[0])
+            actions.append(action)
+            action = self.graspAction(GripperNumber.GRIPPER1, targets[0], True)
+            actions.append(action)
+
             if targets[1] is not None:
-                self.AboveHand(targets)
-                ###### move
-                ret[1] = self.arriveBisco(GripperNumber.GRIPPER2, targets[1])
-                ###### grip2
-                self._mymoveit.graspBisco(
-                    GripperNumber.GRIPPER2,
-                    getName(targets[1].name),
-                    True,
-                    self.getGraspDist(targets[1]),
-                )
-        return ret
+                action = self.AboveHand(targets)
+                actions.append(action)
+                action = self.arriveBisco(GripperNumber.GRIPPER2, targets[1])
+                actions.append(action)
+                action = self.graspAction(GripperNumber.GRIPPER2, targets[1], True)
+                actions.append(action)
+         
+        return actions
 
     
 
@@ -178,38 +134,30 @@ class Actions(object):
                 add_y = -self.ARM2GRIPPER
             target_pose.position.y += add_y
             target_pose.orientation = self.COMMON_GRIP_QUAT
+        return ["move", target_pose]
 
-        self._mymoveit.setTargetPose(target_pose)
-        # rospy.loginfo(target_pose)
-        # rospy.sleep(100)
 
-        if not self._mymoveit.go():
-            rospy.logerr("cannot make path")
-            return False
-        return True
-
-    def getGraspDist(self, target):
+    def graspAction(self, target_gripper, target, wait):
         if target["my_area"]:
             dist = self.MYAREA_GRASP_DIST
         else:
             dist = self.COMMON_GRASP_DIST
-        return dist
+
+        return ["grip", target_gripper, getName(target.name),wait, dist]
 
     def AboveHand(self, biscos):
-        target_pose = self._mymoveit.getTargetPose()
 
-        if biscos[0]["my_area"] and biscos[0]["my_area"]:
-            target_pose.position.z = self.BISCO_ABOVE_Z
+        if biscos[0]["my_area"] and biscos[1]["my_area"]:
+            z = self.BISCO_ABOVE_Z
         else:
-            target_pose.position.z = self.BISCO_ABOVE_COMMON_Z
-        self._mymoveit.setTargetPose(target_pose)
-        if not self._mymoveit.go():
-            rospy.logerr("cannot make path")
-            return False
-        return True
+            z = self.BISCO_ABOVE_COMMON_Z
+        
+        return ["above", z]
     
     def shootAction(self, targets, biscos):
-        self.AboveHand(biscos)
+        actions = []
+        action = self.AboveHand(biscos)
+        actions.append(action)
         self.oneShootAction(GripperNumber.GRIPPER1,targets, biscos)
         ret = self.oneShootAction(GripperNumber.GRIPPER2, targets, biscos)
         return ret
