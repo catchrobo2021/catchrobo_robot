@@ -9,7 +9,7 @@ import rosparam
 
 class test:
     def __init__(self):
-        self.JOINT_NUM = 2 # number of joints
+        self.JOINT_NUM = 4 # number of joints
         rospy.init_node("joint_control_test")
         self._servo_on_publisher = rospy.Publisher('enable_joints', Bool, queue_size=10)
         self._joint_control_publisher = rospy.Publisher('joint_control',JointState, queue_size=10)
@@ -41,7 +41,7 @@ class test:
         self._position_old = [0] * self.JOINT_NUM
         self._initial_position = [0] * self.JOINT_NUM
         self._initial_time = [0] * self.JOINT_NUM
-        self._count = 0
+        self._count = [0] * self.JOINT_NUM
         rospy.Timer(rospy.Duration(0.01), self.controlCallback)
         rospy.spin()
     
@@ -104,14 +104,14 @@ class test:
     #       self._joint_control.effort[i] = mass * gravity * length * math.sin(self._joint_state.position[i])
 
     def controlCallback(self, event):
-        if self._count is 0:
-            
-            if self._has_arrived[0] is True:
-                self._position[0] = 60.0 / 180.0 * 3.14*2
-                self._count += 1
-        else:
-            if self._has_arrived[0] is True:
-                self._position[0] = self._position[0] * -1.0
+        for i in range(self.JOINT_NUM):
+            if self._count[i] is 0:
+                if self._has_arrived[i] is True:
+                    self._position[i] = 1
+                    self._count[i] += 1
+            else:
+                if self._has_arrived[i] is True:
+                    self._position[i] = self._position[i] * -1.0
         self.setJointGoal()
         
 

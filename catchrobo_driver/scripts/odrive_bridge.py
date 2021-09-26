@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
+from logging import error
 from odrive_node import ODriveNode
 from sensor_msgs.msg import JointState
 import time
+import rospy
+import odrive
+from odrive.enums import *
+from odrive.utils import *
 
-
-
-class Motor:
-    def __init__(self, serial_number, axis,driver_id):
-        self.serial_number = serial_number
-        self.axis = axis
-        self.driver_id = driver_id
 
 
 class ODriveBridge:
@@ -20,6 +18,7 @@ class ODriveBridge:
         odrive1 = ODriveNode()
         odrive2 = ODriveNode()
         odrive3 = ODriveNode()
+
         self._odrv = [odrive1,odrive2,odrive3]
         self._serial_number = [config['odrive_serial_number']['odrive1'],config['odrive_serial_number']['odrive2'],config['odrive_serial_number']['odrive3']]    
         self._joint_config = [  [config['joint1']['odrive']['id'], config['joint1']['odrive']['axis']],
@@ -31,8 +30,7 @@ class ODriveBridge:
     def connect(self):
         for i in range(self.ODRIVE_NUM):
             self._odrv[i].connect(serial_number=self._serial_number[i])
-            time.sleep(1)
-            
+
     def disconnect(self):
         for i in range(self.ODRIVE_NUM):
             self._odrv[i].disconnect()
@@ -78,9 +76,20 @@ class ODriveBridge:
 
     def search_index(self,joint):
         self._odrv[self._joint_config[joint][0]].search_index(axis=self._joint_config[joint][1])
+        rospy.loginfo("Joint " + str(joint+1) + " index search finished")
         return True
 
     def search_index_all(self):
         for i in range(self.MOTOR_NUM):
             self.search_index(joint=i)
             time.sleep(0.1)
+    
+    def get_errors(self,joint,clear=True):
+        error_string = self._odrv[self._joint_config[joint][0]].get_errors(clear=clear)
+        return error_string
+
+    def get_errors_all(self,clear=True):
+        error_string = ""
+        for i in range(self.ODRIVE_NUM):
+            error_string += self._odrv[i].get_errors(clear=clear)
+        return error_string

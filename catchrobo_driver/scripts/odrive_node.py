@@ -39,8 +39,7 @@ class ODriveNode(object):
         if self.driver:
             rospy.loginfo("Already connected. Disconnecting and reconnecting.")
         try:
-            #self.driver = odrive.find_any(serial_number=serial_number, timeout=timeout)
-            self.driver = odrive.find_any()
+            self.driver = odrive.find_any(serial_number=serial_number, timeout=timeout)
             self.axes = (self.driver.axis0, self.driver.axis1)
         except:
             rospy.logerr("No ODrive found. Is device powered?")
@@ -57,6 +56,29 @@ class ODriveNode(object):
                 return False
         rospy.loginfo("Connected to ODrive. " + self.get_version_string())
         return True
+
+    def connect_any(self):
+        if self.driver:
+            rospy.loginfo("Already connected. Disconnecting and reconnecting.")
+        try:
+            self.driver = odrive.find_any()
+            self.axes = (self.driver.axis0, self.driver.axis1)
+        except:
+            rospy.logerr("No ODrive found. Is device powered?")
+            return False
+        self.right_axis = self.driver.axis0
+        self.left_axis  = self.driver.axis1
+        
+        # check for no errors
+        for axis in [self.right_axis, self.left_axis]:
+            if axis.error != 0:
+                error_str = "Had error on startup, rebooting. Axis error 0x%x, motor error 0x%x, encoder error 0x%x. Rebooting." % (axis.error, axis.motor.error, axis.encoder.error)
+                rospy.logerr(error_str)
+                self.reboot()
+                return False
+        rospy.loginfo("Connected to ODrive. " + self.get_version_string())
+        serial_number = str(self.driver.serial_number)
+        return serial_number
 
     def disconnect(self):
         if not self.driver:
@@ -84,7 +106,8 @@ class ODriveNode(object):
             rospy.logerr(error_string)
             rospy.logerr(dump_errors(self.driver))
         else:
-            rospy.loginfo("Not error")
+            pass
+            #rospy.loginfo("No error")
         
         if clear:
             for axis in self.axes:

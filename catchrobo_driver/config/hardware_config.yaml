@@ -2,9 +2,9 @@ arm:
   communincation_frequency: 100 #Hz
 
   odrive_serial_number:
-    odrive1: 207C349F5748
-    odrive2: 207C349F5748
-    odrive3: 207C349F5748
+    odrive1: "206834615748" #"35631927482184"
+    odrive2: "207C349F5748" #"35717830891336" #"35631927482184"
+    odrive3: "" #"35717830891336"
 
   joint1:
     name: arm/joint1
@@ -22,14 +22,33 @@ arm:
     kp: 50.0
     kd: 0.5
     default:
-      velocity: 50
-      acceleration: 5.0
+      velocity: 3.0
+      acceleration: 3.0
 
   joint2:
     name: arm/joint2
     odrive:
       id: 0
       axis: 1
+    limit:
+      position:
+        max: 2.0
+        min: -2.0
+      velocity: 10.0
+      current: 10.0
+    tolerence: 0.3
+    offset: 0.0
+    kp: 50.0
+    kd: 0.5
+    default:
+      velocity: 3.0
+      acceleration: 3.0
+
+  joint3:
+    name: arm/joint3
+    odrive:
+      id: 1
+      axis: 0
     limit:
       position:
         max: 10.0
@@ -42,10 +61,10 @@ arm:
     kd: 0.5
     default:
       velocity: 3.0
-      acceleration: 5.0
+      acceleration: 3.0
 
-  joint3:
-    name: arm/joint3
+  joint4:
+    name: arm/joint4
     odrive:
       id: 1
       axis: 1
@@ -61,26 +80,7 @@ arm:
     kd: 0.5
     default:
       velocity: 3.0
-      acceleration: 5.0
-
-  joint4:
-    name: arm/joint4
-    odrive:
-      id: 2
-      axis: 0
-    limit:
-      position:
-        max: 10.0
-        min: -10.0
-      velocity: 10.0
-      current: 10.0
-    tolerence: 0.3
-    offset: 0.0
-    kp: 50.0
-    kd: 0.5
-    default:
-      velocity: 3.0
-      acceleration: 5.0
+      acceleration: 3.0
 
   joint5:
     name: arm/joint5
@@ -99,4 +99,4 @@ arm:
     kd: 0.5
     default:
       velocity: 3.0
-      acceleration: 5.0
+      acceleration: 3.0
