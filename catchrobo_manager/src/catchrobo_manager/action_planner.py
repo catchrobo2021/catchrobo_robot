@@ -68,10 +68,10 @@ class ActionPlanner(object):
         self.MY_GRIP_QUAT = Quaternion(*my_pick_quat)
         self._joy_msg = None
 
-    def init(self, biscos):
-        self.AddBisco2Scene(biscos)
-        # self._mymoveit.goStartup()
-        self._mymoveit.goHome()
+    # def init(self, biscos):
+    #     self.AddBisco2Scene(biscos)
+    #     # self._mymoveit.goStartup()
+    #     self._mymoveit.goHome()
 
     def AddBisco2Scene(self, biscos):
         for i in range(self.BISCO_NUM):
@@ -146,7 +146,6 @@ class ActionPlanner(object):
         return ["grip", target_gripper, getName(target.name),wait, dist]
 
     def AboveHand(self, biscos):
-
         if biscos[0]["my_area"] and biscos[1]["my_area"]:
             z = self.BISCO_ABOVE_Z
         else:
@@ -158,11 +157,22 @@ class ActionPlanner(object):
         actions = []
         action = self.AboveHand(biscos)
         actions.append(action)
-        self.oneShootAction(GripperNumber.GRIPPER1,targets, biscos)
-        ret = self.oneShootAction(GripperNumber.GRIPPER2, targets, biscos)
-        return ret
+        action = self.arriveShoot(GripperNumber.GRIPPER1,targets, biscos)
+        actions.append(action)
+        action = self.releaseAction(GripperNumber.GRIPPER1)
+        actions.append(action)
 
-    def oneShootAction(self,target_gripper, target_shoots, gripping_biscos):
+        action = self.arriveShoot(GripperNumber.GRIPPER2,targets, biscos)
+        actions.append(action)
+        action = self.releaseAction(GripperNumber.GRIPPER2)
+        actions.append(action)
+
+        return actions
+
+    def releaseAction(self, target_gripper):
+        return ["release", target_gripper]
+
+    def arriveShoot(self,target_gripper, target_shoots, gripping_biscos):
         
         target_shoot = target_shoots[target_gripper]
         gripping_bisco = gripping_biscos[target_gripper]
@@ -199,14 +209,15 @@ class ActionPlanner(object):
             target_pose.position.y += add_y
             target_pose.orientation = orientation
 
-        self._mymoveit.setTargetPose(target_pose)
+        return ["move", target_pose]
+        # self._mymoveit.setTargetPose(target_pose)
 
-        if not self._mymoveit.go():
-            rospy.logerr("cannot make path")
-            return False
+        # if not self._mymoveit.go():
+        #     rospy.logerr("cannot make path")
+        #     return False
 
-        self._mymoveit.releaseBisco(target_gripper)
-        return True
+        # self._mymoveit.releaseBisco(target_gripper)
+        # return True
 
         # [TODO]
     def mannualAction(self):
