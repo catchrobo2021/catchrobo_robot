@@ -1,10 +1,10 @@
 arm: 
-  communincation_frequency: 100 #Hz
+  communincation_frequency: 50 #Hz
 
   odrive_serial_number:
-    odrive1: "206834615748" #"35631927482184"
-    odrive2: "207C349F5748" #"35717830891336" #"35631927482184"
-    odrive3: "" #"35717830891336"
+    odrive0: "207C34805748"
+    odrive1: "206834615748"
+    odrive2: "207C349F5748"
 
   joint1:
     name: arm/joint1
@@ -17,37 +17,56 @@ arm:
         min: -2.0
       velocity: 10.0
       current: 10.0
-    tolerence: 0.3
+    tolerence: 0.5
     offset: 0.0
     kp: 50.0
     kd: 0.5
     default:
-      velocity: 3.0
+      velocity: 2.0
       acceleration: 3.0
 
   joint2:
     name: arm/joint2
     odrive:
-      id: 0
-      axis: 1
+      id: 1
+      axis: 0
     limit:
       position:
         max: 2.0
         min: -2.0
       velocity: 10.0
       current: 10.0
-    tolerence: 0.3
+    tolerence: 0.5
     offset: 0.0
     kp: 50.0
     kd: 0.5
     default:
-      velocity: 3.0
+      velocity: 2.0
       acceleration: 3.0
 
   joint3:
     name: arm/joint3
     odrive:
       id: 1
+      axis: 1
+    limit:
+      position:
+        max: 10.0
+        min: -10.0
+      velocity: 10.0
+      current: 10.0
+    tolerence: 0.5
+    offset: 0.0
+    kp: 50.0
+    kd: 0.5
+    default:
+      velocity: 2.0
+      acceleration: 3.0
+
+  joint4:
+    name: arm/joint4
+    odrive:
+      id: 2
       axis: 0
     limit:
       position:
@@ -55,31 +74,12 @@ arm:
         min: -10.0
       velocity: 10.0
       current: 10.0
-    tolerence: 0.3
+    tolerence: 0.5
     offset: 0.0
     kp: 50.0
     kd: 0.5
     default:
-      velocity: 3.0
-      acceleration: 3.0
-
-  joint4:
-    name: arm/joint4
-    odrive:
-      id: 1
-      axis: 1
-    limit:
-      position:
-        max: 10.0
-        min: -10.0
-      velocity: 10.0
-      current: 10.0
-    tolerence: 0.3
-    offset: 0.0
-    kp: 50.0
-    kd: 0.5
-    default:
-      velocity: 3.0
+      velocity: 2.0
       acceleration: 3.0
 
   joint5:
@@ -93,10 +93,10 @@ arm:
         min: -10.0
       velocity: 10.0
       current: 10.0
-    tolerence: 0.3
+    tolerence: 0.5
     offset: 0.0
     kp: 50.0
     kd: 0.5
     default:
-      velocity: 3.0
+      velocity: 2.0
       acceleration: 3.0

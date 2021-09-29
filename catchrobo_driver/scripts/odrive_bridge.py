@@ -15,12 +15,12 @@ class ODriveBridge:
         self.MOTOR_NUM = MOTOR_NUM # number of joints
         self.ODRIVE_NUM = (MOTOR_NUM+1) // 2
         # odrive node 
+        odrive0 = ODriveNode()
         odrive1 = ODriveNode()
         odrive2 = ODriveNode()
-        odrive3 = ODriveNode()
 
-        self._odrv = [odrive1,odrive2,odrive3]
-        self._serial_number = [config['odrive_serial_number']['odrive1'],config['odrive_serial_number']['odrive2'],config['odrive_serial_number']['odrive3']]    
+        self._odrv = [odrive0,odrive1,odrive2]
+        self._serial_number = [config['odrive_serial_number']['odrive0'],config['odrive_serial_number']['odrive1'],config['odrive_serial_number']['odrive2']]    
         self._joint_config = [  [config['joint1']['odrive']['id'], config['joint1']['odrive']['axis']],
                                 [config['joint2']['odrive']['id'], config['joint2']['odrive']['axis']],
                                 [config['joint3']['odrive']['id'], config['joint3']['odrive']['axis']],
@@ -91,5 +91,7 @@ class ODriveBridge:
     def get_errors_all(self,clear=True):
         error_string = ""
         for i in range(self.ODRIVE_NUM):
-            error_string += self._odrv[i].get_errors(clear=clear)
+            error_string_joint = self._odrv[i].get_errors(clear=clear)
+            if error_string_joint is not None:
+                error_string += error_string_joint
         return error_string

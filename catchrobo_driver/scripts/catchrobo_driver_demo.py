@@ -9,7 +9,7 @@ import rosparam
 
 class test:
     def __init__(self):
-        self.JOINT_NUM = 4 # number of joints
+        self.JOINT_NUM = 5 # number of joints
         rospy.init_node("joint_control_test")
         self._servo_on_publisher = rospy.Publisher('enable_joints', Bool, queue_size=10)
         self._joint_control_publisher = rospy.Publisher('joint_control',JointState, queue_size=10)
@@ -44,7 +44,7 @@ class test:
         self._initial_position = [0] * self.JOINT_NUM
         self._initial_time = [0] * self.JOINT_NUM
         self._count = [0] * self.JOINT_NUM
-        rospy.Timer(rospy.Duration(0.01), self.controlCallback)
+        rospy.Timer(rospy.Duration(1.0/50.0), self.controlCallback)
         rospy.spin()
     
 
@@ -98,12 +98,6 @@ class test:
                     #rospy.loginfo("Target: "+ str(self._position[i]) + "  Actual: "+ str(self._joint_state.position[i]) )
         self._joint_control_publisher.publish(self._joint_control)
 
-    #def calculateTorque(self):
-    #    for i in range(self.JOINT_NUM):
-    #       mass = 0.35 # kg
-    #       length = 0.3#0.301 # kg
-    #       gravity = 9.80665
-    #       self._joint_control.effort[i] = mass * gravity * length * math.sin(self._joint_state.position[i])
 
     def controlCallback(self, event):
         for i in range(self.JOINT_NUM):

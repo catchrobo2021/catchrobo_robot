@@ -7,14 +7,12 @@ import roslib
 roslib.load_manifest('diagnostic_updater')
 import diagnostic_updater
 import diagnostic_msgs
-from odrive.enums import *
-import time
 from odrive_bridge import ODriveBridge
 
 
 class catchrobo_driver:
     def __init__(self):
-        self.MOTOR_NUM = 4 # number of joints
+        self.MOTOR_NUM = 5 # number of joints
         rospy.init_node("catcrobo_driver")
         rospy.Subscriber("enable_joints", Bool, self.engage_idle_callback)
         rospy.Subscriber("joint_control", JointState, self.joint_control_callback)
@@ -22,10 +20,12 @@ class catchrobo_driver:
 
         # joint control
         joint_control = JointState()
-        joint_control.name = [""]
+        joint_control.name = [""] * self.MOTOR_NUM
         joint_control.position = [0] * self.MOTOR_NUM
         joint_control.velocity = [0] * self.MOTOR_NUM
         joint_control.effort = [0] * self.MOTOR_NUM
+        for i in range(self.MOTOR_NUM):
+            joint_control.name[i] = rosparam.get_param("arm/joint"+str(i+1)+"/name") 
         self._joint_control = joint_control
 
         # joint state
@@ -39,7 +39,7 @@ class catchrobo_driver:
         self._joint_state = joint_state
 
         # state flags
-        self._joint_error_state = True    # nominal=True, error=False
+        self._joint_error_state = False    # nominal=True, error=False
         self._joint_com_state = False    # nominal=True, lost=False
         self._joint_enable_state = False # enabled=True, disabled=False
         self._index_search_finished  = False    # done=True, not yet=False
@@ -112,6 +112,25 @@ class catchrobo_driver:
         else:
             pass
 
+
+    def idle_all(self):
+        if self._joint_enable_state is True:
+            self._odrive_bridge.idle_all()
+            self._joint_enable_state = False
+            rospy.loginfo("Idle joints")
+        else:
+            pass
+
+
+    def engage_all(self):
+        if self._joint_enable_state is False:
+            self._odrive_bridge.engage_all()
+            self._joint_enable_state = True
+            rospy.loginfo("Engage joints")
+        else:
+            pass
+
+
     def safety_check(self):
         joint_error = True
         joint_error_message = ""
@@ -135,16 +154,15 @@ class catchrobo_driver:
                 joint_error_message += ("Joint "+ str(i+1) + " over current, ")
 
         # check previous state
-        if joint_error is False and self._joint_error_state is True:
-            self._odrive_bridge.idle_all()
-            rospy.logerr(joint_error_message)
-        if joint_error is True and self._joint_error_state is False:
-            rospy.loginfo("Robot recovered from error state")
+        if joint_error is False:
+            self.idle_all()
+            rospy.logerr_throttle(1,joint_error_message)
 
         # update state and message
         self._joint_error_state = joint_error
         self._joint_error_message = joint_error_message
         
+
     def diagnostics_updater(self,state):
         if self._joint_com_state is True:
             if self._joint_error_state is True:
@@ -166,17 +184,13 @@ class catchrobo_driver:
         if self._robot_state < 2:
             if data.data is True:
                 if self._index_search_finished  is True:
-                    rospy.loginfo("Engage joints")
-                    self._odrive_bridge.engage_all(index_search=False)
-                    self._joint_enable_state = True
+                    self.engage_all()
                 else:
                     rospy.loginfo("Starting index search")
                     self._odrive_bridge.search_index_all()
                     self._index_search_finished  = True
             else:
-                rospy.loginfo("Idle joints")
-                self._odrive_bridge.idle_all()
-                self._joint_enable_state = False
+                self.idle_all()
         else:
             rospy.logerr("Robot is not ready. Failed to engage/idle")
 
@@ -192,11 +206,14 @@ class catchrobo_driver:
         else:
             # check if recveived goal is valid
             for i in range(self.MOTOR_NUM):
+                if (self._joint_control.name[i] == data.name[i]) is not True:
+                    rospy.logwarn_throttle(1,"Joint "+ str(i+1) + " name invalid.")
+                    invalid_goal_flag = True
                 if abs(self._joint_state.position[i] - data.position[i]) > self._joint_position_tolerence[i]:
-                    rospy.logwarn_throttle(1,"Joint "+ str(i+1) + " target position gap detected.")
+                    rospy.logwarn_throttle(1,"Joint "+ str(i+1) + " target position has a gap.")
                     invalid_goal_flag = True
                 if self._joint_position_limit_max[i] <= data.position[i] and data.position[i] <= self._joint_position_limit_min[i]:
-                    rospy.logwarn_throttle(1,"Joint "+ str(i+1) + " target position violating joint limit.")
+                    rospy.logwarn_throttle(1,"Joint "+ str(i+1) + " target position is violating joint limit.")
                     invalid_goal_flag = True
         
         # send goal if goal is valid
@@ -215,10 +232,10 @@ class catchrobo_driver:
             self.safety_check()
             self.write()
             self._joint_com_state = True
-        except:
-            self._odrive_bridge.idle_all()
+        except Exception as e:
+            self.idle_all()
             self._joint_com_state = False
-            rospy.logerr_throttle(1,"ERROR DETECTED")
+            rospy.logerr_throttle(1,"ERROR DETECTED: {}".format(e))
         self._diagnostic_updater.update()
 
 if __name__ == "__main__":
