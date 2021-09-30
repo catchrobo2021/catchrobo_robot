@@ -8,12 +8,13 @@ roslib.load_manifest('diagnostic_updater')
 import diagnostic_updater
 import diagnostic_msgs
 from odrive_bridge import ODriveBridge
+
 from position_converter import PositionConverter
 
 
 class catchrobo_driver:
     def __init__(self):
-        self.MOTOR_NUM = 3 # number of joints
+        self.MOTOR_NUM = 5 # number of joints
         rospy.init_node("catcrobo_driver")
         rospy.Subscriber("enable_joints", Bool, self.engage_idle_callback)
         rospy.Subscriber("joint_control", JointState, self.joint_control_callback)
@@ -124,8 +125,9 @@ class catchrobo_driver:
 
     def engage_all(self):
         if self._joint_enable_state is False:
-            self._odrv_bridge.engage_all()
-            self._joint_enable_state = True
+            # [TODO]
+            #self._odrv_bridge.engage_all()
+            #self._joint_enable_state = True
             rospy.loginfo("Engage joints")
         else:
             pass

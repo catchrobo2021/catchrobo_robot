@@ -58,7 +58,7 @@ arm:
       velocity: 10.0
       current: 10.0
     tolerence: 0.5
-    offset: 2.543642210022847
+    offset: 2.25086768698
     reduction ratio: 8
     kp: 50.0
     kd: 0.5
