@@ -8,6 +8,9 @@ Panels:
         - /Status1
         - /RobotModel1
         - /RobotModel1/Links1
+        - /TF1
+        - /TF1/Frames1
+        - /TF1/Tree1
       Splitter Ratio: 0.5972973108291626
     Tree Height: 728
   - Class: rviz/Selection
@@ -111,17 +114,31 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        gripper/finger1:
+        gripper/finger1_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        gripper/finger2:
+        gripper/finger1_2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        gripper/link_tip:
+        gripper/finger2_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper/finger2_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper/grasping_frame1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        gripper/grasping_frame2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -135,6 +152,76 @@ Visualization Manager:
       Update Interval: 0
       Value: true
       Visual Enabled: true
+    - Class: rviz/TF
+      Enabled: true
+      Frame Timeout: 15
+      Frames:
+        All Enabled: false
+        arm/link0:
+          Value: false
+        arm/link1:
+          Value: false
+        arm/link2:
+          Value: false
+        arm/link3:
+          Value: false
+        arm/link4:
+          Value: false
+        arm/link5:
+          Value: false
+        arm/link_tip:
+          Value: false
+        base/base_link:
+          Value: false
+        base/link_tip:
+          Value: false
+        gripper/base_link:
+          Value: false
+        gripper/finger1_1:
+          Value: false
+        gripper/finger1_2:
+          Value: false
+        gripper/finger2_1:
+          Value: false
+        gripper/finger2_2:
+          Value: false
+        gripper/grasping_frame1:
+          Value: false
+        gripper/grasping_frame2:
+          Value: false
+        world:
+          Value: false
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: false
+      Show Axes: true
+      Show Names: false
+      Tree:
+        world:
+          base/base_link:
+            base/link_tip:
+              arm/link0:
+                arm/link1:
+                  arm/link2:
+                    arm/link3:
+                      arm/link4:
+                        arm/link5:
+                          arm/link_tip:
+                            gripper/base_link:
+                              gripper/finger1_1:
+                                {}
+                              gripper/finger1_2:
+                                {}
+                              gripper/finger2_1:
+                                {}
+                              gripper/finger2_2:
+                                {}
+                              gripper/grasping_frame1:
+                                {}
+                              gripper/grasping_frame2:
+                                {}
+      Update Interval: 0
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -163,25 +250,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.7589750289916992
+      Distance: 1.1986923217773438
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.558038592338562
-        Y: 0.5520915389060974
-        Z: 0.8398032188415527
+        X: 0.15311308205127716
+        Y: 0.43161627650260925
+        Z: 0.5762867331504822
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.3703983426094055
+      Pitch: 0.370398610830307
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.1585981845855713
+      Yaw: 1.0835981369018555
     Saved: ~
 Window Geometry:
   Displays:

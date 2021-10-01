@@ -45,26 +45,26 @@ class PositionConverter:
         listAffectedDiff = [0.0, 0.0, 0.0, 0.0, 0.0]
         # 第一関節
         joint_state_without_offset[0] = (-motor_state.position[0] / self.__reductionRatio[0]) 
-        joint_state.position[0] = joint_state_without_offset[0] - self.__jointOffset[0]
+        joint_state.position[0] = joint_state_without_offset[0] + self.__jointOffset[0]
         # 第二関節
         
         joint_state_without_offset[1] = (-motor_state.position[1] / self.__reductionRatio[1])
-        joint_state.position[1] = joint_state_without_offset[1] - self.__jointOffset[1]
+        joint_state.position[1] = joint_state_without_offset[1] + self.__jointOffset[1]
         
         # 第三関節
         listAffectedDiff[2] =  - joint_state.position[1] / 1.0 # 特に符号に注意
         joint_state_without_offset[2] = (motor_state.position[2] / self.__reductionRatio[2]) + listAffectedDiff[2] 
-        joint_state.position[2] = joint_state_without_offset[2] - self.__jointOffset[2]
+        joint_state.position[2] = joint_state_without_offset[2] + self.__jointOffset[2]
 
         # 手先
         # 減速比
         # TODO: 特に自信ないポイント
         listAffectedDiff[3] = - joint_state.position[1] / self.__reductionRatio[3] - joint_state.position[2] / self.__reductionRatio[4] # 特に符号に注意 & joint_state.position[2]なのか,(joint_state.position[2]-joint_state.position[1])なのか迷う
         listAffectedDiff[4] = - joint_state.position[1] / self.__reductionRatio[3] - joint_state.position[2] / self.__reductionRatio[4] 
-        joint_state_without_offset[3] = (motor_state.position[3] - motor_state.position[4]) / 2.0/self.__reductionRatio[3] + listAffectedDiff[3]
-        joint_state_without_offset[4] = (motor_state.position[3] + motor_state.position[4]) / self.__reductionRatio[5]/self.__reductionRatio[3] + listAffectedDiff[4]
-        joint_state.position[3] = joint_state_without_offset[3] - self.__jointOffset[3]
-        joint_state.position[4] = joint_state_without_offset[4] - self.__jointOffset[4]
+        joint_state_without_offset[3] = (-motor_state.position[3] + motor_state.position[4]) / 2.0 / self.__reductionRatio[3] + listAffectedDiff[3]
+        joint_state_without_offset[4] = (-motor_state.position[3] - motor_state.position[4]) / self.__reductionRatio[5] / self.__reductionRatio[3] + listAffectedDiff[4]
+        joint_state.position[3] = joint_state_without_offset[3] + self.__jointOffset[3]
+        joint_state.position[4] = joint_state_without_offset[4] + self.__jointOffset[4]
 
         return joint_state
 

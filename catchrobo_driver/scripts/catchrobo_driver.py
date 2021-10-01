@@ -145,9 +145,10 @@ class catchrobo_driver:
 
         # check joint errors
         for i in range(self.MOTOR_NUM):
-            if self._joint_state.position[i] > self._joint_position_limit_max[i] or self._joint_state.position[i] < self._joint_position_limit_min[i]:
-                joint_error = False
-                joint_error_message += ("Joint "+ str(i+1) + " over position, ")
+            if self._index_search_finished is True:
+                if self._joint_state.position[i] > self._joint_position_limit_max[i] or self._joint_state.position[i] < self._joint_position_limit_min[i]:
+                    joint_error = False
+                    joint_error_message += ("Joint "+ str(i+1) + " over position, ")
             if abs(self._joint_state.velocity[i]) > self._joint_velocity_limit[i]:
                 joint_error = False
                 joint_error_message += ("Joint "+ str(i+1) + " over velocity, ")

@@ -13,12 +13,12 @@ arm:
       axis: 0
     limit:
       position:
-        max: 2.0
-        min: -2.0
+        max: 2.792526803
+        min: -2.792526803
       velocity: 10.0
       current: 10.0
     tolerence: 0.5
-    offset: 0.7533075219
+    offset: -0.1426424034
     reduction ratio: 8
     kp: 50.0
     kd: 0.5
@@ -33,12 +33,12 @@ arm:
       axis: 0
     limit:
       position:
-        max: 2.0
-        min: -2.0
+        max: 1.047197551
+        min: -1.570796327
       velocity: 10.0
       current: 10.0
     tolerence: 0.5
-    offset: -0.8341267922948693014
+    offset: 0.9904531285
     reduction ratio: 16
     kp: 50.0
     kd: 0.5
@@ -53,12 +53,12 @@ arm:
       axis: 1
     limit:
       position:
-        max: 10.0
-        min: -10.0
+        max: 0.0
+        min: -2.642270913
       velocity: 10.0
       current: 10.0
     tolerence: 0.5
-    offset: 2.25086768698
+    offset: -1.651959147
     reduction ratio: 8
     kp: 50.0
     kd: 0.5
@@ -73,12 +73,12 @@ arm:
       axis: 0
     limit:
       position:
-        max: 10.0
-        min: -10.0
+        max: 1.570796327
+        min: -1.570796327
       velocity: 10.0
       current: 10.0
     tolerence: 0.5
-    offset: 0.0
+    offset: -0.7348253312
     reduction ratio: 2.8
     kp: 50.0
     kd: 0.5
@@ -93,8 +93,8 @@ arm:
       axis: 1
     limit:
       position:
-        max: 10.0
-        min: -10.0
+        max: 100.0
+        min: -100.0
       velocity: 10.0
       current: 10.0
     tolerence: 0.5
