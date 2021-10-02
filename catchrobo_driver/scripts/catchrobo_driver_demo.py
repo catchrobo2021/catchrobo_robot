@@ -13,7 +13,12 @@ class test:
         rospy.init_node("joint_control_test")
         self._servo_on_publisher = rospy.Publisher('enable_joints', Bool, queue_size=10)
         self._joint_control_publisher = rospy.Publisher('joint_control',JointState, queue_size=10)
+        
+        self._target_posi = None
+        self._get_once = False
         rospy.Subscriber("joint_states", JointState, self.jointStateCallback)
+
+        rospy.Subscriber("target_joint_states", JointState, self.targetJointStateCallback)
 
         # joint control command
         joint_control = JointState()
@@ -46,10 +51,15 @@ class test:
         self._count = [0] * self.JOINT_NUM
         rospy.Timer(rospy.Duration(1.0/50.0), self.controlCallback)
         rospy.spin()
-    
+   
 
     def jointStateCallback(self,data):
         self._joint_state = data
+        # self._target_posi = self._joint_state.position
+            
+        # if not self._get_once:
+        #     self._target_posi = self._joint_state.position
+        #     self._get_once = True
 
 
     def setJointGoal(self):
@@ -98,16 +108,23 @@ class test:
                     #rospy.loginfo("Target: "+ str(self._position[i]) + "  Actual: "+ str(self._joint_state.position[i]) )
         self._joint_control_publisher.publish(self._joint_control)
 
+    def targetJointStateCallback(self, msg):
+        self._target_posi = msg.position
 
     def controlCallback(self, event):
+        if self._target_posi is None:
+            return
+        target_posi = list(self._joint_state.position)
+
+        target_posi[0] = self._target_posi[0]
         for i in range(self.JOINT_NUM):
             if self._count[i] is 0:
                 if self._has_arrived[i] is True:
-                    self._position[i] = 1
+                    self._position[i] = target_posi[i] # 1
                     self._count[i] += 1
-            else:
-                if self._has_arrived[i] is True:
-                    self._position[i] = self._position[i] * -1.0
+            # else:
+            #     if self._has_arrived[i] is True:
+            #         self._position[i] =  # self._position[i] * -1.0
         self.setJointGoal()
         
 

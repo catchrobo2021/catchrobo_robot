@@ -157,6 +157,9 @@ class ODriveNode(object):
 
     def reset_config(self): self.driver.erase_configuration()
 
+    def save(self):
+        self.driver.save_configuration()
+
     def calibrate(self, axis=0, mode=0):
         if not self.driver:
             rospy.logerr("Not connected.")

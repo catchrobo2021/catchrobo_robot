@@ -66,6 +66,7 @@ class catchrobo_driver:
             odrv_bridge.connect()
             odrv_bridge.set_mode(mode="POS")
             self._odrv_bridge = odrv_bridge
+            #odrv_bridge.set_pid()
         except Exception as e:
             rospy.logerr_throttle(1,"Failed to connect to Odrive: {}".format(e))
         else:
@@ -95,11 +96,12 @@ class catchrobo_driver:
         #    joint_control.kd[i]  = rosparam.get_param("arm/joint"+str(i+1)+"/kd")
 
     def read(self):
-        motor_state = self._odrv_bridge.read()
-        joint_state = self._cnverter.convert_motor_to_joint(motor_state=motor_state)
+        self._motor_state = self._odrv_bridge.read()
+        joint_state = self._cnverter.convert_motor_to_joint(motor_state_rad=self._motor_state)
+        
         self._joint_state.position = joint_state.position
         self._joint_state.velocity = joint_state.velocity
-        self._joint_state.effort = motor_state.effort #[TODO]
+        self._joint_state.effort = self._motor_state.effort #[TODO]
         self._joint_state_publisher.publish(self._joint_state)
         
     def write(self):
@@ -107,9 +109,12 @@ class catchrobo_driver:
         if self._joint_enable_state is False:
             for i in range(self.MOTOR_NUM):
                 self._joint_control.position[i] = self._joint_state.position[i]
-        #self.convert_joint_to_motor(_joint_control)
+        #rospy.loginfo("self._joint_state: {}".format(self._joint_state.position))
+        motor_control = self._cnverter.convert_joint_to_motor(self._joint_control)#(self._joint_control)
+        #rospy.loginfo("mot_cnt: {}".format(motor_control.position))
+        #rospy.loginfo("mot_state: {}".format(self._motor_state.position))
         if self._index_search_finished is True:
-            self._odrv_bridge.write(position=self._joint_control.position)
+            self._odrv_bridge.write(position=motor_control.position)
         else:
             pass
 
@@ -125,9 +130,8 @@ class catchrobo_driver:
 
     def engage_all(self):
         if self._joint_enable_state is False:
-            # [TODO]
-            #self._odrv_bridge.engage_all()
-            #self._joint_enable_state = True
+            self._odrv_bridge.engage_all()
+            self._joint_enable_state = True
             rospy.loginfo("Engage joints")
         else:
             pass

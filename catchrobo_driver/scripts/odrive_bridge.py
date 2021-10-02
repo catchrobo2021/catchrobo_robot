@@ -26,6 +26,11 @@ class ODriveBridge:
                                 [config['joint3']['odrive']['id'], config['joint3']['odrive']['axis']],
                                 [config['joint4']['odrive']['id'], config['joint4']['odrive']['axis']],
                                 [config['joint5']['odrive']['id'], config['joint5']['odrive']['axis']]]
+        self._pid_config = [  [config['joint1']['pos_kp'], config['joint1']['vel_kp'], config['joint1']['vel_ki']],
+                              [config['joint2']['pos_kp'], config['joint2']['vel_kp'], config['joint2']['vel_ki']],
+                              [config['joint3']['pos_kp'], config['joint3']['vel_kp'], config['joint3']['vel_ki']],
+                              [config['joint4']['pos_kp'], config['joint4']['vel_kp'], config['joint4']['vel_ki']],
+                              [config['joint5']['pos_kp'], config['joint5']['vel_kp'], config['joint5']['vel_ki']]]
 
     def connect(self):
         for i in range(self.ODRIVE_NUM):
@@ -57,6 +62,12 @@ class ODriveBridge:
     def set_mode(self, mode):
         for i in range(self.MOTOR_NUM):
             self._odrv[self._joint_config[i][0]].control_mode(axis=self._joint_config[i][1], mode=mode)
+
+    def set_pid(self):
+        for i in range(self.MOTOR_NUM):
+            self._odrv[self._joint_config[i][0]].set_PID(axis=self._joint_config[i][1], pos_P=self._pid_config[i][0], vel_P=self._pid_config[i][1], vel_I=self._pid_config[i][2])
+        for i in range(self.ODRIVE_NUM):
+            self._odrv[i].save()
             
     def write(self, position):
         for i in range(self.MOTOR_NUM):

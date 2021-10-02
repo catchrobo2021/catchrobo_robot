@@ -13,15 +13,16 @@ arm:
       axis: 0
     limit:
       position:
-        max: 2.792526803
-        min: -2.792526803
+        max: 2.617993878
+        min: -2.617993878
       velocity: 10.0
       current: 10.0
-    tolerence: 0.5
+    tolerence: 0.1
     offset: 0.03198545935
     reduction ratio: 8
-    kp: 50.0
-    kd: 0.5
+    pos_kp: 40.0
+    vel_kp: 0.16
+    vel_ki: 0.33
     default:
       velocity: 2.0
       acceleration: 3.0
@@ -37,11 +38,12 @@ arm:
         min: -1.570796327
       velocity: 10.0
       current: 10.0
-    tolerence: 0.5
+    tolerence: 0.1
     offset: 0.9818139706
     reduction ratio: 16
-    kp: 50.0
-    kd: 0.5
+    pos_kp: 40.0
+    vel_kp: 0.16
+    vel_ki: 0.33
     default:
       velocity: 2.0
       acceleration: 3.0
@@ -54,14 +56,15 @@ arm:
     limit:
       position:
         max: 0.0
-        min: -2.642270913
+        min: -3 #-2.792526803
       velocity: 10.0
       current: 10.0
-    tolerence: 0.5
+    tolerence: 0.1
     offset: -1.657404564
     reduction ratio: 8
-    kp: 50.0
-    kd: 0.5
+    pos_kp: 40.0
+    vel_kp: 0.16
+    vel_ki: 0.33
     default:
       velocity: 2.0
       acceleration: 3.0
@@ -77,11 +80,12 @@ arm:
         min: -1.570796327
       velocity: 10.0
       current: 10.0
-    tolerence: 0.5
+    tolerence: 0.1
     offset: -0.7607640785
     reduction ratio: 2.8
-    kp: 50.0
-    kd: 0.5
+    pos_kp: 40.0
+    vel_kp: 0.16
+    vel_ki: 0.33
     default:
       velocity: 2.0
       acceleration: 3.0
@@ -93,15 +97,16 @@ arm:
       axis: 1
     limit:
       position:
-        max: 100.0
-        min: -100.0
+        max: 2.792526803
+        min: -2.792526803
       velocity: 10.0
       current: 10.0
-    tolerence: 0.5
+    tolerence: 0.1
     offset: 2.147487335
     reduction ratio: 2.8
-    kp: 50.0
-    kd: 0.5
+    pos_kp: 40.0
+    vel_kp: 0.16
+    vel_ki: 0.33
     default:
       velocity: 2.0
       acceleration: 3.0
