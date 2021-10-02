@@ -18,7 +18,7 @@ arm:
       velocity: 10.0
       current: 10.0
     tolerence: 0.5
-    offset: -0.1426424034
+    offset: 0.03198545935
     reduction ratio: 8
     kp: 50.0
     kd: 0.5
@@ -38,7 +38,7 @@ arm:
       velocity: 10.0
       current: 10.0
     tolerence: 0.5
-    offset: 0.9904531285
+    offset: 0.9818139706
     reduction ratio: 16
     kp: 50.0
     kd: 0.5
@@ -58,7 +58,7 @@ arm:
       velocity: 10.0
       current: 10.0
     tolerence: 0.5
-    offset: -1.651959147
+    offset: -1.657404564
     reduction ratio: 8
     kp: 50.0
     kd: 0.5
@@ -78,7 +78,7 @@ arm:
       velocity: 10.0
       current: 10.0
     tolerence: 0.5
-    offset: -0.7348253312
+    offset: -0.7607640785
     reduction ratio: 2.8
     kp: 50.0
     kd: 0.5
@@ -98,7 +98,7 @@ arm:
       velocity: 10.0
       current: 10.0
     tolerence: 0.5
-    offset: 0.0
+    offset: 2.147487335
     reduction ratio: 2.8
     kp: 50.0
     kd: 0.5
