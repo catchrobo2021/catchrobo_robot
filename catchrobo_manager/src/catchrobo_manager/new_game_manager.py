@@ -37,7 +37,7 @@ class Robot():
     def __init__(self):
         
         self._brain = Brain()
-        self._arm = MyMoveitRobot()
+        self._arm = Arm()
         self._gripper = Gripper()
 
     def calc(self):
@@ -49,18 +49,21 @@ class Robot():
     def doAction(self):
         action = self._brain.popAction()
         if action is None:
-            return False
+            return [True]
         command_type = action[0]
+        ret = False
         if command_type == "move":
-            ret = self._arm.move(action[1])
+            self._arm.move(action[1])
         elif command_type == "above":
-            ret = self._arm.above(action[1])
+            self._arm.above(action[1])
         elif command_type == "grip":
-            ret = self._gripper.graspBisco(*action[1:])
+            self._gripper.graspBisco(*action[1:])
+            ret = "grip"
         elif command_type == "release":
-            ret = self._gripper.releaseBisco(action[1])
+            self._gripper.releaseBisco(action[1])
+            ret = "release"
 
-        return True
+        return [False, ret]
 
 
 class CatchroboCenter():
@@ -68,9 +71,7 @@ class CatchroboCenter():
         self._color = rospy.get_param("/color")
         self._robot = Robot()
         self._biscos = BiscoManager(color)
-        self._scene = (
-            moveit_commander.PlanningSceneInterface()
-        )
+        
         # self._shooting_box = ShootingBoxManager(self._color)
     
     def calcBiscoAction(self):
@@ -84,6 +85,10 @@ class CatchroboCenter():
     
     def doBiscoAction(self):
         ret = self._robot.doAction()
+        if ret[1] == "grip":
+            self._biscos.attach()
+
+
 
 
 

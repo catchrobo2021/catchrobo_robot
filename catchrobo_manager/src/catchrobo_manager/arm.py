@@ -19,19 +19,12 @@ from moveit_msgs.srv import GetPositionIK
 
 class Arm(object):
     def __init__(self):
-        self._scene = (
-            moveit_commander.PlanningSceneInterface()
-        )  # sleep a bit to update roscore
+          # sleep a bit to update roscore
         self._robot = moveit_commander.RobotCommander()
         rospy.loginfo(self._robot.get_group_names())
         self._arm = moveit_commander.MoveGroupCommander("arm0")
-        self._gripper = [
-            moveit_commander.MoveGroupCommander("hand1"),
-            moveit_commander.MoveGroupCommander("hand2"),
-        ]
         
         rospy.wait_for_service("compute_ik", timeout=10.0)
-        rospy.wait_for_service("/get_planning_scene", timeout=10.0)
         self.compute_ik = rospy.ServiceProxy("compute_ik", GetPositionIK)
 
         self._pose_stamped = PoseStamped()
@@ -45,18 +38,6 @@ class Arm(object):
         self._ik_request.avoid_collisions = True
         self._ik_request.attempts = 1000
         self._handling_box = [0, 0]
-
-        
-    def addBox2Scene(self, name, p, size):
-        rospy.sleep(0.1)
-        self._scene.add_box(name, p, size)
-        
-
-    def gripperMove(self, target_gripper, dist, wait):
-        temp = "gripper {}: {} cm".format(target_gripper, dist)
-        rospy.loginfo(temp)
-        # self._gripper[target_gripper].set_joint_value_target([dist, dist])
-        # self._gripper[target_gripper].go(wait)
 
     def goStartup(self):
         for i in range(2):
@@ -115,53 +96,6 @@ class Arm(object):
         #     ret = self._arm.execute(plan, wait=True)
 
         return ret
-
-    def graspBisco(self, target_gripper, bisco_name, wait, dist):
-        # [TODO] change for servo
-        touch_links = self._robot.get_link_names("arm0")
-        self._handling_box[target_gripper] = bisco_name
-        box_name = self._handling_box[target_gripper]
-        self._scene.attach_box(
-            self._arm.get_end_effector_link(), box_name, touch_links=touch_links
-        )
-        self.gripperMove(target_gripper, dist, wait)
-        return True
-
-    def releaseBisco(self, target_gripper):
-        # box_name = self._biscos.getTargeName()
-        box_name = self._handling_box[target_gripper]
-        self._scene.remove_attached_object(
-            self._arm.get_end_effector_link(), name=box_name
-        )
-        rospy.loginfo("remove start")
-        rospy.sleep(0.1)
-        self._scene.remove_world_object(box_name)
-        rospy.sleep(0.1)
-        self.gripperMove(target_gripper, 0, True)
-        return True
-        
-
-    def setActions(self, actions):
-        self._actions = actions
-    
-    # def doActions(self):
-    #     for action in self._actions:
-    #         ret = self.doAction(action)
-    #         if not ret:
-    #             return False
-    #     return True
-    
-    # def doAction(self, action):
-    #     command_type = action[0]
-    #     if command_type == "move":
-    #         ret = self.move(action[1])
-    #     elif command_type == "above":
-    #         ret = self.above(action[1])
-    #     elif command_type == "grip":
-    #         ret = self.graspBisco(*action[1:])
-    #     elif command_type == "release":
-    #         ret = self.releaseBisco(action[1])
-    #     return ret
 
     def move(self, target_pose):
         self.setTargetPose(target_pose)
