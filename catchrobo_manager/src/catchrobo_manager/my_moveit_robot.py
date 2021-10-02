@@ -123,6 +123,8 @@ class MyMoveitRobot(object):
     def graspBisco(self, target_gripper, bisco_name, wait, dist):
         # [TODO] change for servo
         touch_links = self._robot.get_link_names("arm0")
+        # rospy.loginfo(touch_links)
+        rospy.loginfo( self._arm.get_end_effector_link())
         self._handling_box[target_gripper] = bisco_name
         box_name = self._handling_box[target_gripper]
         self._scene.attach_box(

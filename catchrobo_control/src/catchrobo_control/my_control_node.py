@@ -17,8 +17,6 @@ from trajectory_msgs.msg import JointTrajectoryPoint
 from moveit_msgs.msg import RobotTrajectory, PositionIKRequest
 from moveit_msgs.srv import GetPositionIK
 
-from catchrobo_control.myrobot import MyRobot
-
 
 class Robot(object):
     def __init__(self):

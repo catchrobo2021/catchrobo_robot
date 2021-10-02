@@ -33,15 +33,16 @@ class Gripper():
     def releaseBisco(self, param):
         pass
 
-class Robot():
+
+class CatchroboCenter():
     def __init__(self):
-        
+        self._color = rospy.get_param("/color")
+        self._biscos = BiscoManager(color)        
         self._brain = Brain()
         self._arm = Arm()
         self._gripper = Gripper()
-
-    def calc(self):
-        self._next_state = self._next_state()
+        self._scene = moveit_commander.PlanningSceneInterface()
+        
 
     def calcBiscoAction(self, targets, is_twin):
         self._brain.calcBiscoAction(targets, is_twin)
@@ -58,19 +59,14 @@ class Robot():
             self._arm.above(action[1])
         elif command_type == "grip":
             self._gripper.graspBisco(*action[1:])
+            self.attachBisco()
+
             ret = "grip"
         elif command_type == "release":
             self._gripper.releaseBisco(action[1])
             ret = "release"
 
         return [False, ret]
-
-
-class CatchroboCenter():
-    def __init__(self):
-        self._color = rospy.get_param("/color")
-        self._robot = Robot()
-        self._biscos = BiscoManager(color)
         
         # self._shooting_box = ShootingBoxManager(self._color)
     
@@ -81,12 +77,22 @@ class CatchroboCenter():
         if target_ids[0] is None and target_ids[1] is None:
             return False
 
-        self._robot.calcBiscoAction(targets, is_twin)
+        self._brain.calcBiscoAction(targets, is_twin)
     
     def doBiscoAction(self):
-        ret = self._robot.doAction()
-        if ret[1] == "grip":
-            self._biscos.attach()
+        ret = self.doAction()
+
+
+    def attachBisco(self, target_gripper, bisco_name, wait, dist):
+        # [TODO] change for servo
+        touch_links = moveit_commander.RobotCommander().get_link_names("arm0")
+        self._handling_box[target_gripper] = bisco_name
+        box_name = self._handling_box[target_gripper]
+        self._scene.attach_box(
+            self._arm._arm.get_end_effector_link(), box_name, touch_links=touch_links
+        )
+        self.gripperMove(target_gripper, dist, wait)
+        return True
 
 
 
