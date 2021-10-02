@@ -59,7 +59,7 @@
       <child link="${prefix}arm/link2"/>
       <origin xyz="0 0 0" rpy="${90*M_PI/180} 0 0"/>
       <axis xyz="0 0 1"/>
-      <limit lower="${-90*M_PI/180}" upper="${59*M_PI/180}" effort="6"
+      <limit lower="${-90*M_PI/180}" upper="${60*M_PI/180}" effort="6"
               velocity="5" acceleration="5"/>
     </joint>
 
