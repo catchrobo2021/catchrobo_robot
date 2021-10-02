@@ -21,6 +21,163 @@ from catchrobo_manager.my_moveit_robot import MyMoveitRobot
 # from catchrobo_manager.actions import Actions
 from catchrobo_manager.action_planner import ActionPlanner, getName
 
+class MainAction(self):
+    pass
+
+class ShootingBoxManager():
+    pass
+
+class Gripper():
+    def graspBisco(self, param):
+        pass
+    def releaseBisco(self, param):
+        pass
+
+class Robot():
+    def __init__(self):
+        
+        self._brain = Brain()
+        self._arm = MyMoveitRobot()
+        self._gripper = Gripper()
+
+    def calc(self):
+        self._next_state = self._next_state()
+
+    def calcBiscoAction(self, targets, is_twin):
+        self._brain.calcBiscoAction(targets, is_twin)
+    
+    def doAction(self):
+        action = self._brain.popAction()
+        if action is None:
+            return False
+        command_type = action[0]
+        if command_type == "move":
+            ret = self._arm.move(action[1])
+        elif command_type == "above":
+            ret = self._arm.above(action[1])
+        elif command_type == "grip":
+            ret = self._gripper.graspBisco(*action[1:])
+        elif command_type == "release":
+            ret = self._gripper.releaseBisco(action[1])
+
+        return True
+
+
+class CatchroboCenter():
+    def __init__(self):
+        self._color = rospy.get_param("/color")
+        self._robot = Robot()
+        self._biscos = BiscoManager(color)
+        self._scene = (
+            moveit_commander.PlanningSceneInterface()
+        )
+        # self._shooting_box = ShootingBoxManager(self._color)
+    
+    def calcBiscoAction(self):
+        self._biscos.calcTargetTwin()
+        target_ids, is_twin, targets = self._biscos.getTargetTwin()
+
+        if target_ids[0] is None and target_ids[1] is None:
+            return False
+
+        self._robot.calcBiscoAction(targets, is_twin)
+    
+    def doBiscoAction(self):
+        ret = self._robot.doAction()
+
+
+
+
+class GamePlayer(self):
+    def __init__(self):
+        
+        self._catchrobo = CatchroboCenter()
+        self._next_state = self.calcBiscoAction
+        
+    def main(self):
+        self._next_state = self._next_state()
+        
+    def restart(self):
+        pass
+
+    def pause(self):
+        pass
+
+    def finish(self):
+        self._robot.setupPose()
+        pass
+
+
+    def calcBiscoAction(self):
+        if self._catchrobo.calcBiscoAction():
+            next_state =  self.doBiscoAction
+        else:
+            next_state = self.manual
+        return next_state
+    
+    def doBiscoAction(self):
+        if self._catchrobo.doBiscoAction():
+            next_state =  self.doBiscoAction
+        else:
+            next_state = self.calcShootAction
+        return next_state
+    
+    def calcShootAction(self):
+        if self._catchrobo.calcShootAction():
+            next_state =  self.doShootAction
+        else:
+            next_state = self.manual
+        return next_state
+
+    def doShootAction(self):
+        if self._catchrobo.doShootAction():
+            next_state =  self.doShootAction
+        else:
+            next_state = self.calcBiscoAction
+        return next_state
+
+    def manual(self):
+        return self.manual
+
+class GameStatus():
+    SETUP_TIME = 0
+    GAME = 1
+    RESTART = 2 
+    MANUAL = 3
+    FINISH = 4
+
+class GameCommandTransfer():
+
+    def __init__(self):
+        self._command == GameStatus.SETUP_TIME
+        self._game_player = GamePlayer()
+
+    def main(self):
+        while not rospy.is_shutdown():
+            if self._command == GameStatus.GAME:
+                self._game_player.main()
+
+            elif self._command == GameStatus.RESTART:
+                self._game_player.restart()
+            
+            elif self._command == GameStatus.MANUAL:
+                # 途中割り込み
+                self._game_player.pause()
+            
+            elif self._command == GameStatus.FINISH:
+                self._game_player.finish()
+
+if __name__ == "__main__":
+    game_manager = GameFacilitator()
+    # game_manager.init()
+    game_manager.main()
+
+
+
+
+
+
+
 class ActionState(object):
     BISCO = 1
     SHOOT = 3

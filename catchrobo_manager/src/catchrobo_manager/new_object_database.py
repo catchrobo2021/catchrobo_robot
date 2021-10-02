@@ -3,13 +3,19 @@
 
 import pandas as pd
 import numpy as np
+
+import rospkg
 from geometry_msgs.msg import Pose, Point, Quaternion
 
 
-class ObjectDatabase(object):
-    def __init__(self, csv, count_key):
+class BiscoManager():
+    def __init__(self, color):
+        rospack = rospkg.RosPack()
+        pkg_path = rospack.get_path("catchrobo_manager")
+        config_path = pkg_path + "/config/"
+        bisco_csv = config_path + color + "_bisco.csv"
         self._objects = pd.read_csv(csv, index_col=0)
-        self._count_key = count_key
+        self._count_key = "exist"
         self._twin = False
 
     def calcTargetId(self):
@@ -63,25 +69,10 @@ class ObjectDatabase(object):
         for id in ids:
             self._objects.loc[id, self._count_key] = False
 
-    def calcTargetTwin(self):
-        self.calcTargetId()
-        first = self.getTargetId()
-        if first is None:
-            self._target_ids = None, None
-            self._twin = False
-            return
-
-        self.updateState(first, False)
-
-        self.calcTargetId()
-        second = self.getTargetId()
-        self.updateState(first, True)
-        self._target_ids = first, second
     
     def getTargetTwin(self):
-        return self._target_ids, self._twin
+        return self._target_ids, self._twin, [obj.getObj(id) for id in target_ids]
 
-class BiscoDatabase(ObjectDatabase):
     def calcTargetTwin(self):
         self.calcTargetId()
         first = self.getTargetId()
@@ -98,6 +89,8 @@ class BiscoDatabase(ObjectDatabase):
         self._target_ids = first, second
 
         self._twin = False
+        if first is None:
+            return False
         if first is not None and second is not None:
             areas = [self.getState(first, "my_area"), self.getState(second, "my_area")]
             positions = [self.getPosi(first), self.getPosi(second)]
@@ -107,5 +100,8 @@ class BiscoDatabase(ObjectDatabase):
             elif areas[0] == areas[1] == False:
                 if abs(first - second) == 1:
                     self._twin = True
+        
+        return True
+
 
 

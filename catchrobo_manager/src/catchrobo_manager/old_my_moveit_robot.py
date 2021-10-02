@@ -46,6 +46,10 @@ class MyMoveitRobot(object):
         self._ik_request.attempts = 1000
         self._handling_box = [0, 0]
 
+        self._pub_jointstate = rospy.Publisher("/move_group/fake_controller_joint_states", JointState, queue_size=1)
+        self._joint_states = JointState()
+        self._joint_states.header.frame_id = self._pose_stamped.header.frame_id
+        self._joint_states.name = rospy.get_param("/move_group/controller_list")[0]["joints"]
         
 
 
@@ -118,6 +122,24 @@ class MyMoveitRobot(object):
 
         return ret
     
+    ##### without ros control version
+    def execute(self, plan):
+        rospy.loginfo(plan)
+        # last_point = plan.joint_trajectory.points[0]
+        start_time = rospy.Time.now()
+        for i, point in enumerate(plan.joint_trajectory.points):
+            now = rospy.Time.now()
+            self._joint_states.header.seq = i
+            self._joint_states.header.stamp = now
+            
+            self._joint_states.position = point.positions[:5]
+            
+            # self.pubJointState()
+            self._pub_jointstate.publish(self._joint_states)
+
+            rest_time = point.time_from_start -  (now - start_time)
+            rospy.sleep(rest_time)
+        rospy.sleep(0.5)
         
 
     def graspBisco(self, target_gripper, bisco_name, wait, dist):
@@ -129,7 +151,6 @@ class MyMoveitRobot(object):
             self._arm.get_end_effector_link(), box_name, touch_links=touch_links
         )
         self.gripperMove(target_gripper, dist, wait)
-        return True
 
     def releaseBisco(self, target_gripper):
         # box_name = self._biscos.getTargeName()
@@ -142,37 +163,4 @@ class MyMoveitRobot(object):
         self._scene.remove_world_object(box_name)
         rospy.sleep(0.1)
         self.gripperMove(target_gripper, 0, True)
-        return True
         
-
-    def setActions(self, actions):
-        self._actions = actions
-    
-    # def doActions(self):
-    #     for action in self._actions:
-    #         ret = self.doAction(action)
-    #         if not ret:
-    #             return False
-    #     return True
-    
-    # def doAction(self, action):
-    #     command_type = action[0]
-    #     if command_type == "move":
-    #         ret = self.move(action[1])
-    #     elif command_type == "above":
-    #         ret = self.above(action[1])
-    #     elif command_type == "grip":
-    #         ret = self.graspBisco(*action[1:])
-    #     elif command_type == "release":
-    #         ret = self.releaseBisco(action[1])
-    #     return ret
-
-    def move(self, target_pose):
-        self.setTargetPose(target_pose)
-        return self.go()
-    
-    def above(self, z):
-        target_pose = self.getTargetPose()
-        target_pose.position.z = z
-        self.setTargetPose(target_pose)
-        return self.go()

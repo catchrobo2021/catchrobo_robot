@@ -17,7 +17,7 @@ from moveit_msgs.msg import RobotTrajectory, PositionIKRequest
 from moveit_msgs.srv import GetPositionIK
 
 
-class MyMoveitRobot(object):
+class Arm(object):
     def __init__(self):
         self._scene = (
             moveit_commander.PlanningSceneInterface()
@@ -47,8 +47,6 @@ class MyMoveitRobot(object):
         self._handling_box = [0, 0]
 
         
-
-
     def addBox2Scene(self, name, p, size):
         rospy.sleep(0.1)
         self._scene.add_box(name, p, size)
@@ -117,8 +115,6 @@ class MyMoveitRobot(object):
         #     ret = self._arm.execute(plan, wait=True)
 
         return ret
-    
-        
 
     def graspBisco(self, target_gripper, bisco_name, wait, dist):
         # [TODO] change for servo
