@@ -136,11 +136,11 @@ include
 # target_link_libraries(catchrobo_control_node ${catkin_LIBRARIES} catchrobo_hw)
 
 
-add_executable(motoman_control_node
-    src/motoman_control_node.cpp
-)
-# add_dependencies(motoman_control_node ${motoman_control_node_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(motoman_control_node ${catkin_LIBRARIES})
+# add_executable(motoman_control_node
+#     src/motoman_control_node.cpp
+# )
+# # add_dependencies(motoman_control_node ${motoman_control_node_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# target_link_libraries(motoman_control_node ${catkin_LIBRARIES})
 
 
 ## Declare a C++ library
