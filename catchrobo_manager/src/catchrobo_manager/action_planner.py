@@ -42,9 +42,7 @@ class ActionPlanner(object):
         self.BISCO_SIZE = 0.086, 0.029, 0.136
         self.BISCO_NUM = 27
         self._color = rospy.get_param("/color")
-        self._can_go_common = False
 
-        self._target_gripper_id = 0
         self._world_frame = "world"
 
         self.ARM2GRIPPER = 0.05
@@ -66,25 +64,7 @@ class ActionPlanner(object):
 
         my_pick_quat = tf.transformations.quaternion_from_euler(np.pi, 0, -np.pi / 2)
         self.MY_GRIP_QUAT = Quaternion(*my_pick_quat)
-        self._joy_msg = None
 
-    # def init(self, biscos):
-    #     self.AddBisco2Scene(biscos)
-    #     # self._mymoveit.goStartup()
-    #     self._mymoveit.goHome()
-
-    def AddBisco2Scene(self, biscos):
-        for i in range(self.BISCO_NUM):
-            if not biscos.isExist(i):
-                continue
-            p = PoseStamped()
-            p.header.frame_id = self._world_frame
-            p.pose.position = biscos.getPosi(i)
-            p.pose.position.z += self.BISCO_SIZE[2] / 2 + 0.0005
-            p.pose.orientation.w = 1.0
-            size = self.BISCO_SIZE[0], self.BISCO_SIZE[1], self.BISCO_SIZE[2] - 0.001
-            self._mymoveit.addBox2Scene(getName(i), p, size)
-    
     def biscoAction(self, targets,is_twin):
         actions = []
 
