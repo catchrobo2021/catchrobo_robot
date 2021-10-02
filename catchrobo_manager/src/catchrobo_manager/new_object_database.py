@@ -18,6 +18,10 @@ class BiscoManager():
         self._count_key = "exist"
         self._twin = False
 
+        self._scene = (
+            moveit_commander.PlanningSceneInterface()
+        )
+
     def calcTargetId(self):
         exist = self._objects[self._count_key]
         # print(self._objects[exist]["priority"])

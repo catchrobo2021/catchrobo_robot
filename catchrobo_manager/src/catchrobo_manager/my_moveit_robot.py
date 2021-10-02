@@ -148,24 +148,24 @@ class MyMoveitRobot(object):
     def setActions(self, actions):
         self._actions = actions
     
-    # def doActions(self):
-    #     for action in self._actions:
-    #         ret = self.doAction(action)
-    #         if not ret:
-    #             return False
-    #     return True
+    def doActions(self):
+        for action in self._actions:
+            ret = self.doAction(action)
+            if not ret:
+                return False
+        return True
     
-    # def doAction(self, action):
-    #     command_type = action[0]
-    #     if command_type == "move":
-    #         ret = self.move(action[1])
-    #     elif command_type == "above":
-    #         ret = self.above(action[1])
-    #     elif command_type == "grip":
-    #         ret = self.graspBisco(*action[1:])
-    #     elif command_type == "release":
-    #         ret = self.releaseBisco(action[1])
-    #     return ret
+    def doAction(self, action):
+        command_type = action[0]
+        if command_type == "move":
+            ret = self.move(action[1])
+        elif command_type == "above":
+            ret = self.above(action[1])
+        elif command_type == "grip":
+            ret = self.graspBisco(*action[1:])
+        elif command_type == "release":
+            ret = self.releaseBisco(action[1])
+        return ret
 
     def move(self, target_pose):
         self.setTargetPose(target_pose)
