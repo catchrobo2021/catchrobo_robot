@@ -227,8 +227,8 @@ class catchrobo_driver:
         if invalid_goal_flag is False:
             for i in range(self.MOTOR_NUM):
                 self._joint_control.position[i] = data.position[i]
-                self._joint_control.velocity[i] = data.velocity[i]
-                self._joint_control.effort[i] = data.effort[i]
+                #self._joint_control.velocity[i] = data.velocity[i]
+                #self._joint_control.effort[i] = data.effort[i]
         else:
             pass
             
