@@ -7,7 +7,10 @@
 ## Requirement
 - moveit (see : https://moveit.ros.org/install/)
 - sudo apt install ros-melodic-joint-state-publisher-gui 
-- pip install pandas
+- pip install pandas numpy
+- sudo apt install ros-melodic-joy
+- sudo apt install ros-melodic-joystick-drivers 
+
 
 ## How to use
 ### Display robot in Rviz
