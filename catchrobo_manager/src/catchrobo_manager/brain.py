@@ -1,23 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from os import wait
-import pandas as pd
 import numpy as np
 
 import rospy
-import rospkg
 import tf
-import moveit_commander
 
 from geometry_msgs.msg import Pose, Point, Quaternion, PoseStamped
-from trajectory_msgs.msg import JointTrajectoryPoint
-from moveit_msgs.msg import RobotTrajectory, PositionIKRequest
-from moveit_msgs.srv import GetPositionIK
-from sensor_msgs.msg import Joy
 
-from catchrobo_manager.object_database import BiscoDatabase, ObjectDatabase
-from catchrobo_manager.my_moveit_robot import MyMoveitRobot
+
 
 class GripperNumber(object):
     GRIPPER1 = 0
@@ -31,12 +22,30 @@ def getObjectPosi(obj):
     posi.z = obj["z"]
     return posi
 
-def getName(id):
-    return "bisco{}".format(id)
+class ActionType():
+    MOVE = 0
+    ABOVE = 1
+    GRIP = 2
+    RELEASE = 3
+    FINISH = 4
 
-class Brain(object):
+    @classmethod
+    def show_action(cls, action):
+        if action == ActionType.MOVE:
+            temp = "MOVE"
+        elif action == ActionType.ABOVE:
+            temp = "ABOVE"
+        elif action == ActionType.GRIP:
+            temp = "GRIP"
+        elif action == ActionType.RELEASE:
+            temp = "RELEASE"
+        elif action == ActionType.FINISH:
+            temp = "FINISH"
+        rospy.loginfo("ActionType : " + temp)
+
+class Brain():
     def __init__(self):
-        rospy.init_node("GameManager")
+        
 
         
         self.BISCO_SIZE = 0.086, 0.029, 0.136
@@ -88,7 +97,7 @@ class Brain(object):
                 actions.append(action)
                 action = self.graspAction(GripperNumber.GRIPPER2, targets[1], True)
                 actions.append(action)
-         
+        actions.append([ActionType.FINISH])
         self._actoins =  actions
 
     def popAction(self):
@@ -120,7 +129,7 @@ class Brain(object):
                 add_y = -self.ARM2GRIPPER
             target_pose.position.y += add_y
             target_pose.orientation = self.COMMON_GRIP_QUAT
-        return ["move", target_pose]
+        return [ActionType.MOVE, target_pose]
 
 
     def graspAction(self, target_gripper, target, wait):
@@ -129,7 +138,7 @@ class Brain(object):
         else:
             dist = self.COMMON_GRASP_DIST
 
-        return ["grip", target_gripper, getName(target.name),wait, dist]
+        return [ActionType.GRIP, target.name, target_gripper, wait, dist]
 
     def AboveHand(self, biscos):
         if biscos[0]["my_area"] and biscos[1]["my_area"]:
@@ -137,26 +146,26 @@ class Brain(object):
         else:
             z = self.BISCO_ABOVE_COMMON_Z
         
-        return ["above", z]
+        return [ActionType.ABOVE, z]
     
-    def shootAction(self, targets, biscos):
+    def calcShootAction(self, targets, biscos):
         actions = []
         action = self.AboveHand(biscos)
         actions.append(action)
         action = self.arriveShoot(GripperNumber.GRIPPER1,targets, biscos)
         actions.append(action)
-        action = self.releaseAction(GripperNumber.GRIPPER1)
+        action = self.releaseAction(GripperNumber.GRIPPER1, targets, biscos)
         actions.append(action)
 
         action = self.arriveShoot(GripperNumber.GRIPPER2,targets, biscos)
         actions.append(action)
-        action = self.releaseAction(GripperNumber.GRIPPER2)
+        action = self.releaseAction(GripperNumber.GRIPPER2, targets, biscos)
         actions.append(action)
+        actions.append([ActionType.FINISH])
+        self._actoins =  actions
 
-        return actions
-
-    def releaseAction(self, target_gripper):
-        return ["release", target_gripper]
+    def releaseAction(self, target_gripper, target_shooting_boxes, biscos):
+        return [ActionType.RELEASE, target_gripper, target_shooting_boxes[target_gripper].name, biscos[target_gripper].name]
 
     def arriveShoot(self,target_gripper, target_shoots, gripping_biscos):
         
@@ -195,7 +204,7 @@ class Brain(object):
             target_pose.position.y += add_y
             target_pose.orientation = orientation
 
-        return ["move", target_pose]
+        return [ActionType.MOVE, target_pose]
         # self._mymoveit.setTargetPose(target_pose)
 
         # if not self._mymoveit.go():
@@ -207,12 +216,6 @@ class Brain(object):
 
         # [TODO]
     def mannualAction(self):
-        rospy.loginfo(self._arm.get_current_pose())
+        # rospy.loginfo(self._arm.get_current_pose())
         pass
 
-
-if __name__ == "__main__":
-    game_manager = GameManager()
-    game_manager.init()
-    game_manager.main()
-    rospy.spin()

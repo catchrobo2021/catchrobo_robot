@@ -5,18 +5,22 @@ import pandas as pd
 import numpy as np
 
 import rospkg
+
 from geometry_msgs.msg import Pose, Point, Quaternion
 
 
-class BiscoManager():
+class ShootingBoxManager():
     def __init__(self, color):
+        self._count_key = "open"
+        self._twin = False
+        self.readCsv(color)
+    
+    def readCsv(self, color):
         rospack = rospkg.RosPack()
         pkg_path = rospack.get_path("catchrobo_manager")
         config_path = pkg_path + "/config/"
-        bisco_csv = config_path + color + "_bisco.csv"
+        csv = config_path + color + "_shoot.csv"
         self._objects = pd.read_csv(csv, index_col=0)
-        self._count_key = "exist"
-        self._twin = False
 
     def calcTargetId(self):
         exist = self._objects[self._count_key]
@@ -65,13 +69,8 @@ class BiscoManager():
         else:
             return self._objects.loc[id]
     
-    def delete(self, ids):
-        for id in ids:
-            self._objects.loc[id, self._count_key] = False
-
-    
-    def getTargetTwin(self):
-        return self._target_ids, self._twin, [obj.getObj(id) for id in target_ids]
+    def delete(self, id):
+        self._objects.loc[id, self._count_key] = False
 
     def calcTargetTwin(self):
         self.calcTargetId()
@@ -87,21 +86,9 @@ class BiscoManager():
         second = self.getTargetId()
         self.updateState(first, True)
         self._target_ids = first, second
-
-        self._twin = False
-        if first is None:
-            return False
-        if first is not None and second is not None:
-            areas = [self.getState(first, "my_area"), self.getState(second, "my_area")]
-            positions = [self.getPosi(first), self.getPosi(second)]
-            if areas[0] == areas[1] == True:
-                if abs(first - second) == 6:
-                    self._twin = True
-            elif areas[0] == areas[1] == False:
-                if abs(first - second) == 1:
-                    self._twin = True
-        
-        return True
+    
+    def getTargetTwin(self):
+        return [self.getObj(id) for id in self._target_ids], self._twin
 
 
 

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from os import wait
+from re import I
 import pandas as pd
 import numpy as np
 
@@ -21,85 +22,87 @@ from catchrobo_manager.my_moveit_robot import MyMoveitRobot
 # from catchrobo_manager.actions import Actions
 from catchrobo_manager.action_planner import ActionPlanner, getName
 
-class MainAction(self):
-    pass
+from catchrobo_manager.bisco_manager import BiscoManager
+from catchrobo_manager.brain import Brain, ActionType
+from catchrobo_manager.arm import Arm
+from catchrobo_manager.shooting_box_manager import ShootingBoxManager
 
-class ShootingBoxManager():
-    pass
 
-class Gripper():
+class GripperManager():
     def graspBisco(self, param):
         pass
     def releaseBisco(self, param):
         pass
 
+class MyRobot():
+    def __init__(self):
+        self._brain = Brain()
+        self._arm = Arm()
+        self._gripper = GripperManager()
+
+    def doAction(self):
+        action = self._brain.popAction()
+        command_type = action[0]
+        if command_type == ActionType.MOVE:
+            self._arm.move(action[1])
+        elif command_type == ActionType.ABOVE:
+            self._arm.above(action[1])
+        elif command_type == ActionType.GRIP:
+            self._gripper.graspBisco(*action[2:])
+        elif command_type == ActionType.RELEASE:
+            self._gripper.releaseBisco(action[1])
+        return action
+    
+    def calcBiscoAction(self, targets, is_twin):
+        self._brain.calcBiscoAction(targets, is_twin)
+
+    def calcShootAction(self, targets, is_twin):
+        self._brain.calcShootAction(targets, is_twin)
+
 
 class CatchroboCenter():
     def __init__(self):
         self._color = rospy.get_param("/color")
-        self._biscos = BiscoManager(color)        
-        self._brain = Brain()
-        self._arm = Arm()
-        self._gripper = Gripper()
-        self._scene = moveit_commander.PlanningSceneInterface()
+        self._biscos = BiscoManager(self._color)   
+        self._shooting_box = ShootingBoxManager(self._color)   
+        self._robot = MyRobot()  
         
-
-    def calcBiscoAction(self, targets, is_twin):
-        self._brain.calcBiscoAction(targets, is_twin)
-    
     def doAction(self):
-        action = self._brain.popAction()
-        if action is None:
-            return [True]
+        action = self._robot.doAction()
         command_type = action[0]
-        ret = False
-        if command_type == "move":
-            self._arm.move(action[1])
-        elif command_type == "above":
-            self._arm.above(action[1])
-        elif command_type == "grip":
-            self._gripper.graspBisco(*action[1:])
-            self.attachBisco()
-
-            ret = "grip"
-        elif command_type == "release":
-            self._gripper.releaseBisco(action[1])
-            ret = "release"
-
-        return [False, ret]
-        
-        # self._shooting_box = ShootingBoxManager(self._color)
+        if command_type == ActionType.FINISH:
+            return True
+        elif command_type == ActionType.GRIP:
+            self._biscos.attach(action[1])
+            self._biscos.delete([action[1]])
+        elif command_type == ActionType.RELEASE:
+            self._biscos.release(action[3])
+            self._shooting_box.delete(action[2])
+        return False
     
     def calcBiscoAction(self):
         self._biscos.calcTargetTwin()
-        target_ids, is_twin, targets = self._biscos.getTargetTwin()
-
-        if target_ids[0] is None and target_ids[1] is None:
+        targets, is_twin = self._biscos.getTargetTwin()
+        if targets[0] is None and targets[1] is None:
             return False
-
-        self._brain.calcBiscoAction(targets, is_twin)
+        self._robot.calcBiscoAction(targets, is_twin)
     
     def doBiscoAction(self):
-        ret = self.doAction()
+        self.doAction()
 
-
-    def attachBisco(self, target_gripper, bisco_name, wait, dist):
-        # [TODO] change for servo
-        touch_links = moveit_commander.RobotCommander().get_link_names("arm0")
-        self._handling_box[target_gripper] = bisco_name
-        box_name = self._handling_box[target_gripper]
-        self._scene.attach_box(
-            self._arm._arm.get_end_effector_link(), box_name, touch_links=touch_links
-        )
-        self.gripperMove(target_gripper, dist, wait)
-        return True
-
+    def calcShootAction(self):
+        self._shooting_box.calcTargetTwin()
+        targets, is_twin = self._shooting_box.getTargetTwin()
+        if targets[0] is None and targets[1] is None:
+            return False
+        self._robot.calcShootAction(targets, is_twin)
+    
+    def doShootAction(self):
+        self.doAction()
 
 
 
-
-
-class GamePlayer(self):
+class GamePlayer():
     def __init__(self):
         
         self._catchrobo = CatchroboCenter()
@@ -115,7 +118,6 @@ class GamePlayer(self):
         pass
 
     def finish(self):
-        self._robot.setupPose()
         pass
 
 
@@ -157,31 +159,6 @@ class GameStatus():
     MANUAL = 3
     FINISH = 4
 
-class GameCommandTransfer():
-
-    def __init__(self):
-        self._command == GameStatus.SETUP_TIME
-        self._game_player = GamePlayer()
-
-    def main(self):
-        while not rospy.is_shutdown():
-            if self._command == GameStatus.GAME:
-                self._game_player.main()
-
-            elif self._command == GameStatus.RESTART:
-                self._game_player.restart()
-            
-            elif self._command == GameStatus.MANUAL:
-                # 途中割り込み
-                self._game_player.pause()
-            
-            elif self._command == GameStatus.FINISH:
-                self._game_player.finish()
-
-if __name__ == "__main__":
-    game_manager = GameFacilitator()
-    # game_manager.init()
-    game_manager.main()
 
 
 
