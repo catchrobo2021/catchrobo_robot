@@ -7,12 +7,8 @@ import rospy
 import tf
 
 from geometry_msgs.msg import Pose, Point, Quaternion, PoseStamped
-
-
-
-class GripperNumber(object):
-    GRIPPER1 = 0
-    GRIPPER2 = 1
+from catchrobo_manager.my_robot_action import MyRobotActionMaker
+from catchrobo_manager.gripper_manager import GripperNumber, GripWay
 
 #helper function
 def getObjectPosi(obj):
@@ -22,32 +18,9 @@ def getObjectPosi(obj):
     posi.z = obj["z"]
     return posi
 
-class ActionType():
-    MOVE = 0
-    ABOVE = 1
-    GRIP = 2
-    RELEASE = 3
-    FINISH = 4
-
-    @classmethod
-    def show_action(cls, action):
-        if action == ActionType.MOVE:
-            temp = "MOVE"
-        elif action == ActionType.ABOVE:
-            temp = "ABOVE"
-        elif action == ActionType.GRIP:
-            temp = "GRIP"
-        elif action == ActionType.RELEASE:
-            temp = "RELEASE"
-        elif action == ActionType.FINISH:
-            temp = "FINISH"
-        rospy.loginfo("ActionType : " + temp)
 
 class Brain():
     def __init__(self):
-        
-
-        
         self.BISCO_SIZE = 0.086, 0.029, 0.136
         self.BISCO_NUM = 27
         self._color = rospy.get_param("/color")
@@ -55,13 +28,11 @@ class Brain():
         self._world_frame = "world"
 
         self.ARM2GRIPPER = 0.05
-        self.BISCO_ABOVE_Z = 0.136 + 0.06
-        self.BISCO_GRIP_Z = 0.136 + 0.04
-        self.BISCO_ABOVE_COMMON_Z = 0.136 + 0.1
+        self.BISCO_ABOVE_Z = self.BISCO_SIZE[2] + 0.06
+        self.BISCO_GRIP_Z = self.BISCO_SIZE[2] + 0.04
+        self.BISCO_ABOVE_COMMON_Z = self.BISCO_SIZE[2] + 0.1
+        self.SHOOT_ADD_Z =  self.BISCO_SIZE[2] + 0.01
 
-
-        self.MYAREA_GRASP_DIST = 0.03
-        self.COMMON_GRASP_DIST = 0.01
 
         common_pick_quat = tf.transformations.quaternion_from_euler(np.pi, 0, 0)
         self.COMMON_GRIP_QUAT = Quaternion(*common_pick_quat)
@@ -75,29 +46,43 @@ class Brain():
         self.MY_GRIP_QUAT = Quaternion(*my_pick_quat)
 
     def calcBiscoAction(self, targets,is_twin):
-        actions = []
-
         if is_twin:
-            action = self.arriveBisco(GripperNumber.GRIPPER1, targets[0])
-            actions.append(action)
-            action = self.graspAction(GripperNumber.GRIPPER1, targets[0], False)
-            actions.append(action)
-            action = self.graspAction(GripperNumber.GRIPPER2, targets[1], True)
-            actions.append(action)
-        else:            
-            action = self.arriveBisco(GripperNumber.GRIPPER1, targets[0])
-            actions.append(action)
-            action = self.graspAction(GripperNumber.GRIPPER1, targets[0], True)
-            actions.append(action)
+            actions = [
+                self.arriveBisco(GripperNumber.GRIPPER1, targets[0]),
+                self.graspAction(GripperNumber.GRIPPER1, targets[0], False),
+                self.graspAction(GripperNumber.GRIPPER2, targets[1], True),
+            ]
+
+        else:     
+            actions = [       
+                self.arriveBisco(GripperNumber.GRIPPER1, targets[0]),
+                self.graspAction(GripperNumber.GRIPPER1, targets[0], True),
+            ]
 
             if targets[1] is not None:
-                action = self.AboveHand(targets)
-                actions.append(action)
-                action = self.arriveBisco(GripperNumber.GRIPPER2, targets[1])
-                actions.append(action)
-                action = self.graspAction(GripperNumber.GRIPPER2, targets[1], True)
-                actions.append(action)
-        actions.append([ActionType.FINISH])
+                add = [
+                    self.AboveHand(targets),
+                    self.arriveBisco(GripperNumber.GRIPPER2, targets[1]),
+                    self.graspAction(GripperNumber.GRIPPER2, targets[1], True),
+                ]
+                actions = actions + add
+        add = [
+            self.AboveHand(targets),
+            MyRobotActionMaker.finish(),
+        ]
+        actions = actions + add
+        self._actoins =  actions
+    
+    def calcShootAction(self, targets, biscos):
+        actions = [
+            MyRobotActionMaker.openShooter(targets[GripperNumber.GRIPPER1]),
+            self.arriveShoot(GripperNumber.GRIPPER1,targets, biscos),
+            self.releaseAction(GripperNumber.GRIPPER1, targets, biscos),
+            MyRobotActionMaker.openShooter(targets[GripperNumber.GRIPPER1]),
+            self.arriveShoot(GripperNumber.GRIPPER2,targets, biscos),
+            self.releaseAction(GripperNumber.GRIPPER2, targets, biscos),
+            MyRobotActionMaker.finish(),
+        ]
         self._actoins =  actions
 
     def popAction(self):
@@ -129,43 +114,34 @@ class Brain():
                 add_y = -self.ARM2GRIPPER
             target_pose.position.y += add_y
             target_pose.orientation = self.COMMON_GRIP_QUAT
-        return [ActionType.MOVE, target_pose]
+        
+        action = MyRobotActionMaker.move(target_pose)
+        return action
 
 
     def graspAction(self, target_gripper, target, wait):
         if target["my_area"]:
-            dist = self.MYAREA_GRASP_DIST
+            grip_way = GripWay.LONG_MOVE
         else:
-            dist = self.COMMON_GRASP_DIST
+            grip_way = GripWay.SMALL_MOVE
 
-        return [ActionType.GRIP, target.name, target_gripper, wait, dist]
+        action = MyRobotActionMaker.grip(target_gripper, target, grip_way)
+        return action
+
 
     def AboveHand(self, biscos):
         if biscos[0]["my_area"] and biscos[1]["my_area"]:
             z = self.BISCO_ABOVE_Z
         else:
             z = self.BISCO_ABOVE_COMMON_Z
+        action = MyRobotActionMaker.above(z)
+        return action
         
-        return [ActionType.ABOVE, z]
-    
-    def calcShootAction(self, targets, biscos):
-        actions = []
-        action = self.AboveHand(biscos)
-        actions.append(action)
-        action = self.arriveShoot(GripperNumber.GRIPPER1,targets, biscos)
-        actions.append(action)
-        action = self.releaseAction(GripperNumber.GRIPPER1, targets, biscos)
-        actions.append(action)
 
-        action = self.arriveShoot(GripperNumber.GRIPPER2,targets, biscos)
-        actions.append(action)
-        action = self.releaseAction(GripperNumber.GRIPPER2, targets, biscos)
-        actions.append(action)
-        actions.append([ActionType.FINISH])
-        self._actoins =  actions
 
     def releaseAction(self, target_gripper, target_shooting_boxes, biscos):
-        return [ActionType.RELEASE, target_gripper, target_shooting_boxes[target_gripper].name, biscos[target_gripper].name]
+        action = MyRobotActionMaker.shoot( target_gripper, biscos[target_gripper],  target_shooting_boxes[target_gripper])
+        return action
 
     def arriveShoot(self,target_gripper, target_shoots, gripping_biscos):
         
@@ -176,8 +152,8 @@ class Brain():
         ###### above bisco
         target_pose = Pose()
         target_pose.position = getObjectPosi(target_shoot)
-        target_pose.position.y -= 0.1
-        target_pose.position.z = self.BISCO_GRIP_Z
+        # target_pose.position.y -= 0.1
+        target_pose.position.z += self.SHOOT_ADD_Z
         if gripping_bisco["my_area"]:
             if target_gripper == GripperNumber.GRIPPER2:
                 add_x = 0.025 + self.ARM2GRIPPER
@@ -203,19 +179,8 @@ class Brain():
 
             target_pose.position.y += add_y
             target_pose.orientation = orientation
+        
+        action = MyRobotActionMaker.move(target_pose)
 
-        return [ActionType.MOVE, target_pose]
-        # self._mymoveit.setTargetPose(target_pose)
-
-        # if not self._mymoveit.go():
-        #     rospy.logerr("cannot make path")
-        #     return False
-
-        # self._mymoveit.releaseBisco(target_gripper)
-        # return True
-
-        # [TODO]
-    def mannualAction(self):
-        # rospy.loginfo(self._arm.get_current_pose())
-        pass
+        return action
 

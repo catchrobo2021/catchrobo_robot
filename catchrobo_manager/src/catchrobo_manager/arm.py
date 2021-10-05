@@ -55,7 +55,7 @@ class Arm(object):
 
 
         goal = self._target_pose
-        rospy.loginfo(goal)
+        # rospy.loginfo(goal.position)
         now = rospy.Time.now()
         self._pose_stamped.header.stamp = now
         self._pose_stamped.pose = goal
@@ -67,7 +67,7 @@ class Arm(object):
             rospy.logerr("ik error {}".format(request_value.error_code.val))
             return False
         joints = request_value.solution.joint_state.position
-        rospy.loginfo(joints)
+        # rospy.loginfo(joints)
 
         self._arm.set_joint_value_target(joints[0:5])
 

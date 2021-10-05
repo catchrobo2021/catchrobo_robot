@@ -4,7 +4,7 @@
 import rospy
 from catchrobo_manager.bisco_manager import BiscoManager
 from catchrobo_manager.shooting_box_manager import ShootingBoxManager
-from catchrobo_manager.myrobot import MyRobot, ActionType
+from catchrobo_manager.myrobot import MyRobot
 
 class ActionResult():
     DOING = 0
@@ -18,17 +18,34 @@ class CatchroboCenter():
         self._shooting_box = ShootingBoxManager(self._color)   
         self._robot = MyRobot() 
         
+    # def doAction(self):
+    #     action = self._robot.doAction()
+    #     command_type = action[0]
+    #     if command_type == ActionType.FINISH:
+    #         return ActionResult.FINISH
+    #     elif command_type == ActionType.GRIP:
+    #         self._biscos.attach(action[1])
+    #         self._biscos.delete(action[1])
+    #     elif command_type == ActionType.SHOOT:
+    #         self._biscos.release(action[3].name)
+    #         self._shooting_box.delete(action[2].name)
+    #     return ActionResult.DOING
+        
     def doAction(self):
-        action = self._robot.doAction()
-        command_type = action[0]
-        if command_type == ActionType.FINISH:
+        result = self._robot.doAction()
+        params = result.getParams()
+        
+        if result.isFinish():
             return ActionResult.FINISH
-        elif command_type == ActionType.GRIP:
-            self._biscos.attach(action[1])
-            self._biscos.delete(action[1])
-        elif command_type == ActionType.RELEASE:
-            self._biscos.release(action[3])
-            self._shooting_box.delete(action[2])
+        elif result.isGrip():
+            bisco_id = params[0]
+            self._biscos.attach(bisco_id)
+            self._biscos.delete(bisco_id)
+
+        elif result.isShoot():
+            bisco_id, shooting_box_id = params
+            self._biscos.release(bisco_id)
+            self._shooting_box.delete(shooting_box_id)
         return ActionResult.DOING
     
     def calcBiscoAction(self):

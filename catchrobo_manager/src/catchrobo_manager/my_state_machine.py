@@ -10,6 +10,7 @@ class MyStateMachine():
         
         self._catchrobo = CatchroboCenter()
         self._next_state = self.calcBiscoAction
+        self._start_time = rospy.Time.now()
     
     def main(self):
         self._next_state = self._next_state()
@@ -60,4 +61,11 @@ class MyStateMachine():
         return next_state
 
     def manual(self):
-        return self.manual
+        now = rospy.Time.now()
+        done_time = now- self._start_time
+        rospy.loginfo(done_time.to_sec())
+
+        return self.doNothing
+    
+    def doNothing(self):
+        return self.doNothing

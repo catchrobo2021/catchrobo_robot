@@ -5,17 +5,11 @@ from operator import sub
 import numpy as np
 import rospy
 import thread
-import actionlib
 
 from actionlib import SimpleActionServer
 from control_msgs.msg import FollowJointTrajectoryAction, FollowJointTrajectoryFeedback, FollowJointTrajectoryResult 
 
 from sensor_msgs.msg import JointState
-
-from geometry_msgs.msg import Pose, Point, Quaternion, PoseStamped
-from trajectory_msgs.msg import JointTrajectoryPoint
-from moveit_msgs.msg import RobotTrajectory, PositionIKRequest
-from moveit_msgs.srv import GetPositionIK
 
 
 class Robot(object):
@@ -28,14 +22,13 @@ class Robot(object):
 
         self._as.start()
         self._clock = rospy.get_param("trajectory_rate")
-        self._period = 1.0 / rospy.get_param("trajectory_rate")
-        self._feedback_period = 1.0 / rospy.get_param("feedback_rate")
+        self._period = 1.0 / rospy.get_param("trajectory_rate", 100)
+        self._feedback_period = 1.0 / rospy.get_param("feedback_rate", 100)
         
         self._pub_cmd = rospy.Publisher("joint_control", JointState, queue_size=1)
         
         self._feedback = FollowJointTrajectoryFeedback()
-        self._feedback.joint_names = ["arm/joint{}".format(i+1) for i in range(5)]
-
+        self._feedback.joint_names = rospy.get_param("joints")
         
         self._joint_cmd = JointState()
         self._joint_cmd.name = self._feedback.joint_names
@@ -88,7 +81,7 @@ class Robot(object):
             self._pub_cmd.publish(self._joint_cmd)
 
             if self._as.is_preempt_requested():
-				self._as.set_preempted()
+                self._as.set_preempted()
             
             now = rospy.Time.now()
             self._feedback.desired = points[step]
@@ -106,45 +99,6 @@ class Robot(object):
         result = FollowJointTrajectoryResult()
         result.error_code = 0
         self._as.set_succeeded(result)
-
-    # def timerStart(self):
-    #     self._timer = rospy.Timer(rospy.Duration(self._period), self.timerCallback)
-    #     self._feedback_timer = rospy.Timer(rospy.Duration(self._feedback_period), self.feedbackTimerCallback)
-
-    # def timerDelete(self):
-    #     if self._timer is not None:
-    #         self._timer.shutdown()
-    #         self._feedback_timer.shutdown()
-        
-    #     self._timer =None
-    #     self._feedback_timer=None
-
-    # def timerCallback(self, event):
-    #     if self._as.is_preempt_requested():
-    #         self._as.set_preempted()
-    #     self._joint_cmd.position = self._periodic_trajectory[self._periodic_step]
-    #     self._pub_cmd.publish(self._joint_cmd)
-    #     self._periodic_step +=1
-    #     if self._periodic_step == len(self._periodic_trajectory):
-    #         result = FollowJointTrajectoryResult()
-    #         result.error_code = 0
-    #         self._as.set_succeeded(result)
-    #         self.timerDelete()
-            
-
-    # def feedbackTimerCallback(self, event):
-    #     with self._lock:
-    #         self._feedback.actual.positions = self._joint_states.position
-    #         self._feedback.actual.velocities = self._joint_states.velocity
-    #     now = rospy.Time.now()
-    #     self._feedback.actual.time_from_start = now - self._start_t
-
-    #     point = JointTrajectoryPoint()
-    #     point.positions = self._periodic_trajectory[self._periodic_step]
-    #     point.time_from_start = self._feedback.actual.time_from_start
-    #     self._feedback.desired = point
-
-    #     self._as.publish_feedback(self._feedback)
 
 
 if __name__ == "__main__":

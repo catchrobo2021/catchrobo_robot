@@ -7,9 +7,12 @@
       <group ns="arm0_controller/">
         <param name="feedback_rate" value="100"/>
         <param name="trajectory_rate" value="100"/>
+        <rosparam param="joints">[arm/joint1, arm/joint2, arm/joint3, arm/joint4, arm/joint5]</rosparam>
         <node name="follow_joint_trajectory" pkg="catchrobo_control" type="my_control_node.py" output="screen" />
         
       </group>
+
+
 
       <!-- <node name="game_manager" pkg="catchrobo_manager" type="game_manager.py" output="screen" >
       </node> -->
@@ -34,11 +37,6 @@
     <arg name="load_robot_description" value="true" />
     <arg name="field" value="$(arg field)" />
   </include>
-
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
-    <param name="use_gui" value="$(arg use_gui)" />
-    <rosparam param="source_list">[arm0_controller/joint_states]</rosparam>
-  </node>
 
   <!-- Run the main MoveIt! executable without trajectory execution (we do not have controllers configured by default) -->
   <include file="$(find catchrobo_moveit)/launch/move_group.launch">

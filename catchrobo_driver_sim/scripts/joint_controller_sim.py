@@ -15,9 +15,9 @@ class JointControllerSim(object):
 
         self._lock = thread.allocate_lock()
         self._state = JointState()
-        self._state.name =  ["arm/joint{}".format(i+1) for i in range(5)]
+        self._state.name = rospy.get_param("joints") #["arm/joint{}".format(i+1) for i in range(5)]
         self._state.header.frame_id ="world"
-        self._state.position = [0, 1.5707, -2.7925, 1.22173, 0]
+        self._state.position = [0] * len(self._state.name)#[0, 1.5707, -2.7925, 1.22173, 0]
 
         rospy.Subscriber("joint_control", JointState, self.jointControlCallback)
 
