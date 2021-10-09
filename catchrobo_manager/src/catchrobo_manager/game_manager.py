@@ -7,13 +7,15 @@ from catchrobo_manager.my_state_machine import MyStateMachine
 from sensor_msgs.msg import PointField
 
 class GameStatus():
-    MAIN = 0
-    RESTART = 1
-    END = 2
+    SETUP = 0
+    MAIN_START = 1
+    MAIN = 2
+    RESTART = 3
+    END = 4
 
 class GameManager():
     def __init__(self):
-        self._command = GameStatus.MAIN
+        self._command = GameStatus.SETUP
         self._my_state_machine = MyStateMachine()
         rospy.Subscriber("game_status", PointField, self.gamepadCallback)
         
@@ -27,8 +29,13 @@ class GameManager():
         #         self._my_state_machine.setStartState()
 
     def main(self):
+        self._command = GameStatus.MAIN_START
         while not rospy.is_shutdown():
-            if self._command == GameStatus.MAIN:
+            if self._command == GameStatus.MAIN_START:
+                self._my_state_machine.mainStart()
+                self._command = GameStatus.MAIN
+
+            elif self._command == GameStatus.MAIN:
                 self._my_state_machine.main()
 
             elif self._command == GameStatus.RESTART:

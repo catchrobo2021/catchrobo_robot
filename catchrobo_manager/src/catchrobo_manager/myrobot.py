@@ -17,6 +17,8 @@ class MyRobot():
         self._shooter = ShooterManager()
 
         self._arm.goHome()
+        self._shooter.barUp()
+        
 
     def doAction(self):
         action = self._brain.popAction()
@@ -25,7 +27,8 @@ class MyRobot():
         params = action.getParams()
         result = MyRobotResultMaker.empty()
         if action.isMove():
-            target_pose = params[0]
+            target_pose, laser_on = params
+            self._gripper.laser(laser_on)
             self._arm.move(target_pose)
 
         elif action.isAbove():
@@ -33,8 +36,8 @@ class MyRobot():
             self._arm.above(z)
 
         elif action.isGrip():
-            target_gripper, bisco, grip_way = params
-            self._gripper.graspBisco(target_gripper, grip_way)
+            target_gripper, bisco, grip_way,wait = params
+            self._gripper.graspBisco(target_gripper, grip_way,wait)
             result = MyRobotResultMaker.grip(bisco.name)
 
         elif action.isShoot():
@@ -60,3 +63,4 @@ class MyRobot():
 
     def end(self):
         self._arm.goHome()
+        self._shooter.barUp()
