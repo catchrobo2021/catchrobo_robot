@@ -81,7 +81,7 @@ arm:
       velocity: 10.0
       current: 10.0
     tolerence: 0.3
-    offset: -0.9099364804
+    offset: -0.6983225631
     reduction ratio: 2.8
     pos_kp: 40.0
     vel_kp: 0.16
@@ -102,7 +102,7 @@ arm:
       velocity: 10.0
       current: 10.0
     tolerence: 0.3
-    offset: 0.5907073617
+    offset: -5.39717811
     reduction ratio: 2.8
     pos_kp: 40.0
     vel_kp: 0.16
