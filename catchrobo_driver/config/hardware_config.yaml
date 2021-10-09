@@ -18,7 +18,7 @@ arm:
       velocity: 10.0
       current: 10.0
     tolerence: 0.3
-    offset: 0.03198545935
+    offset: -0.7371452735
     reduction ratio: 8
     pos_kp: 40.0
     vel_kp: 0.16
@@ -39,7 +39,7 @@ arm:
       velocity: 10.0
       current: 10.0
     tolerence: 0.3
-    offset: 0.9818139706
+    offset: 0.9879968996
     reduction ratio: 16
     pos_kp: 40.0
     vel_kp: 0.16
@@ -60,7 +60,7 @@ arm:
       velocity: 10.0
       current: 10.0
     tolerence: 0.3
-    offset: -1.657404564
+    offset: -1.70854467
     reduction ratio: 8
     pos_kp: 40.0
     vel_kp: 0.16
@@ -81,7 +81,7 @@ arm:
       velocity: 10.0
       current: 10.0
     tolerence: 0.3
-    offset: -0.7607640785
+    offset: -0.9099364804
     reduction ratio: 2.8
     pos_kp: 40.0
     vel_kp: 0.16
@@ -102,7 +102,7 @@ arm:
       velocity: 10.0
       current: 10.0
     tolerence: 0.3
-    offset: 2.147487335
+    offset: 0.5907073617
     reduction ratio: 2.8
     pos_kp: 40.0
     vel_kp: 0.16
