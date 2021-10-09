@@ -97,8 +97,8 @@ arm:
       axis: 1
     limit:
       position:
-        max: 2.792526803
-        min: -2.792526803
+        max: 3.054326191
+        min: -3.054326191
       velocity: 10.0
       current: 10.0
     tolerence: 0.3
