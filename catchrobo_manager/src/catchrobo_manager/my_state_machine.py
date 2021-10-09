@@ -21,8 +21,8 @@ class MyStateMachine():
     def pause(self):
         pass
 
-    def finish(self):
-        pass
+    def end(self):
+        self._catchrobo.end()
 
 
     def calcBiscoAction(self):
@@ -60,12 +60,15 @@ class MyStateMachine():
             
         return next_state
 
-    def manual(self):
+    def time_counting(self):
         now = rospy.Time.now()
         done_time = now- self._start_time
         rospy.loginfo(done_time.to_sec())
 
         return self.doNothing
     
+    def manual(self):
+        return self.time_counting
+
     def doNothing(self):
         return self.doNothing

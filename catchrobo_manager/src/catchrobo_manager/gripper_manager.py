@@ -5,6 +5,8 @@ import rospy
 
 from sensor_msgs.msg import JointState
 
+from catchrobo_manager.servo import Servo
+
 class GripperNumber:
     GRIPPER1 = 0
     GRIPPER2 = 1
@@ -14,24 +16,9 @@ class GripWay:
     SMALL_MOVE = 0.01
 
 
-class Gripper:
-    def __init__(self, name):
-        self._name = name
-        self._pub = rospy.Publisher("arduino_command", JointState, queue_size=10)
-        self._state = JointState()
-        self._state.name = [name]
-        
-    def move(self, dist):
-        self._state.position = [dist]
-        self._pub.publish(self._state)
-        rospy.sleep(0.5)
-    
-
-        
-
 class GripperManager():
     def __init__(self):
-        self._grippers = [Gripper("gripper1"), Gripper("gripper2")]
+        self._grippers = [Servo("gripper1"), Servo("gripper2")]
 
     def graspBisco(self, target_gripper, grip_way):
         dist = grip_way

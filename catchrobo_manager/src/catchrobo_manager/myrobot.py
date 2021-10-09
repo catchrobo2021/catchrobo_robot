@@ -57,3 +57,6 @@ class MyRobot():
 
     def calcShootAction(self, targets, is_twin):
         self._brain.calcShootAction(targets, is_twin)
+
+    def end(self):
+        self._arm.goHome()
