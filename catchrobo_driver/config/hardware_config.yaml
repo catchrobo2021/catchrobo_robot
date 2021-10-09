@@ -13,12 +13,12 @@ arm:
       axis: 0
     limit:
       position:
-        max: 2.617993878
-        min: -2.617993878
+        max: 3.054326191
+        min: -3.054326191
       velocity: 10.0
       current: 10.0
     tolerence: 0.3
-    offset: -0.7371452735
+    offset: 0.04275511212
     reduction ratio: 8
     pos_kp: 40.0
     vel_kp: 0.16
@@ -34,10 +34,10 @@ arm:
       axis: 0
     limit:
       position:
-        max: 1.047197551
+        max: 1.05
         min: -1.570796327
       velocity: 10.0
-      current: 10.0
+      current: 20.0
     tolerence: 0.3
     offset: 0.9879968996
     reduction ratio: 16
