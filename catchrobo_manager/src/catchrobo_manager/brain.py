@@ -37,14 +37,22 @@ class Brain():
         self.BISCO_ABOVE_COMMON_Z = self.BISCO_SIZE[2] + 0.1
         self.SHOOT_ADD_Z =  self.BISCO_SIZE[2] + 0.01
 
+        
+        common_pick_quat1 = tf.transformations.quaternion_from_euler(np.pi, 0, 0)
+        common_pick_quat2 = tf.transformations.quaternion_from_euler(np.pi, 0, np.pi)
+        if self._color == "red":
+            self.COMMON_RELEASE_FORWARD = Quaternion(*common_pick_quat1)
+            self.COMMON_RELEASE_BACKWARD = Quaternion(*common_pick_quat2)
+        else:
+            self.COMMON_RELEASE_FORWARD = Quaternion(*common_pick_quat2)
+            self.COMMON_RELEASE_BACKWARD = Quaternion(*common_pick_quat1)
+        
+        
+        
+        # self.COMMON_GRIP_QUAT
 
-        common_pick_quat = tf.transformations.quaternion_from_euler(np.pi, 0, 0)
-        self.COMMON_GRIP_QUAT = Quaternion(*common_pick_quat)
-
-        self.COMMON_RELEASE_FORWARD = self.COMMON_GRIP_QUAT
-
-        common_pick_quat = tf.transformations.quaternion_from_euler(np.pi, 0, np.pi)
-        self.COMMON_RELEASE_BACKWARD = Quaternion(*common_pick_quat)
+        # common_pick_quat = tf.transformations.quaternion_from_euler(np.pi, 0, np.pi)
+        # self.COMMON_RELEASE_BACKWARD = Quaternion(*common_pick_quat)
 
         my_pick_quat = tf.transformations.quaternion_from_euler(np.pi, 0, -np.pi / 2)
         self.MY_GRIP_QUAT = Quaternion(*my_pick_quat)
@@ -120,7 +128,7 @@ class Brain():
             else:
                 add_y = -self.ARM2GRIPPER
             target_pose.position.y += add_y
-            target_pose.orientation = self.COMMON_GRIP_QUAT
+            target_pose.orientation = self.COMMON_RELEASE_FORWARD
         
         action = MyRobotActionMaker.move(target_pose, True)
         return action
