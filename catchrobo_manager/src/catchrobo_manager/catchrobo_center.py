@@ -18,19 +18,6 @@ class CatchroboCenter():
         self._shooting_box = ShootingBoxManager(self._color)   
         self._robot = MyRobot() 
         
-    # def doAction(self):
-    #     action = self._robot.doAction()
-    #     command_type = action[0]
-    #     if command_type == ActionType.FINISH:
-    #         return ActionResult.FINISH
-    #     elif command_type == ActionType.GRIP:
-    #         self._biscos.attach(action[1])
-    #         self._biscos.delete(action[1])
-    #     elif command_type == ActionType.SHOOT:
-    #         self._biscos.release(action[3].name)
-    #         self._shooting_box.delete(action[2].name)
-    #     return ActionResult.DOING
-        
     def doAction(self):
         result = self._robot.doAction()
         params = result.getParams()
@@ -71,3 +58,5 @@ class CatchroboCenter():
     def doShootAction(self):
         return self.doAction()
 
+    def end(self):
+        self._robot.end()

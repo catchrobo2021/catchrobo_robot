@@ -1,28 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import rospy
+from catchrobo_manager.servo import Servo
 
-from sensor_msgs.msg import JointState
-
-
-class Shooter:
-    def __init__(self, name):
-        self._name = name
-        self._pub = rospy.Publisher("arduino_command", JointState, queue_size=10)
-        self._state = JointState()
-        self._state.name = [name]
-        
-    def move(self, deg):
-        self._state.position = [deg]
-        self._pub.publish(self._state)
-    
 
 
 class ShooterManager:
     def __init__(self):
-        self._shooters = [Shooter("shooter1"), Shooter("shooter2"), Shooter("shooter3")]
+        self._shooters = [Servo("shooter1"), Servo("shooter2"), Servo("shooter3")]
+        self._bar = Servo("bar")
         self.OPEN_DEG = 15
+        self.BAR_UP = 0
+        self.BAR_DOWN = 90
 
     def open(self, shooting_box):
         row = shooting_box["row"]
@@ -45,3 +34,8 @@ class ShooterManager:
         shooter = self._shooters[shooter_id]
         shooter.move(0)
         
+    def barUp(self):
+        self._bar.move(self.BAR_UP)
+
+    def barDown(self):
+        self._bar.move(self.BAR_DOWN)
