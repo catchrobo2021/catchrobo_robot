@@ -8,7 +8,7 @@ import tf
 
 from geometry_msgs.msg import Pose, Point, Quaternion, PoseStamped
 from catchrobo_manager.my_robot_action import MyRobotActionMaker
-from catchrobo_manager.gripper_manager import GripperNumber, GripWay
+from catchrobo_manager.gripper_manager import GripperNumber
 
 #helper function
 def getObjectPosi(obj):
@@ -18,6 +18,10 @@ def getObjectPosi(obj):
     posi.z = obj["z"]
     return posi
 
+class GripWay:
+    LONG_GRIP = 0.086
+    SMALL_GRIP = 0.03
+    OPEN = 0.115 - 0.001
 
 class Brain():
     def __init__(self):
@@ -99,10 +103,13 @@ class Brain():
         target_pose.position.z = self.BISCO_GRIP_Z
         if target["my_area"]:
             if target_gripper == GripperNumber.GRIPPER2:
+                
                 add_x = 0.025 + self.ARM2GRIPPER
-                ## [TODO] for blue, * minus
+                    ## [TODO] for blue, * minus
             else:
                 add_x = -0.025 - self.ARM2GRIPPER
+            if self._color == "blue":
+                    add_x = - add_x
             target_pose.position.x += add_x
             target_pose.orientation = self.MY_GRIP_QUAT
 
@@ -115,17 +122,17 @@ class Brain():
             target_pose.position.y += add_y
             target_pose.orientation = self.COMMON_GRIP_QUAT
         
-        action = MyRobotActionMaker.move(target_pose)
+        action = MyRobotActionMaker.move(target_pose, True)
         return action
 
 
     def graspAction(self, target_gripper, target, wait):
         if target["my_area"]:
-            grip_way = GripWay.LONG_MOVE
+            grip_way = GripWay.SMALL_GRIP
         else:
-            grip_way = GripWay.SMALL_MOVE
+            grip_way = GripWay.LONG_GRIP
 
-        action = MyRobotActionMaker.grip(target_gripper, target, grip_way)
+        action = MyRobotActionMaker.grip(target_gripper, target, grip_way, wait)
         return action
 
 
@@ -160,6 +167,8 @@ class Brain():
                 ## [TODO] for blue, * minus
             else:
                 add_x = -0.025 - self.ARM2GRIPPER
+            if self._color == "blue":
+                    add_x = - add_x
             target_pose.position.x += add_x
             target_pose.orientation = self.MY_GRIP_QUAT
 
@@ -180,7 +189,7 @@ class Brain():
             target_pose.position.y += add_y
             target_pose.orientation = orientation
         
-        action = MyRobotActionMaker.move(target_pose)
+        action = MyRobotActionMaker.move(target_pose, False)
 
         return action
 

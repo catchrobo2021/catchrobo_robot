@@ -24,6 +24,8 @@ class MyStateMachine():
     def end(self):
         self._catchrobo.end()
 
+    def mainStart(self):
+        pass
 
     def calcBiscoAction(self):
         result = self._catchrobo.calcBiscoAction()

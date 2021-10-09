@@ -19,7 +19,7 @@
       
   <!-- By default, we are not in debug mode -->
   <arg name="debug" default="false" />
-  <arg name="field" default="red" />
+  <arg name="field" default="blue" />
 <param name="color" value="$(arg field)" />
 
   <!--

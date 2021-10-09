@@ -3,18 +3,26 @@
 
 import rospy
 
-from sensor_msgs.msg import JointState
-
+from std_msgs.msg import Float64
+from std_msgs.msg import Bool
 
 class Servo:
     def __init__(self, name):
         self._name = name
-        self._pub = rospy.Publisher("arduino_command", JointState, queue_size=10)
-        self._state = JointState()
-        self._state.name = [name]
+        self._pub = rospy.Publisher(name, Float64, queue_size=10)
         
-    def move(self, val):
-        self._state.position = [val]
-        self._pub.publish(self._state)
-        rospy.sleep(0.5)
-    
+    def move(self, val, wait=True):
+        send_msg = Float64(val)
+        self._pub.publish(send_msg)
+        if wait:
+            rospy.sleep(0.5)
+
+
+class Laser:
+    def __init__(self, name):
+        self._name = name
+        self._pub = rospy.Publisher(name, Bool, queue_size=1)
+   
+    def output(self, laser_on):
+        send_msg = Bool(laser_on)
+        self._pub.publish(send_msg)

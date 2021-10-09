@@ -55,14 +55,14 @@ class MyRobotAction:
 
 class MyRobotActionMaker:
     @classmethod
-    def move(cls, target_pose):
-        return MyRobotAction(MyRobotActionEnum.MOVE, [target_pose])
+    def move(cls, target_pose, laser):
+        return MyRobotAction(MyRobotActionEnum.MOVE, [target_pose, laser])
     @classmethod
     def above(cls, z):
         return MyRobotAction(MyRobotActionEnum.ABOVE, [z])
     @classmethod
-    def grip(cls, target_gripper, bisco, grip_way):
-        return MyRobotAction(MyRobotActionEnum.GRIP, [target_gripper, bisco, grip_way])
+    def grip(cls, target_gripper, bisco, grip_way, wait):
+        return MyRobotAction(MyRobotActionEnum.GRIP, [target_gripper, bisco, grip_way, wait])
     
     @classmethod
     def shoot(cls,  target_gripper, bisco, shooting_box):
