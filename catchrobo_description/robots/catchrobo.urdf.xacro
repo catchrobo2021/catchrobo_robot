@@ -9,6 +9,7 @@
   <xacro:include filename="$(find catchrobo_description)/urdf/common.xacro" />
   <xacro:include filename="$(find catchrobo_description)/urdf/base.urdf.xacro" />
   <xacro:include filename="$(find catchrobo_description)/urdf/arm.urdf.xacro" />
+  <xacro:include filename="$(find catchrobo_description)/urdf/scara.urdf.xacro" />
   <xacro:include filename="$(find catchrobo_description)/urdf/gripper.urdf.xacro" />
 
   <!-- Link & Joint -->
@@ -18,9 +19,13 @@
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:base>
 
-  <xacro:arm prefix="" parent="base/link_tip">
+  <!--<xacro:arm prefix="" parent="base/link_tip">
     <origin xyz="0 0 0" rpy="0 0 0" />
-  </xacro:arm>
+  </xacro:arm>-->
+
+  <xacro:scara prefix="" parent="base/link_tip">
+    <origin xyz="0 0 0.23" rpy="0 0 0" />
+  </xacro:scara>
 
   <xacro:gripper prefix="" parent="arm/link_tip">
     <origin xyz="0 0 0" rpy="0 0 0" />
