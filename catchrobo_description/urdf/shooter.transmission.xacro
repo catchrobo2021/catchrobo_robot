@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="shooter_simple_transmission" params="name reduction">
+    <transmission name="shooter/transmission${id}">
+      <type>transmission_interface/SimpleTransmission</type>
+      <actuator name="shooter/motor${id}">
+        <mechanicalReduction>${reduction}</mechanicalReduction>
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </actuator>
+      <joint name="shooter/joint${id}">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+    </transmission>
+  </xacro:macro>
+</robot>

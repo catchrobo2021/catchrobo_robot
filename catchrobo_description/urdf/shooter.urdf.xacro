@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Field Side Parameters-->
+  <xacro:arg name="field" default=""/>
+  <xacro:property name="field" value="$(arg field)" />
+
+  <!-- Constants -->
+  <xacro:property name="visual_mesh_scale" value="1.0 1.0 1.0"/>
+  <xacro:property name="collision_mesh_scale" value="1.0 1.0 1.0"/>
+
+  <xacro:include filename="$(find catchrobo_description)/urdf/shooter.transmission.xacro"/>
+
+  <!-- Link & Joint -->
+  <xacro:macro name="shooter_base" params="prefix parent *joint_origin">
+  
+    <joint name="${prefix}shooter_base/root" type="fixed">
+      <xacro:insert_block name="joint_origin"/>
+      <parent link="${parent}"/>
+      <child link="${prefix}shooter_base/base_link"/>
+    </joint>
+
+    <link name="${prefix}shooter_base/base_link">
+      <xacro:if value="${field=='blue'}">
+        <visual>
+          <geometry>
+            <mesh filename="package://catchrobo_description/mesh/shooter/visual/shooter_base_fixed_axis.stl" scale="${visual_mesh_scale}"/>
+          </geometry>
+          <material name="white"/>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://catchrobo_description/mesh/shooter/collision/shooter_base_fixed_axis.stl" scale="${collision_mesh_scale}"/>
+          </geometry>
+        </collision>
+      </xacro:if>
+
+      <xacro:if value="${field=='red'}">
+        <visual>
+          <geometry>
+            <mesh filename="package://catchrobo_description/mesh/shooter/visual/shooter_base_fixed_axis.stl" scale="${visual_mesh_scale}"/>
+          </geometry>
+          <material name="white"/>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://catchrobo_description/mesh/shooter/collision/shooter_base_fixed_axis.stl" scale="${collision_mesh_scale}"/>
+          </geometry>
+        </collision>
+      </xacro:if>
+    </link>
+
+    <joint name="${prefix}shooter/joint1" type="revolute">
+      <parent link="${prefix}shooter_base/base_link"/>
+      <child link="${prefix}shooter/guide"/>
+      <!--<origin xyz="0.3083 0.42041555 0.07832442" rpy="0 ${90*M_PI/180} ${-125*M_PI/180}"/>-->
+      <origin xyz="0.3083 0.42041555 0.07832442" rpy="${-90*M_PI/180} ${35*M_PI/180} ${90*M_PI/180}"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${-175*M_PI/180}" upper="${175*M_PI/180}" effort="6"
+              velocity="5" acceleration="5"/>
+    </joint>  
+
+    <link name="${prefix}shooter/guide">
+      <visual>
+        <geometry>
+          <mesh filename="package://catchrobo_description/mesh/shooter/visual/guide.stl" scale="${visual_mesh_scale}"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://catchrobo_description/mesh/shooter/visual/guide.stl" scale="${collision_mesh_scale}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${prefix}shooter/joint2" type="revolute">
+      <parent link="${prefix}shooter_base/base_link"/>
+      <child link="${prefix}shooter/sorter1"/>
+      <origin xyz="0.195 0.41552443 0.01729232" rpy="0 ${35*M_PI/180} ${90*M_PI/180}"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${-175*M_PI/180}" upper="${175*M_PI/180}" effort="6"
+              velocity="5" acceleration="5"/>
+    </joint>  
+
+    <link name="${prefix}shooter/sorter1">
+      <visual>
+        <geometry>
+          <mesh filename="package://catchrobo_description/mesh/shooter/visual/sorter.stl" scale="${visual_mesh_scale}"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://catchrobo_description/mesh/shooter/collision/sorter.stl" scale="${collision_mesh_scale}"/>
+        </geometry>
+      </collision>
+    </link>
+    
+    <joint name="${prefix}shooter/joint3" type="revolute">
+      <parent link="${prefix}shooter_base/base_link"/>
+      <child link="${prefix}shooter/sorter2"/>
+      <origin xyz="0 0.41552443 0.01729232" rpy="0 ${35*M_PI/180} ${90*M_PI/180}"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${-175*M_PI/180}" upper="${175*M_PI/180}" effort="6"
+              velocity="5" acceleration="5"/>
+    </joint>  
+
+    <link name="${prefix}shooter/sorter2">
+      <visual>
+        <geometry>
+          <mesh filename="package://catchrobo_description/mesh/shooter/visual/sorter.stl" scale="${visual_mesh_scale}"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://catchrobo_description/mesh/shooter/collision/sorter.stl" scale="${collision_mesh_scale}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${prefix}shooter/joint4" type="revolute">
+      <parent link="${prefix}shooter_base/base_link"/>
+      <child link="${prefix}shooter/sorter3"/>
+      <origin xyz="-0.195 0.41552443 0.01729232" rpy="0 ${35*M_PI/180} ${90*M_PI/180}"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${-175*M_PI/180}" upper="${175*M_PI/180}" effort="6"
+              velocity="5" acceleration="5"/>
+    </joint>  
+    <link name="${prefix}shooter/sorter3">
+      <visual>
+        <geometry>
+          <mesh filename="package://catchrobo_description/mesh/shooter/visual/sorter.stl" scale="${visual_mesh_scale}"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://catchrobo_description/mesh/shooter/collision/sorter.stl" scale="${collision_mesh_scale}"/>
+        </geometry>
+      </collision>
+    </link>
+
+  </xacro:macro>
+</robot>

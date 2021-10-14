@@ -7,12 +7,12 @@
   <!-- Dependencies -->
   <xacro:include filename="$(find catchrobo_description)/urdf/materials.xacro" />
   <xacro:include filename="$(find catchrobo_description)/urdf/common.xacro" />
-  <xacro:include filename="$(find catchrobo_description)/urdf/shooter_base.urdf.xacro" />
+  <xacro:include filename="$(find catchrobo_description)/urdf/shooter.urdf.xacro" />
 
   <!-- Link & Joint -->
   <link name="world" />
 
-  <xacro:shooter_base parent="world">
+  <xacro:shooter_base prefix="" parent="world">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:shooter_base>
 
