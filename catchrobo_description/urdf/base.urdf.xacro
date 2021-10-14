@@ -60,5 +60,17 @@
     </joint>
     <link name="base/link_tip"/>
 
+    <joint name="base/joint_frame" type="fixed">
+      <parent link="base/base_link"/>
+      <child link="base/link_frame"/>
+      <xacro:if value="${field=='blue'}">
+        <origin xyz="-1.1775 0.295 -0.0116" rpy="0 0 0"/>
+      </xacro:if>
+      <xacro:if value="${field=='red'}">
+        <origin xyz="1.1775 0.295 -0.0116" rpy="0 0 0"/>
+      </xacro:if>
+    </joint>
+    <link name="base/link_frame"/>
+
   </xacro:macro>
 </robot>
