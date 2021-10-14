@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<robot name="catchrobo_shooter" xmlns:xacro="http://ros.org/wiki/xacro">
+
+
+  <xacro:arg name="field" default="" />
+  <xacro:property name="field" value="$(arg field)" />
+  <!-- Dependencies -->
+  <xacro:include filename="$(find catchrobo_description)/urdf/materials.xacro" />
+  <xacro:include filename="$(find catchrobo_description)/urdf/common.xacro" />
+  <xacro:include filename="$(find catchrobo_description)/urdf/shooter_base.urdf.xacro" />
+
+  <!-- Link & Joint -->
+  <link name="world" />
+
+  <xacro:shooter_base parent="world">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:shooter_base>
+
+</robot>
