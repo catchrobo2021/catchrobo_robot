@@ -9,6 +9,10 @@ generic_hw_control_loop:
 # Settings for ros_control hardware interface
 hardware_interface:
   joints:
+    - shooter/joint1
+    - shooter/joint2
+    - shooter/joint3
+    - shooter/joint4
     - arm/joint1
     - arm/joint2
     - arm/joint3

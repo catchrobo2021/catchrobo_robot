@@ -64,24 +64,37 @@
     <disable_collisions link1="arm/link0" link2="arm/link1" reason="Adjacent" />
     <disable_collisions link1="arm/link0" link2="arm/link2" reason="Never" />
     <disable_collisions link1="arm/link0" link2="arm/link3" reason="Never" />
+    <disable_collisions link1="arm/link0" link2="shooter/guide" reason="Adjacent" />
+    <disable_collisions link1="arm/link0" link2="shooter/sorter1" reason="Adjacent" />
+    <disable_collisions link1="arm/link0" link2="shooter/sorter2" reason="Adjacent" />
+    <disable_collisions link1="arm/link0" link2="shooter/sorter3" reason="Adjacent" />
     <disable_collisions link1="arm/link1" link2="arm/link2" reason="Adjacent" />
     <disable_collisions link1="arm/link1" link2="arm/link4" reason="Never" />
     <disable_collisions link1="arm/link1" link2="gripper/finger1_1" reason="Never" />
     <disable_collisions link1="arm/link1" link2="gripper/finger1_2" reason="Never" />
     <disable_collisions link1="arm/link1" link2="gripper/finger2_1" reason="Never" />
     <disable_collisions link1="arm/link1" link2="gripper/finger2_2" reason="Never" />
+    <disable_collisions link1="arm/link1" link2="shooter/sorter1" reason="Never" />
+    <disable_collisions link1="arm/link1" link2="shooter/sorter2" reason="Never" />
+    <disable_collisions link1="arm/link1" link2="shooter/sorter3" reason="Never" />
     <disable_collisions link1="arm/link2" link2="arm/link3" reason="Adjacent" />
     <disable_collisions link1="arm/link2" link2="arm/link4" reason="Default" />
     <disable_collisions link1="arm/link2" link2="gripper/finger1_1" reason="Never" />
     <disable_collisions link1="arm/link2" link2="gripper/finger1_2" reason="Never" />
     <disable_collisions link1="arm/link2" link2="gripper/finger2_1" reason="Never" />
     <disable_collisions link1="arm/link2" link2="gripper/finger2_2" reason="Never" />
+    <disable_collisions link1="arm/link2" link2="shooter/sorter1" reason="Never" />
+    <disable_collisions link1="arm/link2" link2="shooter/sorter2" reason="Never" />
+    <disable_collisions link1="arm/link2" link2="shooter/sorter3" reason="Never" />
     <disable_collisions link1="arm/link3" link2="arm/link4" reason="Adjacent" />
     <disable_collisions link1="arm/link3" link2="gripper/base_link" reason="Never" />
     <disable_collisions link1="arm/link3" link2="gripper/finger1_1" reason="Never" />
     <disable_collisions link1="arm/link3" link2="gripper/finger1_2" reason="Never" />
     <disable_collisions link1="arm/link3" link2="gripper/finger2_1" reason="Never" />
     <disable_collisions link1="arm/link3" link2="gripper/finger2_2" reason="Never" />
+    <disable_collisions link1="arm/link3" link2="shooter/sorter1" reason="Never" />
+    <disable_collisions link1="arm/link3" link2="shooter/sorter2" reason="Never" />
+    <disable_collisions link1="arm/link3" link2="shooter/sorter3" reason="Never" />
     <disable_collisions link1="arm/link4" link2="gripper/base_link" reason="Adjacent" />
     <disable_collisions link1="arm/link4" link2="gripper/finger1_1" reason="Never" />
     <disable_collisions link1="arm/link4" link2="gripper/finger1_2" reason="Never" />
@@ -97,4 +110,10 @@
     <disable_collisions link1="gripper/finger1_2" link2="gripper/finger2_1" reason="Never" />
     <disable_collisions link1="gripper/finger1_2" link2="gripper/finger2_2" reason="Never" />
     <disable_collisions link1="gripper/finger2_1" link2="gripper/finger2_2" reason="Never" />
+    <disable_collisions link1="shooter/guide" link2="shooter/sorter1" reason="Adjacent" />
+    <disable_collisions link1="shooter/guide" link2="shooter/sorter2" reason="Adjacent" />
+    <disable_collisions link1="shooter/guide" link2="shooter/sorter3" reason="Adjacent" />
+    <disable_collisions link1="shooter/sorter1" link2="shooter/sorter2" reason="Adjacent" />
+    <disable_collisions link1="shooter/sorter1" link2="shooter/sorter3" reason="Adjacent" />
+    <disable_collisions link1="shooter/sorter2" link2="shooter/sorter3" reason="Adjacent" />
 </robot>

@@ -40,9 +40,9 @@
 
   <arg name="load_robot_description" default="true" />
   <!-- load URDF, SRDF and joint_limits configuration -->
-  <!-- <include file="$(find catchrobo_moveit)/launch/planning_context.launch">
+  <include file="$(find catchrobo_moveit)/launch/planning_context.launch">
     <arg name="load_robot_description" value="$(arg load_robot_description)" />
-  </include> -->
+  </include>
 
   <!-- Planning Functionality -->
   <include ns="move_group" file="$(find catchrobo_moveit)/launch/planning_pipeline.launch.xml">
