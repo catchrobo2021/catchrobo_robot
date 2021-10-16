@@ -1,26 +1,39 @@
 <?xml version="1.0"?>
 <robot name="catchrobo" xmlns:xacro="http://ros.org/wiki/xacro">
 
+
+  <xacro:arg name="field" default="" />
+  <xacro:property name="field" value="$(arg field)" />
   <!-- Dependencies -->
-  <xacro:include filename="$(find catchrobo_description)/urdf/materials.xacro"/>
-  <xacro:include filename="$(find catchrobo_description)/urdf/common.xacro"/>
-  <xacro:include filename="$(find catchrobo_description)/urdf/base.urdf.xacro"/>
-  <xacro:include filename="$(find catchrobo_description)/urdf/arm.urdf.xacro"/>
-  <xacro:include filename="$(find catchrobo_description)/urdf/gripper.urdf.xacro"/>
+  <xacro:include filename="$(find catchrobo_description)/urdf/materials.xacro" />
+  <xacro:include filename="$(find catchrobo_description)/urdf/common.xacro" />
+  <xacro:include filename="$(find catchrobo_description)/urdf/base.urdf.xacro" />
+  <xacro:include filename="$(find catchrobo_description)/urdf/arm.urdf.xacro" />
+  <xacro:include filename="$(find catchrobo_description)/urdf/scara.urdf.xacro" />
+  <xacro:include filename="$(find catchrobo_description)/urdf/gripper.urdf.xacro" />
+  <xacro:include filename="$(find catchrobo_description)/urdf/shooter.urdf.xacro" />
 
   <!-- Link & Joint -->
-  <link name="world"/>
+  <link name="world" />
 
   <xacro:base parent="world">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:base>
 
-  <xacro:arm prefix="" parent="base/link_tip">
+  <!--<xacro:arm prefix="" parent="base/link_tip">
     <origin xyz="0 0 0" rpy="0 0 0" />
-  </xacro:arm>
+  </xacro:arm>-->
+
+  <xacro:scara prefix="" parent="base/link_tip">
+    <origin xyz="0 0 0.23" rpy="0 0 0" />
+  </xacro:scara>
 
   <xacro:gripper prefix="" parent="arm/link_tip">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:gripper>
+
+  <xacro:shooter_base prefix="" parent="base/link_frame">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:shooter_base>
 
 </robot>

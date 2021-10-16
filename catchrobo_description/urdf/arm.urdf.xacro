@@ -5,6 +5,9 @@
   <xacro:property name="visual_mesh_scale" value="1.0 1.0 1.0"/>
   <xacro:property name="collision_mesh_scale" value="1.0 1.0 1.0"/>
 
+
+  <xacro:include filename="$(find catchrobo_description)/urdf/arm.transmission.xacro"/>
+
   <!-- Link & Joint -->
   <xacro:macro name="arm" params="prefix parent *joint_origin">
 
@@ -17,13 +20,13 @@
     <link name="${prefix}arm/link0">
       <visual>
         <geometry>
-          <mesh filename="package://catchrobo_description/mesh/arm/link0.stl" scale="${visual_mesh_scale}"/>
+          <mesh filename="package://catchrobo_description/mesh/arm/visual/link0.stl" scale="${visual_mesh_scale}"/>
         </geometry>
-        <material name="orange"/>
+        <material name="white"/>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://catchrobo_description/mesh/arm/link0.stl" scale="${collision_mesh_scale}"/>
+          <mesh filename="package://catchrobo_description/mesh/arm/collision/link0.stl" scale="${collision_mesh_scale}"/>
         </geometry>
       </collision>
     </link>
@@ -31,22 +34,22 @@
     <joint name="${prefix}arm/joint1" type="revolute">
       <parent link="${prefix}arm/link0"/>
       <child link="${prefix}arm/link1"/>
-      <origin xyz="0 0 0.08" rpy="0 0 0"/>
+      <origin xyz="0 0 0.1675" rpy="0 0 0"/>
       <axis xyz="0 0 1"/>
-      <limit lower="${-90*M_PI/180}" upper="${90*M_PI/180}" effort="6"
+      <limit lower="${-175*M_PI/180}" upper="${175*M_PI/180}" effort="6"
               velocity="5" acceleration="5"/>
     </joint>  
 
     <link name="${prefix}arm/link1">
       <visual>
         <geometry>
-          <mesh filename="package://catchrobo_description/mesh/arm/link1.stl" scale="${visual_mesh_scale}"/>
+          <mesh filename="package://catchrobo_description/mesh/arm/visual/link1.stl" scale="${visual_mesh_scale}"/>
         </geometry>
-        <material name="orange"/>
+        <material name="white"/>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://catchrobo_description/mesh/arm/link1.stl" scale="${collision_mesh_scale}"/>
+          <mesh filename="package://catchrobo_description/mesh/arm/collision/link1.stl" scale="${collision_mesh_scale}"/>
         </geometry>
       </collision>
     </link>
@@ -54,22 +57,22 @@
     <joint name="${prefix}arm/joint2" type="revolute">
       <parent link="${prefix}arm/link1"/>
       <child link="${prefix}arm/link2"/>
-      <origin xyz="0 0 0.08" rpy="${90*M_PI/180} 0 ${90*M_PI/180}"/>
+      <origin xyz="0 0 0" rpy="${90*M_PI/180} 0 0"/>
       <axis xyz="0 0 1"/>
-      <limit lower="${-90*M_PI/180}" upper="${90*M_PI/180}" effort="6"
+      <limit lower="${-90*M_PI/180}" upper="${60*M_PI/180}" effort="6"
               velocity="5" acceleration="5"/>
     </joint>
 
     <link name="${prefix}arm/link2">
       <visual>
         <geometry>
-          <mesh filename="package://catchrobo_description/mesh/arm/link2.stl" scale="${visual_mesh_scale}"/>
+          <mesh filename="package://catchrobo_description/mesh/arm/visual/link2.stl" scale="${visual_mesh_scale}"/>
         </geometry>
-        <material name="orange"/>
+        <material name="white"/>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://catchrobo_description/mesh/arm/link2.stl" scale="${collision_mesh_scale}"/>
+          <mesh filename="package://catchrobo_description/mesh/arm/collision/link2.stl" scale="${collision_mesh_scale}"/>
         </geometry>
       </collision>
     </link>
@@ -77,22 +80,22 @@
     <joint name="${prefix}arm/joint3" type="revolute">
       <parent link="${prefix}arm/link2"/>
       <child link="${prefix}arm/link3"/>
-      <origin xyz="0 0.4 0" rpy="0 0 0"/>
+      <origin xyz="0 0.44 0" rpy="0 0 0"/>
       <axis xyz="0 0 1"/>
-      <limit lower="${-135*M_PI/180}" upper="${135*M_PI/180}" effort="6"
+      <limit lower="${-160*M_PI/180}" upper="${0*M_PI/180}" effort="6"
               velocity="5" acceleration="5"/>
     </joint>
 
     <link name="${prefix}arm/link3">
       <visual>
         <geometry>
-          <mesh filename="package://catchrobo_description/mesh/arm/link3.stl" scale="${visual_mesh_scale}"/>
+          <mesh filename="package://catchrobo_description/mesh/arm/visual/link3.stl" scale="${visual_mesh_scale}"/>
         </geometry>
-        <material name="orange"/>
+        <material name="white"/>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://catchrobo_description/mesh/arm/link3.stl" scale="${collision_mesh_scale}"/>
+          <mesh filename="package://catchrobo_description/mesh/arm/collision/link3.stl" scale="${collision_mesh_scale}"/>
         </geometry>
       </collision>
     </link>
@@ -100,7 +103,7 @@
     <joint name="${prefix}arm/joint4" type="revolute">
       <parent link="${prefix}arm/link3"/>
       <child link="${prefix}arm/link4"/>
-      <origin xyz="0 0.4 0" rpy="0 0 0"/>
+      <origin xyz="0 0.44 0" rpy="0 0 0"/>
       <axis xyz="0 0 1"/>
       <limit lower="${-90*M_PI/180}" upper="${90*M_PI/180}" effort="6"
               velocity="5" acceleration="5"/>
@@ -109,13 +112,13 @@
     <link name="${prefix}arm/link4">
       <visual>
         <geometry>
-          <mesh filename="package://catchrobo_description/mesh/arm/link4.stl" scale="${visual_mesh_scale}"/>
+          <mesh filename="package://catchrobo_description/mesh/arm/visual/link4.stl" scale="${visual_mesh_scale}"/>
         </geometry>
-        <material name="orange"/>
+        <material name="white"/>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://catchrobo_description/mesh/arm/link4.stl" scale="${collision_mesh_scale}"/>
+          <mesh filename="package://catchrobo_description/mesh/arm/collision/link4.stl" scale="${collision_mesh_scale}"/>
         </geometry>
       </collision>
     </link>
@@ -123,22 +126,22 @@
     <joint name="${prefix}arm/joint5" type="revolute">
       <parent link="${prefix}arm/link4"/>
       <child link="${prefix}arm/link5"/>
-      <origin xyz="0 0.04 0" rpy="${-90*M_PI/180} 0 0"/>
+      <origin xyz="0 0.046 0" rpy="${-90*M_PI/180} 0 0"/>
       <axis xyz="0 0 1"/>
-      <limit lower="${-180*M_PI/180}" upper="${180*M_PI/180}" effort="6"
+      <limit lower="${-175*M_PI/180}" upper="${175*M_PI/180}" effort="6"
               velocity="5" acceleration="5"/>
     </joint>
 
     <link name="${prefix}arm/link5">
       <visual>
         <geometry>
-          <mesh filename="package://catchrobo_description/mesh/arm/link5.stl" scale="${visual_mesh_scale}"/>
+          <mesh filename="package://catchrobo_description/mesh/arm/visual/link5.stl" scale="${visual_mesh_scale}"/>
         </geometry>
-        <material name="orange"/>
+        <material name="white"/>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://catchrobo_description/mesh/arm/link5.stl" scale="${collision_mesh_scale}"/>
+          <mesh filename="package://catchrobo_description/mesh/arm/collision/link5.stl" scale="${collision_mesh_scale}"/>
         </geometry>
       </collision>
     </link>
@@ -146,7 +149,7 @@
     <joint name="${prefix}arm/joint_tip" type="fixed">
       <parent link="${prefix}arm/link5"/>
       <child link="${prefix}arm/link_tip"/>
-      <origin xyz="0 0 0.02" rpy="0 0 0"/>
+      <origin xyz="0 0 0.001" rpy="0 0 0"/>
     </joint>
     <link name="${prefix}arm/link_tip"/>
   
