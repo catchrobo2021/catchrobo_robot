@@ -6,9 +6,14 @@ controller_list:
       - arm/joint2
       - arm/joint3
       - arm/joint4
-      - arm/joint5
+  - name: fake_hand2_controller
+    type: $(arg execution_type)
+    joints:
+      - gripper/joint2
+  - name: fake_hand1_controller
+    type: $(arg execution_type)
+    joints:
+      - gripper/joint1
 initial:  # Define initial robot poses.
-#  - group: arm0
-#    pose: home
-
-  []
+  - group: arm0
+    pose: startup

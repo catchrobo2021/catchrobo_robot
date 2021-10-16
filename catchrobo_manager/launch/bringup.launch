@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launch>
+    <arg name="color" default="red" />
+    <param name="color" value="$(arg color)" />
+    <!-- <node pkg="catchrobo_manager" name="game_manager" type="game_manager.py" output="screen" /> -->
+
+    <include file="$(find catchrobo_manager)/launch/demo.launch">
+        <arg name="use_gui" value="true" />
+        <arg name="field" value="$(arg color)" />
+        <!-- <arg name="field" value="None" /> -->
+    </include>
+
+
+      <!-- Load the controllers -->
+
+
+  <!-- <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+  output="screen" args="joint_state_controller/JointStateController
+  arm0_controller/follow_joint_trajectory"/>
+
+  <node name="catchrobo_control" pkg="catchrobo_control" type="catchrobo_control_node" output="screen"/> -->
+    
+
+    <!-- <include file="$(find catchrobo_control)/launch/moveit2motor.launch"/> -->
+        <!-- <arg name="use_gui" value="true" />
+        <arg name="field" value="$(arg color)" /> -->
+        <!-- <arg name="field" value="None" /> -->
+
+    
+    <!-- <rosparam command="load" file="$(find catchrobo_manager)/config/test.yaml" /> -->
+    <!-- <node pkg="task_switch" name="pose2marker_sphere" type="pose2marker_sphere.py">
+    <remap from="posestamped" to="virtualdrone/posestamped" />
+    </node> -->
+
+</launch>
