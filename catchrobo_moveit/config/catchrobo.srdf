@@ -15,14 +15,12 @@
         <link name="arm/link2" />
         <link name="arm/link3" />
         <link name="arm/link4" />
-        <link name="arm/link5" />
         <link name="arm/link_tip" />
         <joint name="arm/root" />
         <joint name="arm/joint1" />
         <joint name="arm/joint2" />
         <joint name="arm/joint3" />
         <joint name="arm/joint4" />
-        <joint name="arm/joint5" />
         <joint name="arm/joint_tip" />
         <chain base_link="arm/link0" tip_link="arm/link_tip" />
     </group>
@@ -52,14 +50,12 @@
         <joint name="arm/joint2" value="1.5707" />
         <joint name="arm/joint3" value="-2.7925" />
         <joint name="arm/joint4" value="1.22173" />
-        <joint name="arm/joint5" value="0" />
     </group_state>
     <group_state name="home" group="arm0">
         <joint name="arm/joint1" value="-1.57" />
         <joint name="arm/joint2" value="0.25" />
         <joint name="arm/joint3" value="-2.63" />
         <joint name="arm/joint4" value="0" />
-        <joint name="arm/joint5" value="0" />
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="hand2" parent_link="arm/link_tip" group="hand2" parent_group="arm0" />
@@ -67,30 +63,30 @@
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <disable_collisions link1="arm/link0" link2="arm/link1" reason="Adjacent" />
     <disable_collisions link1="arm/link0" link2="arm/link2" reason="Never" />
+    <disable_collisions link1="arm/link0" link2="arm/link3" reason="Never" />
     <disable_collisions link1="arm/link1" link2="arm/link2" reason="Adjacent" />
-    <disable_collisions link1="arm/link1" link2="arm/link3" reason="Never" />
     <disable_collisions link1="arm/link1" link2="arm/link4" reason="Never" />
-    <disable_collisions link1="arm/link1" link2="arm/link5" reason="Never" />
+    <disable_collisions link1="arm/link1" link2="gripper/finger1_1" reason="Never" />
+    <disable_collisions link1="arm/link1" link2="gripper/finger1_2" reason="Never" />
+    <disable_collisions link1="arm/link1" link2="gripper/finger2_1" reason="Never" />
+    <disable_collisions link1="arm/link1" link2="gripper/finger2_2" reason="Never" />
     <disable_collisions link1="arm/link2" link2="arm/link3" reason="Adjacent" />
-    <disable_collisions link1="arm/link2" link2="arm/link4" reason="Never" />
-    <disable_collisions link1="arm/link2" link2="arm/link5" reason="Never" />
+    <disable_collisions link1="arm/link2" link2="arm/link4" reason="Default" />
+    <disable_collisions link1="arm/link2" link2="gripper/finger1_1" reason="Never" />
+    <disable_collisions link1="arm/link2" link2="gripper/finger1_2" reason="Never" />
+    <disable_collisions link1="arm/link2" link2="gripper/finger2_1" reason="Never" />
+    <disable_collisions link1="arm/link2" link2="gripper/finger2_2" reason="Never" />
     <disable_collisions link1="arm/link3" link2="arm/link4" reason="Adjacent" />
-    <disable_collisions link1="arm/link3" link2="arm/link5" reason="Never" />
+    <disable_collisions link1="arm/link3" link2="gripper/base_link" reason="Never" />
     <disable_collisions link1="arm/link3" link2="gripper/finger1_1" reason="Never" />
     <disable_collisions link1="arm/link3" link2="gripper/finger1_2" reason="Never" />
     <disable_collisions link1="arm/link3" link2="gripper/finger2_1" reason="Never" />
     <disable_collisions link1="arm/link3" link2="gripper/finger2_2" reason="Never" />
-    <disable_collisions link1="arm/link4" link2="arm/link5" reason="Adjacent" />
-    <disable_collisions link1="arm/link4" link2="gripper/base_link" reason="Never" />
+    <disable_collisions link1="arm/link4" link2="gripper/base_link" reason="Adjacent" />
     <disable_collisions link1="arm/link4" link2="gripper/finger1_1" reason="Never" />
     <disable_collisions link1="arm/link4" link2="gripper/finger1_2" reason="Never" />
     <disable_collisions link1="arm/link4" link2="gripper/finger2_1" reason="Never" />
     <disable_collisions link1="arm/link4" link2="gripper/finger2_2" reason="Never" />
-    <disable_collisions link1="arm/link5" link2="gripper/base_link" reason="Adjacent" />
-    <disable_collisions link1="arm/link5" link2="gripper/finger1_1" reason="Never" />
-    <disable_collisions link1="arm/link5" link2="gripper/finger1_2" reason="Never" />
-    <disable_collisions link1="arm/link5" link2="gripper/finger2_1" reason="Never" />
-    <disable_collisions link1="arm/link5" link2="gripper/finger2_2" reason="Never" />
     <disable_collisions link1="gripper/base_link" link2="gripper/finger1_1" reason="Adjacent" />
     <disable_collisions link1="gripper/base_link" link2="gripper/finger1_2" reason="Adjacent" />
     <disable_collisions link1="gripper/base_link" link2="gripper/finger2_1" reason="Adjacent" />

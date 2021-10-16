@@ -19,7 +19,7 @@
       
   <!-- By default, we are not in debug mode -->
   <arg name="debug" default="false" />
-  <arg name="field" default="blue" />
+  <arg name="field" default="red" />
 <param name="color" value="$(arg field)" />
 
   <!--
@@ -30,7 +30,7 @@
   It also provides a GUI to move the simulated robot around "manually".
   This corresponds to moving around the real robot without the use of MoveIt.
   -->
-  <arg name="use_gui" default="true" />
+  <!-- <arg name="use_gui" default="true" /> -->
 
   <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
   <include file="$(find catchrobo_manager)/launch/planning_context.launch">
@@ -39,7 +39,7 @@
   </include>
 
   <!-- Run the main MoveIt! executable without trajectory execution (we do not have controllers configured by default) -->
-  <include file="$(find catchrobo_moveit)/launch/move_group.launch">
+  <include file="$(find catchrobo_manager)/launch/move_group.launch">
     <arg name="allow_trajectory_execution" value="true" />
     <arg name="fake_execution" value="false" />
     <arg name="info" value="true" />

@@ -141,13 +141,13 @@ class BiscoManager():
     def addBox2Scene(self):
         rospy.wait_for_service("/get_planning_scene", timeout=10.0)
         rospy.wait_for_service("/apply_planning_scene", timeout=10.0)
-        p = PoseStamped()
-        p.header.frame_id = "world"
-        p.pose.position.z = 0.8
-        p.pose.orientation.w = 1.0
-        size = 4, 4, 0.001
-        # rospy.sleep(0.1)
-        self._scene.add_box("cell", p, size)
+        # p = PoseStamped()
+        # p.header.frame_id = "world"
+        # p.pose.position.z = 0.8
+        # p.pose.orientation.w = 1.0
+        # size = 4, 4, 0.001
+        # # rospy.sleep(0.1)
+        # self._scene.add_box("cell", p, size)
 
 
 

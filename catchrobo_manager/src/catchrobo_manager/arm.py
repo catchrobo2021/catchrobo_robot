@@ -55,7 +55,7 @@ class Arm(object):
 
 
         goal = self._target_pose
-        # rospy.loginfo(goal.position)
+        rospy.loginfo(goal.position)
         now = rospy.Time.now()
         self._pose_stamped.header.stamp = now
         self._pose_stamped.pose = goal
@@ -69,7 +69,7 @@ class Arm(object):
         joints = request_value.solution.joint_state.position
         # rospy.loginfo(joints)
 
-        self._arm.set_joint_value_target(joints[0:5])
+        self._arm.set_joint_value_target(joints[0:4])
 
         # self._arm.set_joint_value_target(goal, self._arm.get_end_effector_link(), True)
         dt = rospy.Time.now().to_sec() - now.to_sec()

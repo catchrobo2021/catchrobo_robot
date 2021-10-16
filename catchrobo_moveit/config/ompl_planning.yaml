@@ -147,7 +147,6 @@ arm0:
     - SPARS
     - SPARStwo
 hand2:
-  default_planner_config: None
   planner_configs:
     - SBL
     - EST
@@ -173,7 +172,6 @@ hand2:
     - SPARS
     - SPARStwo
 hand1:
-  default_planner_config: None
   planner_configs:
     - SBL
     - EST
