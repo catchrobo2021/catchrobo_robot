@@ -2,10 +2,10 @@ moveit_setup_assistant_config:
   URDF:
     package: catchrobo_description
     relative_path: robots/catchrobo.urdf.xacro
-    xacro_args: ""
+    xacro_args: field:=blue
   SRDF:
     relative_path: config/catchrobo.srdf
   CONFIG:
     author_name: Yuta Kage
     author_email: yuta0727leggodt@gmail.com
-    generated_timestamp: 1634356972
+    generated_timestamp: 1634364924
