@@ -35,7 +35,7 @@
     <joint name="${prefix}guide/joint1" type="revolute">
       <parent link="${prefix}shooter/base_link"/>
       <child link="${prefix}shooter/guide"/>
-      <origin xyz="0.3083 0.42041555 0.07832442" rpy="${-90*M_PI/180} ${35*M_PI/180} ${90*M_PI/180}"/>
+      <origin xyz="0.3083 0.4215627 0.07996272" rpy="${-90*M_PI/180} ${35*M_PI/180} ${90*M_PI/180}"/>
       <axis xyz="0 0 1"/>
       <limit lower="${-175*M_PI/180}" upper="${175*M_PI/180}" effort="6"
               velocity="5" acceleration="5"/>
