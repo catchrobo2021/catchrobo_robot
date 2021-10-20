@@ -37,7 +37,7 @@
       <child link="${prefix}shooter/guide"/>
       <origin xyz="0.3083 0.4215627 0.07996272" rpy="${-90*M_PI/180} ${35*M_PI/180} ${90*M_PI/180}"/>
       <axis xyz="0 0 1"/>
-      <limit lower="${-175*M_PI/180}" upper="${175*M_PI/180}" effort="6"
+      <limit lower="${-180*M_PI/180}" upper="${0*M_PI/180}" effort="6"
               velocity="5" acceleration="5"/>
     </joint>  
 
@@ -46,7 +46,7 @@
         <geometry>
           <mesh filename="package://catchrobo_description/mesh/shooter/visual/guide.stl" scale="${visual_mesh_scale}"/>
         </geometry>
-        <material name="white"/>
+        <material name="orange"/>
       </visual>
       <collision>
         <geometry>
@@ -60,7 +60,7 @@
       <child link="${prefix}shooter/sorter1"/>
       <origin xyz="0.195 0.41552443 0.01729232" rpy="0 ${35*M_PI/180} ${90*M_PI/180}"/>
       <axis xyz="0 0 1"/>
-      <limit lower="${-175*M_PI/180}" upper="${175*M_PI/180}" effort="6"
+      <limit lower="${-45*M_PI/180}" upper="${45*M_PI/180}" effort="6"
               velocity="5" acceleration="5"/>
     </joint>  
 
@@ -69,7 +69,7 @@
         <geometry>
           <mesh filename="package://catchrobo_description/mesh/shooter/visual/sorter.stl" scale="${visual_mesh_scale}"/>
         </geometry>
-        <material name="white"/>
+        <material name="orange"/>
       </visual>
       <collision>
         <geometry>
@@ -83,7 +83,7 @@
       <child link="${prefix}shooter/sorter2"/>
       <origin xyz="0 0.41552443 0.01729232" rpy="0 ${35*M_PI/180} ${90*M_PI/180}"/>
       <axis xyz="0 0 1"/>
-      <limit lower="${-175*M_PI/180}" upper="${175*M_PI/180}" effort="6"
+      <limit lower="${-45*M_PI/180}" upper="${45*M_PI/180}" effort="6"
               velocity="5" acceleration="5"/>
     </joint>  
 
@@ -92,7 +92,7 @@
         <geometry>
           <mesh filename="package://catchrobo_description/mesh/shooter/visual/sorter.stl" scale="${visual_mesh_scale}"/>
         </geometry>
-        <material name="white"/>
+        <material name="orange"/>
       </visual>
       <collision>
         <geometry>
@@ -106,7 +106,7 @@
       <child link="${prefix}shooter/sorter3"/>
       <origin xyz="-0.195 0.41552443 0.01729232" rpy="0 ${35*M_PI/180} ${90*M_PI/180}"/>
       <axis xyz="0 0 1"/>
-      <limit lower="${-175*M_PI/180}" upper="${175*M_PI/180}" effort="6"
+      <limit lower="${-45*M_PI/180}" upper="${45*M_PI/180}" effort="6"
               velocity="5" acceleration="5"/>
     </joint>  
     <link name="${prefix}shooter/sorter3">
@@ -114,7 +114,7 @@
         <geometry>
           <mesh filename="package://catchrobo_description/mesh/shooter/visual/sorter.stl" scale="${visual_mesh_scale}"/>
         </geometry>
-        <material name="white"/>
+        <material name="orange"/>
       </visual>
       <collision>
         <geometry>

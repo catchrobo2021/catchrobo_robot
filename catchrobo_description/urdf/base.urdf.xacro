@@ -48,9 +48,9 @@
       </xacro:if>
     </link>
 
-    <joint name="base/joint_tip" type="fixed">
+    <joint name="base/robot_tip" type="fixed">
       <parent link="base/base_link"/>
-      <child link="base/link_tip"/>
+      <child link="base/robot_tip"/>
       <xacro:if value="${field=='blue'}">
         <origin xyz="-0.795 0.390 0.0044" rpy="0 0 0"/>
       </xacro:if>
@@ -58,11 +58,11 @@
         <origin xyz="0.795 0.390 0.0044" rpy="0 0 ${180*M_PI/180}"/>
       </xacro:if>
     </joint>
-    <link name="base/link_tip"/>
+    <link name="base/robot_tip"/>
 
-    <joint name="base/joint_frame" type="fixed">
+    <joint name="base/shooter_tip" type="fixed">
       <parent link="base/base_link"/>
-      <child link="base/link_frame"/>
+      <child link="base/shooter_tip"/>
       <xacro:if value="${field=='blue'}">
         <origin xyz="-1.1775 0.295 -0.0116" rpy="0 0 0"/>
       </xacro:if>
@@ -70,7 +70,51 @@
         <origin xyz="1.1775 0.295 -0.0116" rpy="0 0 0"/>
       </xacro:if>
     </joint>
-    <link name="base/link_frame"/>
+    <link name="base/shooter_tip"/>
+
+
+    <joint name="base/pc" type="fixed">
+      <parent link="base/base_link"/>
+      <child link="base/pc"/>
+      <xacro:if value="${field=='blue'}">
+        <origin xyz="-0.85 0 0.2" rpy="0 0 0"/>
+      </xacro:if>
+      <xacro:if value="${field=='red'}">
+        <origin xyz="0.85 0 0.2" rpy="0 0 0"/>
+      </xacro:if>
+    </joint>
+
+    <link name="base/pc">
+      <visual>
+        <geometry>
+          <box size="0.25 0.4 0.4"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <material name="grey"/>
+      </visual>
+    </link>
+
+
+    <joint name="base/entry_prohibited_area" type="fixed">
+      <parent link="base/base_link"/>
+      <child link="base/entry_prohibited_area"/>
+      <xacro:if value="${field=='blue'}">
+        <origin xyz="0.2 0.7 0.4" rpy="0 0 0"/>
+      </xacro:if>
+      <xacro:if value="${field=='red'}">
+        <origin xyz="-0.2 0.7 0.4" rpy="0 0 0"/>
+      </xacro:if>
+    </joint>
+
+    <link name="base/entry_prohibited_area">
+      <visual>
+        <geometry>
+          <box size="0.1 2.0 0.8"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <material name="entry_prohibited_area"/>
+      </visual>
+    </link>
 
   </xacro:macro>
 </robot>
