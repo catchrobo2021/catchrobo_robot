@@ -1,5 +1,7 @@
 <launch>
-    <include file="$(find catchrobo_bringup)/launch/others.launch" />
+    <include file="$(find catchrobo_bringup)/launch/others.launch">
+    <arg name="field" value="blue"/>
+    </include>
     <group ns="arm0_controller/">
       <include file="$(find catchrobo_driver)/launch/catchrobo_driver.launch" />
     </group>

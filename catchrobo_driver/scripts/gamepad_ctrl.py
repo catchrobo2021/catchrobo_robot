@@ -9,6 +9,8 @@ class gamepad_ctrl:
         rospy.init_node('gamepad_ctrl')
         rospy.Subscriber("joy",Joy,self.joyCallback)
         self._enable_joints_publisher = rospy.Publisher('enable_joints', Bool, queue_size=10)
+
+        self._manual_flag_pub = rospy.Publisher('on_manual', Bool, queue_size=1)
         rospy.spin()
 
     def joyCallback(self, data):
@@ -16,6 +18,10 @@ class gamepad_ctrl:
             self._enable_joints_publisher.publish(True)
         if data.buttons[0] is 1:
             self._enable_joints_publisher.publish(False)
-    
+        if data.buttons[2] == 1:
+            self._manual_flag_pub.publish(True)
+        if data.buttons[3] == 1:
+            self._manual_flag_pub.publish(False)
+ 
 if __name__ == "__main__":
     gamepad_ctrl()

@@ -8,6 +8,7 @@ import rospy
 import rospkg
 import moveit_commander
 
+from std_msgs.msg import Int32MultiArray
 from geometry_msgs.msg import Pose, Point, Quaternion, PoseStamped
 from sensor_msgs.msg import PointField
 # out  (0.39683606136380156, 0.15715049815585772, 2.4719723905968984, 0.5124697648376378, 1.9676323881188857, 0.0, 0.0, 0.0, 0.0)
@@ -24,15 +25,20 @@ class BiscoManager():
 
         self._LINK_NAME = "arm/link_tip"
 
-        self._pub2gui = rospy.Publisher("bisco_info", PointField, queue_size=100)
-        rospy.Subscriber("bisco_update", PointField, self.guiCallback)
+        self._pub2gui = rospy.Publisher("bisco_info", Int32MultiArray, queue_size=1)
+        rospy.Subscriber("bisco_update", Int32MultiArray, self.guiCallback)
         self._scene = moveit_commander.PlanningSceneInterface(synchronous=True)
 
         self.readCsv(color)
+        self.cleanRviz()
         self.addBox2Scene()
-        self.resetGUI()
-
+        self.sendGUI()
         
+    def cleanRviz(self):
+        bisco_num = len(self._objects)
+        for i in range(bisco_num):
+            self.release(i)
+
 
     def readCsv(self, color):
         rospack = rospkg.RosPack()
@@ -90,6 +96,7 @@ class BiscoManager():
     
     def delete(self, id):
         self._objects.loc[id, self._count_key] = False
+        self.sendGUI()
 
     
     def getTargetTwin(self):
@@ -143,7 +150,7 @@ class BiscoManager():
         rospy.wait_for_service("/apply_planning_scene", timeout=10.0)
         # p = PoseStamped()
         # p.header.frame_id = "world"
-        # p.pose.position.z = 0.8
+        # p.pose.position.z = _pub2gui0.8
         # p.pose.orientation.w = 1.0
         # size = 4, 4, 0.001
         # # rospy.sleep(0.1)
@@ -167,15 +174,14 @@ class BiscoManager():
             self._scene.add_box(self.getName(i), p, size)
         
 
-    def resetGUI(self):
-        info = PointField()
+    def sendGUI(self):
+        info = Int32MultiArray()
         bisco_num = len(self._objects)
+        info.data = [0] * bisco_num 
         for i in range(bisco_num):
-            info.datatype = i
-            info.count = self.isExist(i)
-            self._pub2gui.publish(info)
+            info.data[i] = self.isExist(i)
+        self._pub2gui.publish(info)
 
     def guiCallback(self, msg):
-        id = msg.datatype
-        val = msg.count
-        self.updateState(id, val)
+        for i, val in enumerate(msg.data):
+            self.updateState(i, val)

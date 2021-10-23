@@ -10,13 +10,13 @@ from catchrobo_manager.gripper_manager import GripperManager
 from catchrobo_manager.shooter_manager import ShooterManager
 
 class MyRobot():
-    def __init__(self):
+    def __init__(self,color):
         self._brain = Brain()
         self._arm = Arm()
         self._gripper = GripperManager()
         self._shooter = ShooterManager()
 
-        self._arm.goHome()
+        self._arm.goHome(color)
         self._shooter.barUp()
         
 

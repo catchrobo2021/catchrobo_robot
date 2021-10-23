@@ -23,4 +23,4 @@ controller_list:
       - sorter/joint3
 initial:  # Define initial robot poses.
   - group: arm0
-    pose: home
+    pose: home_red
