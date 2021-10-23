@@ -2,19 +2,35 @@
 # -*- coding: utf-8 -*-
 
 
+from re import T
 from catchrobo_manager.catchrobo_center import CatchroboCenter, ActionResult
 import rospy
 
+from std_msgs.msg import Bool
+
 class MyStateMachine():
     def __init__(self):
-        
         self._catchrobo = CatchroboCenter()
         self._next_state = self.calcBiscoAction
         self._start_time = rospy.Time.now()
-    
+
+        rospy.Subscriber("on_manual",Bool,self.joyCallback)
+        self._is_manual = False
+        self._state_after_manual = self._next_state 
+
+    def joyCallback(self, msg):
+        self._is_manual = msg.data
+
     def main(self):
-        self._next_state = self._next_state()
-        
+        ret = self._next_state()
+        if self._is_manual:
+            if ret != self.manual:
+                self._state_after_manual = ret
+            self._next_state = self.manual
+        else:
+            self._next_state = ret
+
+
     def restart(self):
         pass
 
@@ -32,7 +48,7 @@ class MyStateMachine():
         if result == ActionResult.DOING:
             next_state =  self.doBiscoAction
         elif result == ActionResult.GAME_END:
-            next_state = self.manual
+            next_state = self.calGameEndTime
         return next_state
     
     def doBiscoAction(self):
@@ -50,7 +66,7 @@ class MyStateMachine():
         if result == ActionResult.DOING:
             next_state =  self.doShootAction
         elif result == ActionResult.GAME_END:
-            next_state = self.manual
+            next_state = self.calGameEndTime
         return next_state
 
     def doShootAction(self):
@@ -62,15 +78,19 @@ class MyStateMachine():
             
         return next_state
 
-    def time_counting(self):
+    def calGameEndTime(self):
         now = rospy.Time.now()
         done_time = now- self._start_time
         rospy.loginfo(done_time.to_sec())
-
-        return self.doNothing
+        self._is_manual = True
+        return self.manual
     
-    def manual(self):
-        return self.time_counting
 
-    def doNothing(self):
-        return self.doNothing
+    def manual(self):
+
+        if self._is_manual:
+            ret =  self.manual
+        else:
+            ret = self._state_after_manual
+        return ret
+

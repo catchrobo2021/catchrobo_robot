@@ -19,8 +19,8 @@ def getObjectPosi(obj):
     return posi
 
 class GripWay:
-    LONG_GRIP = 0.086
-    SMALL_GRIP = 0.03
+    LONG_GRIP = [0.086, 0.083]
+    SMALL_GRIP = [0.03, 0.023]
     OPEN = 0.115 - 0.001
 
 class Brain():
@@ -138,9 +138,9 @@ class Brain():
 
     def graspAction(self, target_gripper, target, wait):
         if target["my_area"]:
-            grip_way = GripWay.SMALL_GRIP
+            grip_way = GripWay.SMALL_GRIP[target_gripper]
         else:
-            grip_way = GripWay.LONG_GRIP
+            grip_way = GripWay.LONG_GRIP[target_gripper]
 
         action = MyRobotActionMaker.grip(target_gripper, target, grip_way, wait)
         return action
