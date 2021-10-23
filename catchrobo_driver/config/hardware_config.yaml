@@ -91,7 +91,7 @@ arm:
       acceleration: 3.0
 
 
-'''
+
 # vertical articulated robot config param
 arm: 
   communincation_frequency: 50 #Hz
@@ -205,4 +205,4 @@ arm:
     default:
       velocity: 2.0
       acceleration: 3.0
-'''
+      
