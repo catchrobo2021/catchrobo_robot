@@ -28,7 +28,7 @@ class GripperManager():
 
 
     def releaseBisco(self, target_gripper):
-        self._grippers[target_gripper].move(0)
+        self._grippers[target_gripper].move(0.115)
         
         rospy.loginfo("release")
 
