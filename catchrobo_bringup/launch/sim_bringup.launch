@@ -2,6 +2,7 @@
     <include file="$(find catchrobo_bringup)/launch/others.launch">
     <arg name="field" value="blue"/>
     </include>
+    <node name="gamepad_ctrl" pkg="catchrobo_driver" type="gamepad_ctrl.py" output="screen"/>
     <group ns="arm0_controller/">
       <node name="robot" pkg="catchrobo_driver_sim" type="joint_controller_sim.py" output="screen" />
     </group>
@@ -22,7 +23,7 @@
       <node name="follow_joint_trajectory" pkg="catchrobo_control" type="my_control_node.py" output="screen" />
       <node name="robot" pkg="catchrobo_driver_sim" type="joint_controller_sim.py" output="screen" />
     </group>
-    <!-- <node name="arduino_sim" pkg="catchrobo_driver_sim" type="arduino_sim.py" output="screen" /> -->
+    <node name="arduino_sim" pkg="catchrobo_driver_sim" type="arduino_sim.py" output="screen" />
 
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
     <param name="use_gui" value="true" />

@@ -30,10 +30,15 @@ class BiscoManager():
         self._scene = moveit_commander.PlanningSceneInterface(synchronous=True)
 
         self.readCsv(color)
+        self.cleanRviz()
         self.addBox2Scene()
         self.sendGUI()
-
         
+    def cleanRviz(self):
+        bisco_num = len(self._objects)
+        for i in range(bisco_num):
+            self.release(i)
+
 
     def readCsv(self, color):
         rospack = rospkg.RosPack()
