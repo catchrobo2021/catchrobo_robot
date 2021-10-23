@@ -2,21 +2,62 @@
 # -*- coding: utf-8 -*-
 
 import rospy
+import moveit_commander
+
+from geometry_msgs.msg import Pose, Point, Quaternion, PoseStamped
+
 from catchrobo_manager.bisco_manager import BiscoManager
 from catchrobo_manager.shooting_box_manager import ShootingBoxManager
 from catchrobo_manager.myrobot import MyRobot
+
 
 class ActionResult():
     DOING = 0
     FINISH = 1
     GAME_END = 2
 
+class Obstacle:
+    def __init__(self, color):
+        rospy.wait_for_service("/get_planning_scene", timeout=10.0)
+        rospy.wait_for_service("/apply_planning_scene", timeout=10.0)
+        self._scene = moveit_commander.PlanningSceneInterface(synchronous=True)
+
+        p = PoseStamped()
+        p.header.frame_id = "world"  
+
+        size = 0.15, 0.2, 0.5
+        p.pose.position.x = 0.850
+        p.pose.position.y = 0.100
+        p.pose.position.z = size[2]/2 + 0.05
+
+        # if color == "blue":
+        #     p.pose.position.x = -p.pose.position.x 
+        # p.pose.orientation.w = 1.0
+        # rospy.sleep(0.1)
+        # self._scene.add_box("avoid_back", p, size)
+
+        # size = 0.01, 1.350, 0.5
+        # p.pose.position.x = -0.153
+        # if color == "blue":
+        #     p.pose.position.x = -p.pose.position.x 
+        # p.pose.position.y = size[1] /2
+        # p.pose.position.z = size[2]/2 + 0.05        
+        # p.pose.orientation.w = 1.0
+        # rospy.sleep(0.1)
+        # self._scene.add_box("avoid_opponent", p, size)
+
+
+        
+
 class CatchroboCenter():
     def __init__(self):
         self._color = rospy.get_param("/color")
+        self._robot = MyRobot(self._color) 
+        
+    
         self._biscos = BiscoManager(self._color)   
         self._shooting_box = ShootingBoxManager(self._color)   
-        self._robot = MyRobot() 
+        self._obstacle = Obstacle(self._color)
         
     def doAction(self):
         result = self._robot.doAction()

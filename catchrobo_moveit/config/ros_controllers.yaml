@@ -9,16 +9,16 @@ generic_hw_control_loop:
 # Settings for ros_control hardware interface
 hardware_interface:
   joints:
-    - guide/joint1
-    - sorter/joint1
-    - sorter/joint2
-    - sorter/joint3
     - arm/joint1
     - arm/joint2
     - arm/joint3
     - arm/joint4
     - gripper/joint1
     - gripper/joint2
+    - guide/joint1
+    - sorter/joint1
+    - sorter/joint2
+    - sorter/joint3
   sim_control_mode: 1  # 0: position, 1: velocity
 # Publish all joint states
 # Creates the /joint_states topic necessary in ROS

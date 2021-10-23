@@ -31,11 +31,13 @@ class Brain():
 
         self._world_frame = "world"
 
+
+        self.MAX_HIGHT =  0.3272 - 0.03
         self.ARM2GRIPPER = 0.05
-        self.BISCO_ABOVE_Z = self.BISCO_SIZE[2] + 0.06
-        self.BISCO_GRIP_Z = self.BISCO_SIZE[2] + 0.04
-        self.BISCO_ABOVE_COMMON_Z = self.BISCO_SIZE[2] + 0.1
-        self.SHOOT_ADD_Z =  self.BISCO_SIZE[2] + 0.01
+        self.BISCO_ABOVE_Z =self.MAX_HIGHT#self.BISCO_SIZE[2] + 0.06
+        self.BISCO_GRIP_Z = self.BISCO_SIZE[2] + 0.03
+        self.BISCO_ABOVE_COMMON_Z =self.MAX_HIGHT#self.BISCO_SIZE[2] + 0.1
+        self.SHOOT_ADD_Z =  self.MAX_HIGHT - 0.12 #self.BISCO_SIZE[2] + 0.01 +0.05
 
         
         common_pick_quat1 = tf.transformations.quaternion_from_euler(np.pi, 0, 0)

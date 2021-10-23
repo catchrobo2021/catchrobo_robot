@@ -1,5 +1,7 @@
 <launch>
-    <include file="$(find catchrobo_bringup)/launch/others.launch" />
+    <include file="$(find catchrobo_bringup)/launch/others.launch">
+    <arg name="field" value="blue"/>
+    </include>
     <group ns="arm0_controller/">
       <node name="robot" pkg="catchrobo_driver_sim" type="joint_controller_sim.py" output="screen" />
     </group>
