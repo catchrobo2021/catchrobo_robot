@@ -212,7 +212,7 @@ class ODriveNode(object):
     def search_index(self , axis=0):
         self.search(axis)
         while self.axes[axis].current_state != AXIS_STATE_IDLE:
-            time.sleep(0.1)
+            time.sleep(0.5)
         return True
 
     def idle(self, axis=0): self.axes[axis].requested_state = AXIS_STATE_IDLE

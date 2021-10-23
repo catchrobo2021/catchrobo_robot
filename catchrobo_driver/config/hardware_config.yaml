@@ -3,206 +3,61 @@ arm:
   communincation_frequency: 50 #Hz
 
   odrive_serial_number:
-    odrive0: "207C34805748"
-    odrive1: "206834615748"
+    odrive0: "206834615748"
+    odrive1: "207C349F5748"
 
   joint1:
     name: arm/joint1
     odrive:
       id: 0
-      axis: 0
-    limit:
-      position:
-        max: 3.054326191
-        min: -3.054326191
-      velocity: 10.0
-      current: 10.0
-    tolerence: 0.3
-    offset: 0.04275511212
-    reduction ratio: 8
-    pos_kp: 40.0
-    vel_kp: 0.16
-    vel_ki: 0.33
-    default:
-      velocity: 2.0
-      acceleration: 3.0
-
-  joint2:
-    name: arm/joint2
-    odrive:
-      id: 1
-      axis: 0
-    limit:
-      position:
-        max: 1.05
-        min: -1.570796327
-      velocity: 10.0
-      current: 20.0
-    tolerence: 0.3
-    offset: 0.9879968996
-    reduction ratio: 16
-    pos_kp: 40.0
-    vel_kp: 0.16
-    vel_ki: 0.33
-    default:
-      velocity: 2.0
-      acceleration: 3.0
-
-  joint3:
-    name: arm/joint3
-    odrive:
-      id: 1
       axis: 1
     limit:
       position:
-        max: 0.0
-        min: -3 #-2.792526803
-      velocity: 10.0
-      current: 20.0
-    tolerence: 0.3
-    offset: -1.70854467
-    reduction ratio: 8
-    pos_kp: 40.0
-    vel_kp: 0.16
-    vel_ki: 0.33
-    default:
-      velocity: 2.0
-      acceleration: 3.0
-
-  joint4:
-    name: arm/joint4
-    odrive:
-      id: 2
-      axis: 0
-    limit:
-      position:
-        max: 1.570796327
-        min: -1.570796327
+        max: 2.82743
+        min: -2.82743
       velocity: 10.0
       current: 10.0
     tolerence: 0.3
-    offset: -0.6983225631
-    reduction ratio: 2.8
-    pos_kp: 40.0
-    vel_kp: 0.16
-    vel_ki: 0.33
-    default:
-      velocity: 2.0
-      acceleration: 3.0
+    offset: 2.113850056
 
-
-'''
-# vertical articulated robot config param
-arm: 
-  communincation_frequency: 50 #Hz
-
-  odrive_serial_number:
-    odrive0: "207C34805748"
-    odrive1: "206834615748"
-    odrive2: "207C349F5748"
-
-  joint1:
-    name: arm/joint1
+  joint2:
+    name: arm/joint2
     odrive:
       id: 0
       axis: 0
     limit:
       position:
-        max: 3.054326191
-        min: -3.054326191
+        max: 2.82743
+        min: -2.82743
       velocity: 10.0
       current: 10.0
     tolerence: 0.3
-    offset: 0.04275511212
-    reduction ratio: 8
-    pos_kp: 40.0
-    vel_kp: 0.16
-    vel_ki: 0.33
-    default:
-      velocity: 2.0
-      acceleration: 3.0
-
-  joint2:
-    name: arm/joint2
-    odrive:
-      id: 1
-      axis: 0
-    limit:
-      position:
-        max: 1.05
-        min: -1.570796327
-      velocity: 10.0
-      current: 20.0
-    tolerence: 0.3
-    offset: 0.9879968996
-    reduction ratio: 16
-    pos_kp: 40.0
-    vel_kp: 0.16
-    vel_ki: 0.33
-    default:
-      velocity: 2.0
-      acceleration: 3.0
+    offset: -2.460996069
 
   joint3:
     name: arm/joint3
     odrive:
       id: 1
-      axis: 1
+      axis: 0
     limit:
       position:
-        max: 0.0
-        min: -3 #-2.792526803
+        max: 2.82743
+        min: -2.82743
       velocity: 10.0
-      current: 20.0
+      current: 10.0
     tolerence: 0.3
-    offset: -1.70854467
-    reduction ratio: 8
-    pos_kp: 40.0
-    vel_kp: 0.16
-    vel_ki: 0.33
-    default:
-      velocity: 2.0
-      acceleration: 3.0
+    offset: -0.9332370599
 
   joint4:
     name: arm/joint4
     odrive:
-      id: 2
-      axis: 0
-    limit:
-      position:
-        max: 1.570796327
-        min: -1.570796327
-      velocity: 10.0
-      current: 10.0
-    tolerence: 0.3
-    offset: -0.6983225631
-    reduction ratio: 2.8
-    pos_kp: 40.0
-    vel_kp: 0.16
-    vel_ki: 0.33
-    default:
-      velocity: 2.0
-      acceleration: 3.0
-
-  joint5:
-    name: arm/joint5
-    odrive:
-      id: 2
+      id: 1
       axis: 1
     limit:
       position:
-        max: 3.054326191
-        min: -3.054326191
+        max: 0
+        min: -2.5
       velocity: 10.0
       current: 10.0
     tolerence: 0.3
-    offset: -2.613697257
-    reduction ratio: 2.8
-    pos_kp: 40.0
-    vel_kp: 0.16
-    vel_ki: 0.33
-    default:
-      velocity: 2.0
-      acceleration: 3.0
-'''
+    offset: 0

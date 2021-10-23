@@ -1,122 +1,99 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root version="2.3.8">
- <tabbed_widget name="Main Window" parent="main_window">
+ <tabbed_widget parent="main_window" name="Main Window">
   <Tab tab_name="tab1" containers="1">
    <Container>
     <DockSplitter orientation="-" sizes="1" count="1">
-     <DockSplitter orientation="|" sizes="0.2;0.200758;0.198485;0.200758;0.2" count="5">
-      <DockSplitter orientation="-" sizes="0.332961;0.334078;0.332961" count="3">
+     <DockSplitter orientation="|" sizes="0.249252;0.252243;0.246261;0.252243" count="4">
+      <DockSplitter orientation="-" sizes="0.332587;0.334826;0.332587" count="3">
        <DockArea name="...">
         <plot style="Lines" mode="TimeSeries">
-         <range right="10.999823" left="6.000016" bottom="-0.831402" top="-0.631402"/>
+         <range left="5.611948" right="10.611117" top="2.243649" bottom="2.043649"/>
          <limitY/>
-         <curve name="/joint_states/arm/joint1/position" color="#1f77b4"/>
+         <curve color="#1f77b4" name="/joint_states/arm/joint1/position"/>
         </plot>
        </DockArea>
        <DockArea name="...">
         <plot style="Lines" mode="TimeSeries">
-         <range right="10.999823" left="6.000016" bottom="-0.100000" top="0.100000"/>
+         <range left="5.611948" right="10.611117" top="0.100000" bottom="-0.100000"/>
          <limitY/>
-         <curve name="/joint_states/arm/joint1/velocity" color="#1ac938"/>
+         <curve color="#1ac938" name="/joint_states/arm/joint1/velocity"/>
         </plot>
        </DockArea>
        <DockArea name="...">
         <plot style="Lines" mode="TimeSeries">
-         <range right="10.999823" left="6.000016" bottom="-0.941035" top="-0.741035"/>
+         <range left="5.611948" right="10.611117" top="0.744710" bottom="0.544710"/>
          <limitY/>
-         <curve name="/joint_states/arm/joint1/effort" color="#f14cc1"/>
-        </plot>
-       </DockArea>
-      </DockSplitter>
-      <DockSplitter orientation="-" sizes="0.332961;0.334078;0.332961" count="3">
-       <DockArea name="...">
-        <plot style="Lines" mode="TimeSeries">
-         <range right="10.999823" left="6.000016" bottom="0.938870" top="1.138870"/>
-         <limitY/>
-         <curve name="/joint_states/arm/joint2/position" color="#d62728"/>
-        </plot>
-       </DockArea>
-       <DockArea name="...">
-        <plot style="Lines" mode="TimeSeries">
-         <range right="10.999823" left="6.000016" bottom="-0.100000" top="0.100000"/>
-         <limitY/>
-         <curve name="/joint_states/arm/joint2/velocity" color="#ff7f0e"/>
-        </plot>
-       </DockArea>
-       <DockArea name="...">
-        <plot style="Lines" mode="TimeSeries">
-         <range right="10.999823" left="6.000016" bottom="0.007207" top="0.207207"/>
-         <limitY/>
-         <curve name="/joint_states/arm/joint2/effort" color="#9467bd"/>
+         <curve color="#f14cc1" name="/joint_states/arm/joint1/effort"/>
         </plot>
        </DockArea>
       </DockSplitter>
-      <DockSplitter orientation="-" sizes="0.332961;0.334078;0.332961" count="3">
+      <DockSplitter orientation="-" sizes="0.333707;0.332587;0.333707" count="3">
        <DockArea name="...">
         <plot style="Lines" mode="TimeSeries">
-         <range right="10.999823" left="6.000016" bottom="-2.890566" top="-2.690566"/>
+         <range left="5.611948" right="10.611117" top="-2.708780" bottom="-2.908780"/>
          <limitY/>
-         <curve name="/joint_states/arm/joint3/position" color="#17becf"/>
+         <curve color="#d62728" name="/joint_states/arm/joint2/position"/>
         </plot>
        </DockArea>
        <DockArea name="...">
         <plot style="Lines" mode="TimeSeries">
-         <range right="10.999823" left="6.000016" bottom="-0.100000" top="0.100000"/>
+         <range left="5.611948" right="10.611117" top="0.100000" bottom="-0.100000"/>
          <limitY/>
-         <curve name="/joint_states/arm/joint3/velocity" color="#bcbd22"/>
+         <curve color="#ff7f0e" name="/joint_states/arm/joint2/velocity"/>
         </plot>
        </DockArea>
        <DockArea name="...">
         <plot style="Lines" mode="TimeSeries">
-         <range right="10.999823" left="6.000016" bottom="-0.093327" top="0.106673"/>
+         <range left="5.611948" right="10.611117" top="0.068468" bottom="-0.131532"/>
          <limitY/>
-         <curve name="/joint_states/arm/joint3/effort" color="#1f77b4"/>
-        </plot>
-       </DockArea>
-      </DockSplitter>
-      <DockSplitter orientation="-" sizes="0.332961;0.334078;0.332961" count="3">
-       <DockArea name="...">
-        <plot style="Lines" mode="TimeSeries">
-         <range right="10.999823" left="6.000016" bottom="1.238215" top="1.438215"/>
-         <limitY/>
-         <curve name="/joint_states/arm/joint4/position" color="#d62728"/>
-        </plot>
-       </DockArea>
-       <DockArea name="...">
-        <plot style="Lines" mode="TimeSeries">
-         <range right="10.999823" left="6.000016" bottom="-0.100000" top="0.100000"/>
-         <limitY/>
-         <curve name="/joint_states/arm/joint4/velocity" color="#1ac938"/>
-        </plot>
-       </DockArea>
-       <DockArea name="...">
-        <plot style="Lines" mode="TimeSeries">
-         <range right="10.999823" left="6.000016" bottom="-0.180138" top="0.019862"/>
-         <limitY/>
-         <curve name="/joint_states/arm/joint4/effort" color="#ff7f0e"/>
+         <curve color="#9467bd" name="/joint_states/arm/joint2/effort"/>
         </plot>
        </DockArea>
       </DockSplitter>
-      <DockSplitter orientation="-" sizes="0.332961;0.334078;0.332961" count="3">
+      <DockSplitter orientation="-" sizes="0.333707;0.332587;0.333707" count="3">
        <DockArea name="...">
         <plot style="Lines" mode="TimeSeries">
-         <range right="10.999823" left="6.000016" bottom="0.476406" top="0.676406"/>
+         <range left="5.611948" right="10.611117" top="-0.826365" bottom="-1.026365"/>
          <limitY/>
-         <curve name="/joint_states/arm/joint5/position" color="#1f77b4"/>
+         <curve color="#17becf" name="/joint_states/arm/joint3/position"/>
         </plot>
        </DockArea>
        <DockArea name="...">
         <plot style="Lines" mode="TimeSeries">
-         <range right="10.999823" left="6.000016" bottom="-0.100000" top="0.100000"/>
+         <range left="5.611948" right="10.611117" top="0.100000" bottom="-0.100000"/>
          <limitY/>
-         <curve name="/joint_states/arm/joint5/velocity" color="#d62728"/>
+         <curve color="#bcbd22" name="/joint_states/arm/joint3/velocity"/>
         </plot>
        </DockArea>
        <DockArea name="...">
         <plot style="Lines" mode="TimeSeries">
-         <range right="10.999823" left="6.000016" bottom="-0.080836" top="0.119164"/>
+         <range left="5.611948" right="10.611117" top="0.477302" bottom="0.277302"/>
          <limitY/>
-         <curve name="/joint_states/arm/joint5/effort" color="#1ac938"/>
+         <curve color="#1f77b4" name="/joint_states/arm/joint3/effort"/>
+        </plot>
+       </DockArea>
+      </DockSplitter>
+      <DockSplitter orientation="-" sizes="0.333707;0.332587;0.333707" count="3">
+       <DockArea name="...">
+        <plot style="Lines" mode="TimeSeries">
+         <range left="5.611948" right="10.611117" top="0.100000" bottom="-0.100000"/>
+         <limitY/>
+         <curve color="#d62728" name="/joint_states/arm/joint4/position"/>
+        </plot>
+       </DockArea>
+       <DockArea name="...">
+        <plot style="Lines" mode="TimeSeries">
+         <range left="5.611948" right="10.611117" top="0.100000" bottom="-0.100000"/>
+         <limitY/>
+         <curve color="#1ac938" name="/joint_states/arm/joint4/velocity"/>
+        </plot>
+       </DockArea>
+       <DockArea name="...">
+        <plot style="Lines" mode="TimeSeries">
+         <range left="5.611948" right="10.611117" top="0.083208" bottom="-0.116792"/>
+         <limitY/>
+         <curve color="#ff7f0e" name="/joint_states/arm/joint4/effort"/>
         </plot>
        </DockArea>
       </DockSplitter>
@@ -151,8 +128,8 @@
   <plugin ID="UDP Server"/>
   <plugin ID="WebSocket Server"/>
   <plugin ID="ZMQ Subscriber"/>
-  <plugin status="idle" ID="ROS /rosout Visualization"/>
-  <plugin status="idle" ID="ROS Topic Re-Publisher"/>
+  <plugin ID="ROS /rosout Visualization" status="idle"/>
+  <plugin ID="ROS Topic Re-Publisher" status="idle"/>
  </Plugins>
  <!-- - - - - - - - - - - - - - - -->
  <previouslyLoaded_Datafiles/>
