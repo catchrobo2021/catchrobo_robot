@@ -20,7 +20,7 @@ class ArduinoSim:
 
     def arduino2moveit(self, dist):
         move_small = 0.5
-        return (0.115 - dist)/2.0 * move_small
+        return (0.115 - dist)/0.115/2.0  * move_small
 
     def gripper1Callback(self, msg):
         val = msg.data

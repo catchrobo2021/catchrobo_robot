@@ -21,7 +21,6 @@ def getObjectPosi(obj):
 class GripWay:
     LONG_GRIP = [0.086, 0.083]
     SMALL_GRIP = [0.03, 0.023]
-    OPEN = 0.115 - 0.001
 
 class Brain():
     def __init__(self):

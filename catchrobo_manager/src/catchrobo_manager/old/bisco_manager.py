@@ -30,7 +30,7 @@ class BiscoManager():
         self._scene = moveit_commander.PlanningSceneInterface(synchronous=True)
 
         self.readCsv(color)
-        self.cleanRviz()
+        # self.cleanRviz()
         self.addBox2Scene()
         self.sendGUI()
         
@@ -121,16 +121,24 @@ class BiscoManager():
         if first is None:
             return False
         if first is not None and second is not None:
-            areas = [self.getState(first, "my_area"), self.getState(second, "my_area")]
-            positions = [self.getPosi(first), self.getPosi(second)]
-            if areas[0] == areas[1] == True:
-                if abs(first - second) == 6:
-                    self._twin = True
-            elif areas[0] == areas[1] == False:
-                if abs(first - second) == 1:
-                    self._twin = True
-        
+            self._twin = self.isNeighbor(first, second)
         return True
+    
+
+    
+    def isNeighbor(self, first, second):
+        ret = False
+        areas = [self.getState(first, "my_area"), self.getState(second, "my_area")]
+        positions = [self.getPosi(first), self.getPosi(second)]
+        if areas[0] == areas[1] == True:
+            if abs(first - second) == 6:
+                ret = True
+        elif areas[0] == areas[1] == False:
+            if abs(first - second) == 1:
+                ret = True
+        return ret
+        
+
 
     def attach(self, bisco_id):
         # [TODO] change for servo

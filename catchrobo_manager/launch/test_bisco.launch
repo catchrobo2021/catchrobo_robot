@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+<node name="bisco_manager" pkg="catchrobo_manager" type="test_bisco.py" output="screen" />
+</launch>

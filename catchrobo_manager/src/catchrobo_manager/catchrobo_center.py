@@ -6,7 +6,7 @@ import moveit_commander
 
 from geometry_msgs.msg import Pose, Point, Quaternion, PoseStamped
 
-from catchrobo_manager.bisco_manager import BiscoManager
+from catchrobo_manager.bisco.bisco_manager import BiscoManager
 from catchrobo_manager.shooting_box_manager import ShootingBoxManager
 from catchrobo_manager.myrobot import MyRobot
 
@@ -67,8 +67,7 @@ class CatchroboCenter():
             return ActionResult.FINISH
         elif result.isGrip():
             bisco_id = params[0]
-            self._biscos.attach(bisco_id)
-            self._biscos.delete(bisco_id)
+            self._biscos.pick(bisco_id)
 
         elif result.isShoot():
             bisco_id, shooting_box_id = params
