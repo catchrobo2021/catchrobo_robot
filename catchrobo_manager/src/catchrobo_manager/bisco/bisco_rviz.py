@@ -19,7 +19,7 @@ class BiscoRviz:
         # self.cleanRviz()
 
     def cleanRviz(self):
-        bisco_num = len(self._objects)
+        bisco_num = 27
         for i in range(bisco_num):
             self.release(i)
             

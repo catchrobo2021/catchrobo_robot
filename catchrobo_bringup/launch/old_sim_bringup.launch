@@ -8,6 +8,21 @@
     </group>
 
 
+    <group ns="hand1_controller/">
+      <param name="feedback_rate" value="100"/>
+      <param name="trajectory_rate" value="100"/>
+      <rosparam param="joints">[gripper/joint1]</rosparam>
+      <node name="follow_joint_trajectory" pkg="catchrobo_control" type="my_control_node.py" output="screen" />
+      <node name="robot" pkg="catchrobo_driver_sim" type="joint_controller_sim.py" output="screen" />
+    </group>
+
+    <group ns="hand2_controller/">
+      <param name="feedback_rate" value="100"/>
+      <param name="trajectory_rate" value="100"/>
+      <rosparam param="joints">[gripper/joint2]</rosparam>
+      <node name="follow_joint_trajectory" pkg="catchrobo_control" type="my_control_node.py" output="screen" />
+      <node name="robot" pkg="catchrobo_driver_sim" type="joint_controller_sim.py" output="screen" />
+    </group>
     <!-- <node name="arduino_sim" pkg="catchrobo_driver_sim" type="arduino_sim.py" output="screen" /> -->
 
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
