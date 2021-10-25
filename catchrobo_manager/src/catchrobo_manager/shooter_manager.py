@@ -34,31 +34,44 @@ class Guide:
 
 
 class ShooterManager:
-    def __init__(self):
+    def __init__(self, color):
         self._shooters = [Servo("sorter1"), Servo("sorter2"), Servo("sorter3")]
         self._guide = Guide()
         self.OPEN_DEG = 30
-        
+        self._color = color
+
+    def getRow2Direction(self, row):
+        row2sorter = [2,2,1,1,0,0]
+        if self._color == "blue":
+            row2sorter = list(reversed(row2sorter))
+
+        sorter_id = row2sorter[row]
+
+
+        if row%2 == 0:
+            sign = -1
+        else:
+            sign = 1
+        if self._color == "blue":
+            sign *= -1
+        return sorter_id, sign
+
 
     def open(self, shooting_box):
         row = shooting_box["row"]
-        shooter_id = int(row//2)
-        temp = row - 2*shooter_id
-        if temp == 1:
-            direction = 1
-        else:
-            direction = -1
-
-        deg = direction * self.OPEN_DEG
-        shooter = self._shooters[shooter_id]
+        sorter_id, sign = self.getRow2Direction(row)
+        deg = sign * self.OPEN_DEG
+        shooter = self._shooters[sorter_id]
         shooter.move(deg)
 
 
     def close(self, shooting_box):
         row = shooting_box["row"]
-        shooter_id = int(row//2)
-        shooter = self._shooters[shooter_id]
-        shooter.move(0)
+        sorter_id, sign = self.getRow2Direction(row)
+        shooter = self._shooters[sorter_id]
+        deg = - sign * self.OPEN_DEG
+        shooter.move(deg)
+        rospy.sleep(0.5)
 
     def barUp(self):
         self._guide.barUp()

@@ -1,17 +1,10 @@
 <launch>
+    <arg name="field" default="blue"/>
     <include file="$(find catchrobo_bringup)/launch/others.launch">
-    <arg name="field" value="blue"/>
+      <arg name="field" value="$(arg field)"/>
     </include>
     <node name="gamepad_ctrl" pkg="catchrobo_driver" type="gamepad_ctrl.py" output="screen"/>
     <group ns="arm0_controller/">
       <node name="robot" pkg="catchrobo_driver_sim" type="joint_controller_sim.py" output="screen" />
     </group>
-
-
-    <!-- <node name="arduino_sim" pkg="catchrobo_driver_sim" type="arduino_sim.py" output="screen" /> -->
-
-    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
-    <param name="use_gui" value="true" />
-    <rosparam param="source_list">[arm0_controller/joint_states, gripper1_joint_state, gripper2_joint_state, guide_joint_state, sorter1_joint_state, sorter2_joint_state, sorter3_joint_state]</rosparam>
-  </node>
 </launch>

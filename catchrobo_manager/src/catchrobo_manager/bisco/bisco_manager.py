@@ -19,6 +19,7 @@ class BiscoManager():
 
         
         self._gui.sendGUI()
+        self._can_go_common = False
 
     def pick(self, id):
         self._rviz.attach(id)
@@ -36,3 +37,5 @@ class BiscoManager():
         return [self._database.getObj(id) for id in self._target_ids], self._twin 
 
 
+    def setCanGoCommon(self, flag):
+        self._can_go_common = flag

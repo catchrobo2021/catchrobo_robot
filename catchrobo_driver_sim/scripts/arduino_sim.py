@@ -24,11 +24,11 @@ class Float2JointState:
         self._joint_state_publisher.publish(self._state)
 
 def arduino2moveitGripper(dist):
-    move_small = 0.5
+    move_small = 0.05
     return (0.115 - dist)/0.115/2.0  * move_small
 
-def rad2deg(rad):
-    return np.rad2deg(rad)
+def deg2rad(rad):
+    return np.deg2rad(rad)
 
 
 if __name__ == "__main__":
@@ -37,8 +37,8 @@ if __name__ == "__main__":
 
     Float2JointState("gripper1", "gripper1_joint_state", "gripper/joint1", arduino2moveitGripper)
     Float2JointState("gripper2", "gripper2_joint_state", "gripper/joint2", arduino2moveitGripper)
-    Float2JointState("guide", "guide_joint_state","guide/joint1",rad2deg)
-    Float2JointState("sorter1", "sorter1_joint_state", "sorter/joint1",rad2deg)
-    Float2JointState("sorter2", "sorter2_joint_state", "sorter/joint2",rad2deg)
-    Float2JointState("sorter3", "sorter3_joint_state", "sorter/joint3",rad2deg)
+    Float2JointState("guide", "guide_joint_state","guide/joint1",deg2rad)
+    Float2JointState("sorter1", "sorter1_joint_state", "sorter/joint1",deg2rad)
+    Float2JointState("sorter2", "sorter2_joint_state", "sorter/joint2",deg2rad)
+    Float2JointState("sorter3", "sorter3_joint_state", "sorter/joint3",deg2rad)
     rospy.spin()

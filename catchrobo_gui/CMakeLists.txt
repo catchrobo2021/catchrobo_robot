@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(catch_robo)
+project(catchrobo_gui)
 
 ###################
 # compile options #
@@ -12,7 +12,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -O0")
 ## Library ##
 #############
 
-#find_package(catkin REQUIRED catch_robo)
+#find_package(catkin REQUIRED catchrobo_gui)
 
 ## Eigen ##
 find_package(Eigen3 REQUIRED)

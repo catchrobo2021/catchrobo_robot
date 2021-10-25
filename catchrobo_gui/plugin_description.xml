@@ -1,4 +1,4 @@
-<library path="libcatch_robo">
+<library path="libcatchrobo_gui">
   <!-- Dial Panel -->
   <class name="field_2/Blue2" type="field_2::Blue2" base_class_type="rviz::Panel">
     <description>

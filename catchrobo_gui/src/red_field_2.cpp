@@ -1,5 +1,5 @@
-#include "field/blue_field_2.h"
-#include "ui_blue_2.h"
+#include "field/red_field_2.h"
+#include "ui_red_2.h"
 
 #include <pluginlib/class_list_macros.h>
 
@@ -26,14 +26,14 @@
 
 namespace field_2
 {
-Blue2::Blue2(QWidget *parent) :
+Red2::Red2(QWidget *parent) :
     rviz::Panel(parent),
-    ui(new Ui::Blue2)
+    ui(new Ui::Red2)
 {
     ui->setupUi(this);
     scene = new QGraphicsScene;
-    std::string pa = ros::package::getPath("catch_robo");
-    std::string pat = "/img/blue_field.png";
+    std::string pa = ros::package::getPath("catchrobo_gui");
+    std::string pat = "/img/red_field.png";
     std::string path = pa+pat;
     QString test = QString::fromLocal8Bit(path.c_str());
     //sstd::cout << pat+pa << std::endl;
@@ -41,12 +41,12 @@ Blue2::Blue2(QWidget *parent) :
     scene->addItem(pix);
     ui->graphicsView->setScene(scene);
     pub_ = nh_.advertise<std_msgs::Int32MultiArray>("obj", 1);
-    sub_ = n.subscribe("ob", sendtime, &Blue2::arrayback, this);
+    sub_ = n.subscribe("ob", sendtime, &Red2::arrayback, this);
 }
 
-Blue2::~Blue2() = default;
+Red2::~Red2() = default;
 
-void Blue2::onInitialize()
+void Red2::onInitialize()
 {
   connect(ui->obj1, SIGNAL(clicked()), this, SLOT(buttonClicked()));
   connect(ui->obj2, SIGNAL(clicked()), this, SLOT(buttonClicked()));
@@ -75,27 +75,21 @@ void Blue2::onInitialize()
   connect(ui->obj25, SIGNAL(clicked()), this, SLOT(buttonClicked()));
   connect(ui->obj26, SIGNAL(clicked()), this, SLOT(buttonClicked()));
   connect(ui->obj27, SIGNAL(clicked()), this, SLOT(buttonClicked()));
-
-  //pub_ = nh_.advertise<std_msgs::Int32MultiArray>("obj", 1);
-  //parentWidget()->setVisible(true);
-
-  //this->change_state();
-  //QTimer::singleShot(sendtime, this, SLOT(send_msg()));
 }
 
-void Blue2::onEnable()
+void Red2::onEnable()
 {
   show();
   parentWidget()->show();
 }
 
-void Blue2::onDisable()
+void Red2::onDisable()
 {
   hide();
   parentWidget()->hide();
 }
 
-void Blue2::buttonClicked()
+void Red2::buttonClicked()
 {
   std_msgs::Int32MultiArray array;
   array.data.resize(27);
@@ -133,7 +127,7 @@ void Blue2::buttonClicked()
   //ROS_INFO_STREAM(array);
 }
 
-void Blue2::send_msg()
+void Red2::send_msg()
 {
   std_msgs::Int32MultiArray array;
   array.data.resize(27);
@@ -170,16 +164,7 @@ void Blue2::send_msg()
   QTimer::singleShot(sendtime, this, SLOT(send_msg()));
 }
 
-void Blue2::get_msg(){
-  //Blue2 Blue2;
-  //ros::Subscriber sub3 = n.subscribe("obj", sendtime, &Blue2::arrayback, &Blue2);
-  ros::Rate loop_rate(1);
-  ros::spinOnce();
-  loop_rate.sleep();
-  QTimer::singleShot(sendtime, this, SLOT(get_msg()));
-}
-
-void Blue2::arrayback(const std_msgs::Int32MultiArray& msg){
+void Red2::arrayback(const std_msgs::Int32MultiArray& msg){
   // print all the remaining numbers
 
   int num = msg.data.size();
@@ -218,11 +203,6 @@ void Blue2::arrayback(const std_msgs::Int32MultiArray& msg){
   ui->obj27->setChecked(msg.data[26]);
 }
 
-void Blue2::change_state(){
-  ui->obj1->setChecked(0);  
-  ui->obj2->setChecked(1);
 }
 
-}
-
-PLUGINLIB_EXPORT_CLASS(field_2::Blue2, rviz::Panel )
+PLUGINLIB_EXPORT_CLASS(field_2::Red2, rviz::Panel )

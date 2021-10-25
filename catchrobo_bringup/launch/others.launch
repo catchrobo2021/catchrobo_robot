@@ -12,8 +12,6 @@
         
       </group>
 
-
-
       <!-- <node name="game_manager" pkg="catchrobo_manager" type="game_manager.py" output="screen" >
       </node> -->
       
@@ -53,6 +51,11 @@
   </include>
 
   
+    <node name="arduino_sim" pkg="catchrobo_driver_sim" type="arduino_sim.py" output="screen" />
+<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="use_gui" value="true" />
+    <rosparam param="source_list">[arm0_controller/joint_states, gripper1_joint_state, gripper2_joint_state, guide_joint_state, sorter1_joint_state, sorter2_joint_state, sorter3_joint_state]</rosparam>
+  </node>
 
 
 </launch>

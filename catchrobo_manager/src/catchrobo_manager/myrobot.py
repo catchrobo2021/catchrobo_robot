@@ -13,11 +13,11 @@ class MyRobot():
     def __init__(self,color):
         self._brain = Brain()
         self._arm = Arm()
-        self._gripper = GripperManager()
-        self._shooter = ShooterManager()
+        self._gripper = GripperManager(color)
+        self._shooter = ShooterManager(color)
 
         self._arm.goHome(color)
-        self._shooter.barUp()
+        self._shooter.barDown()
         
 
     def doAction(self):
