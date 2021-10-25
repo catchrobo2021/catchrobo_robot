@@ -3,6 +3,8 @@
 
 import pandas as pd
 import numpy as np
+import threading
+
 
 import rospkg
 
@@ -11,6 +13,7 @@ from geometry_msgs.msg import Pose, Point, Quaternion, PoseStamped
 class BiscoDatabase:
     def __init__(self):
         self._count_key = "exist"
+        # self._lock = threading.Lock()
 
     def readCsv(self, color):
         rospack = rospkg.RosPack()
@@ -20,9 +23,11 @@ class BiscoDatabase:
         self._objects = pd.read_csv(bisco_csv, index_col=0)
     
     def updateState(self, id, key, value):
+        # with self._lock:
         self._objects.loc[id, key] = value
     
     def getState(self, id, key):
+        # with self._lock:
         return self._objects.loc[id, key]
 
     def getPosi(self, id):

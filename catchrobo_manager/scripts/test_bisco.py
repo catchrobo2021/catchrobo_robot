@@ -7,7 +7,7 @@ from catchrobo_manager.bisco.bisco_manager import BiscoManager
 
 if __name__ == "__main__":
     rospy.init_node("test_bisco")
-    manager = BiscoManager("red")
+    manager = BiscoManager("red", False)
     rate = rospy.Rate(1)    
     while not rospy.is_shutdown():
         manager.calcTargetTwin()

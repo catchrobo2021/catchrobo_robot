@@ -13,14 +13,11 @@ class TargetBiscoCalculator:
         biscos = copy.deepcopy(database)
         first = self.getMininumPriorityId(biscos)
         if first is None:
-            target_ids = None, None
-            twin = False
-            return target_ids, twin
+            return None, None
 
         biscos.delete(first)
         second = self.getMininumPriorityId(biscos)
-        twin = self.isNeighbor(biscos, first, second)
-        return [first, second], twin
+        return first, second
     
     def getMininumPriorityId(self, database):
         exist = database._objects["exist"]
