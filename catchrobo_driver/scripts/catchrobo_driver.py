@@ -14,7 +14,7 @@ from position_converter import PositionConverter
 
 class catchrobo_driver:
     def __init__(self):
-        self.MOTOR_NUM = 5 # number of joints
+        self.MOTOR_NUM = 4 # number of joints
         rospy.init_node("catcrobo_driver")
         rospy.Subscriber("enable_joints", Bool, self.engage_idle_callback)
         rospy.Subscriber("joint_control", JointState, self.joint_control_callback)
@@ -82,7 +82,7 @@ class catchrobo_driver:
         self._joint_position_tolerence = []
         self._joint_velocity_limit = []
         self._joint_currernt_limit = []
-        for i in range(5):
+        for i in range(self.MOTOR_NUM):
             self._joint_position_limit_max.append(rosparam.get_param("arm/joint"+str(i+1)+"/limit/position/max"))
             self._joint_position_limit_min.append(rosparam.get_param("arm/joint"+str(i+1)+"/limit/position/min"))
             self._joint_velocity_limit.append(rosparam.get_param("arm/joint"+str(i+1)+"/limit/velocity"))
@@ -97,7 +97,7 @@ class catchrobo_driver:
 
     def read(self):
         self._motor_state = self._odrv_bridge.read()
-        joint_state = self._cnverter.convert_motor_to_joint(motor_state_rad=self._motor_state)
+        joint_state = self._cnverter.convert_motor_to_joint(motor_state_round=self._motor_state)
         
         self._joint_state.position = joint_state.position
         self._joint_state.velocity = joint_state.velocity

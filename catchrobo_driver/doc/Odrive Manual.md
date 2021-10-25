@@ -19,7 +19,7 @@ odrivetool
 1. Set configurations for ABI encoders:  
 ```
 odrv0.axis0.controller.config.vel_limit = 20
-odrv0.axis0.motor.config.current_lim = 24
+odrv0.axis0.motor.config.current_lim = 20
 odrv0.axis0.motor.config.calibration_current = 5
 odrv0.axis0.motor.config.pole_pairs = 21
 odrv0.axis0.motor.config.torque_constant = 0.07
@@ -33,7 +33,7 @@ odrv0.save_configuration()
 odrv0.reboot()
 
 odrv0.axis1.controller.config.vel_limit = 20
-odrv0.axis1.motor.config.current_lim = 24
+odrv0.axis1.motor.config.current_lim = 20
 odrv0.axis1.motor.config.calibration_current = 5
 odrv0.axis1.motor.config.pole_pairs = 21
 odrv0.axis1.motor.config.torque_constant = 0.07

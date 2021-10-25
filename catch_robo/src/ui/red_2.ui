@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Red2</class>
+ <widget class="QWidget" name="Red2">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>442</width>
+    <height>311</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Blue</string>
+  </property>
+  <widget class="QGraphicsView" name="graphicsView">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>441</width>
+     <height>321</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj16">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>110</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj17">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>175</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj18">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>240</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj13">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>110</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj14">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>175</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj15">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>240</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj27">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>10</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj26">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>10</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj25">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>10</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj24">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>10</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj10">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>110</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj12">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>240</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj11">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>175</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj23">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>10</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj7">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>110</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj22">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>10</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj21">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>10</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj4">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>110</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj1">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>110</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj9">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>240</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj6">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>240</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj3">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>240</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj8">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>175</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj5">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>175</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj2">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>175</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj20">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>10</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="obj19">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>10</y>
+     <width>41</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</normaloff>
+     <normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_bw.png</normalon>../catkin_ws/src/catchrobo_robot/catch_robo/img/blue_color.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>64</width>
+     <height>64</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
