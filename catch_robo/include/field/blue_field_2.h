@@ -46,15 +46,12 @@ private Q_SLOTS:
   void lineEditChanged();
   void buttonClicked();
   void send_msg();
-  void get_msg();
-  void change_state();
 
 protected:
   Ui::Blue2 *ui;
-  int value_{0};
-  std::string topic_name_{"obj"};
   QGraphicsScene *scene;
   QGraphicsPixmapItem *pix;
+  QIcon icon;
 
   int sendtime = 100; //ms
   ros::NodeHandle nh_;
