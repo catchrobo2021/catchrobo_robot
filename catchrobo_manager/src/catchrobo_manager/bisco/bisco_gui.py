@@ -20,7 +20,13 @@ class BiscoGUI():
         self._pub2gui.publish(info)
 
     def guiCallback(self,msg):
-        rospy.loginfo(msg.data)
+        # rospy.loginfo(msg.data)
         for i, val in enumerate(msg.data):
             temp = bool(val)
+            before = self._database.getState(i, "exist")
+
+            if temp != before:
+                rospy.loginfo("change bisco {} -> {}".format(i, temp))
             self._database.updateState(i,"exist", temp)
+
+            

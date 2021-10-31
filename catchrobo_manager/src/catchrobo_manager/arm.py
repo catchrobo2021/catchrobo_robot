@@ -17,8 +17,12 @@ class Arm(object):
     def __init__(self):
           # sleep a bit to update roscore
         self._robot = moveit_commander.RobotCommander()
-        
         self._arm = moveit_commander.MoveGroupCommander("arm0")
+
+        accel = rospy.get_param("max_acceleration_scaling_factor")
+        vel = rospy.get_param("max_velosity_scaling_factor")
+        self._arm.set_max_acceleration_scaling_factor(accel)
+        self._arm.set_max_velocity_scaling_factor(vel)
         # rospy.loginfo(self._robot.get_joint_names("arm0"))
         # rosp
         
