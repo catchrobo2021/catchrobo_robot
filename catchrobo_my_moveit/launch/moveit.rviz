@@ -109,11 +109,21 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          base/link_frame:
+          base/entry_prohibited_area:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          base/link_tip:
+            Value: true
+          base/pc:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          base/robot_tip:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          base/shooter_tip:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -258,11 +268,21 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          base/link_frame:
+          base/entry_prohibited_area:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          base/link_tip:
+            Value: true
+          base/pc:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          base/robot_tip:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          base/shooter_tip:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -352,10 +372,14 @@ Visualization Manager:
           Value: true
         base/base_link:
           Value: false
-        base/link_frame:
+        base/entry_prohibited_area:
           Value: true
-        base/link_tip:
-          Value: false
+        base/pc:
+          Value: true
+        base/robot_tip:
+          Value: true
+        base/shooter_tip:
+          Value: true
         gripper/base_link:
           Value: false
         gripper/finger1_1:
@@ -390,17 +414,11 @@ Visualization Manager:
       Tree:
         world:
           base/base_link:
-            base/link_frame:
-              shooter/base_link:
-                shooter/guide:
-                  {}
-                shooter/sorter1:
-                  {}
-                shooter/sorter2:
-                  {}
-                shooter/sorter3:
-                  {}
-            base/link_tip:
+            base/entry_prohibited_area:
+              {}
+            base/pc:
+              {}
+            base/robot_tip:
               arm/link0:
                 arm/link1:
                   arm/link2:
@@ -420,6 +438,16 @@ Visualization Manager:
                               {}
                             gripper/grasping_frame2:
                               {}
+            base/shooter_tip:
+              shooter/base_link:
+                shooter/guide:
+                  {}
+                shooter/sorter1:
+                  {}
+                shooter/sorter2:
+                  {}
+                shooter/sorter3:
+                  {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -438,25 +466,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 2.4779531955718994
+      Distance: 2.387620449066162
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.4611464738845825
-        Y: 0.4042176604270935
+        X: -0.12239164113998413
+        Y: 0.7372681498527527
         Z: 2.2351800055275817e-7
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.21979686617851257
+      Pitch: 0.08979777246713638
       Target Frame: world
       Value: XYOrbit (rviz)
-      Yaw: 1.4917644262313843
+      Yaw: 4.3585968017578125
     Saved: ~
 Window Geometry:
   Displays:
@@ -470,9 +498,9 @@ Window Geometry:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd000000010000000000000210000003a5fc0200000007fb000000100044006900730070006c006100790073010000003d00000217000000c900fffffffb0000000800480065006c00700000000342000000bb0000006e00fffffffb0000000a0056006900650077007300000003b0000000b0000000a400fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000001600000016fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e0067010000025a000001880000018800ffffff0000039a000003a500000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd000000010000000000000210000003a5fc0200000007fb000000100044006900730070006c006100790073010000003d00000217000000c900fffffffb0000000800480065006c00700000000342000000bb0000006e00fffffffb0000000a0056006900650077007300000003b0000000b0000000a400fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000001600000016fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e0067010000025a000001880000017d00ffffff0000039a000003a500000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
   Width: 1456
-  X: 464
-  Y: 27
+  X: 2347
+  Y: 2

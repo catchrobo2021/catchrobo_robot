@@ -6,7 +6,7 @@ import moveit_commander
 
 from geometry_msgs.msg import Pose, Point, Quaternion, PoseStamped
 
-from catchrobo_manager.bisco_manager import BiscoManager
+from catchrobo_manager.bisco.bisco_manager import BiscoManager
 from catchrobo_manager.shooting_box_manager import ShootingBoxManager
 from catchrobo_manager.myrobot import MyRobot
 
@@ -25,10 +25,10 @@ class Obstacle:
         p = PoseStamped()
         p.header.frame_id = "world"  
 
-        size = 0.15, 0.2, 0.5
-        p.pose.position.x = 0.850
-        p.pose.position.y = 0.100
-        p.pose.position.z = size[2]/2 + 0.05
+        # size = 0.15, 0.2, 0.5
+        # p.pose.position.x = 0.850
+        # p.pose.position.y = 0.100
+        # p.pose.position.z = size[2]/2 + 0.05
 
         # if color == "blue":
         #     p.pose.position.x = -p.pose.position.x 
@@ -36,15 +36,20 @@ class Obstacle:
         # rospy.sleep(0.1)
         # self._scene.add_box("avoid_back", p, size)
 
-        # size = 0.01, 1.350, 0.5
-        # p.pose.position.x = -0.153
-        # if color == "blue":
-        #     p.pose.position.x = -p.pose.position.x 
-        # p.pose.position.y = size[1] /2
-        # p.pose.position.z = size[2]/2 + 0.05        
-        # p.pose.orientation.w = 1.0
-        # rospy.sleep(0.1)
-        # self._scene.add_box("avoid_opponent", p, size)
+        size = 0.01, 1.350, 0.5
+        p.pose.position.x = 0.15
+        if color == "blue":
+            p.pose.position.x = -p.pose.position.x 
+        p.pose.position.y = size[1] /2
+        p.pose.position.z = size[2]/2 + 0.1
+        p.pose.orientation.w = 1.0
+        rospy.sleep(0.1)
+        self._scene.add_box("avoid_common_area", p, size)
+    
+    def deleteCommonAreaObstacle(self):
+        self._scene.remove_world_object("avoid_common_area")
+        rospy.sleep(0.1)
+
 
 
         
@@ -58,6 +63,8 @@ class CatchroboCenter():
         self._biscos = BiscoManager(self._color)   
         self._shooting_box = ShootingBoxManager(self._color)   
         self._obstacle = Obstacle(self._color)
+
+        self._can_go_common = False
         
     def doAction(self):
         result = self._robot.doAction()
@@ -67,8 +74,7 @@ class CatchroboCenter():
             return ActionResult.FINISH
         elif result.isGrip():
             bisco_id = params[0]
-            self._biscos.attach(bisco_id)
-            self._biscos.delete(bisco_id)
+            self._biscos.pick(bisco_id)
 
         elif result.isShoot():
             bisco_id, shooting_box_id = params
@@ -89,14 +95,21 @@ class CatchroboCenter():
 
     def calcShootAction(self):
         self._shooting_box.calcTargetTwin()
-        targets, is_twin = self._shooting_box.getTargetTwin()
+        targets, _ = self._shooting_box.getTargetTwin()
         biscos, _ = self._biscos.getTargetTwin()
         if targets[0] is None and targets[1] is None:
             return ActionResult.GAME_END
         self._robot.calcShootAction(targets, biscos)
+
         return ActionResult.DOING
     
     def doShootAction(self):
+        if not self._can_go_common:
+            self._can_go_common = self._shooting_box.canGoCommon()
+            if self._can_go_common:
+                self._obstacle.deleteCommonAreaObstacle()
+                self._biscos.setCanGoCommon(True)
+
         return self.doAction()
 
     def end(self):
