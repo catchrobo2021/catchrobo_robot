@@ -14,5 +14,5 @@ if __name__ == "__main__":
         targets, twin = manager.getTargetTwin()
         temp = "targets : {}, {} (twin: {})".format(targets[0].name, targets[1].name, twin)
         rospy.loginfo(temp)
-        # manager._gui.sendGUI()
+        manager._gui.sendGUI()
         rate.sleep()
