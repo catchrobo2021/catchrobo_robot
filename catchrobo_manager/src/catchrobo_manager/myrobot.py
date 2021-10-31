@@ -18,6 +18,8 @@ class MyRobot():
 
         self._arm.goHome(color)
         self._shooter.barDown()
+
+        self._color = color
         
 
     def doAction(self):
@@ -62,5 +64,5 @@ class MyRobot():
         self._brain.calcShootAction(targets, is_twin)
 
     def end(self):
-        self._arm.goHome()
+        self._arm.goHome(self._color)
         self._shooter.barUp()

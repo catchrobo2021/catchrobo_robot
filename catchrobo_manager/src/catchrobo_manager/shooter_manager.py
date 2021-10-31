@@ -58,7 +58,7 @@ class ShooterManager:
 
 
     def open(self, shooting_box):
-        row = shooting_box["row"]
+        row = shooting_box.name
         sorter_id, sign = self.getRow2Direction(row)
         deg = sign * self.OPEN_DEG
         shooter = self._shooters[sorter_id]
@@ -66,7 +66,7 @@ class ShooterManager:
 
 
     def close(self, shooting_box):
-        row = shooting_box["row"]
+        row = shooting_box.name
         sorter_id, sign = self.getRow2Direction(row)
         shooter = self._shooters[sorter_id]
         deg = - sign * self.OPEN_DEG

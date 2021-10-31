@@ -23,40 +23,8 @@ class ShootingBoxManager():
         self._objects = pd.read_csv(csv, index_col=0)
 
     def canGoCommon(self):
-        group = self._objects.groupby("sorter_id")
-        in_sorter_bool = group["space"] >=8
-        
-        return in_sorter_bool.sum() <= 0
-
-    def delete(self, id):
-        self._objects.loc[id, "space"] -= 1
-
-    def calcTargetTwin(self):
-        self.calcTargetId()
-        first = self.getTargetId()
-        if first is None:
-            self._target_ids = None, None
-            self._twin = False
-            return
-
-        self.updateState(first, False)
-
-        self.calcTargetId()
-        second = self.getTargetId()
-        self.updateState(first, True)
-        self._target_ids = first, second
-    
-    def getTargetTwin(self):
-        return [self.getObj(id) for id in self._target_ids], None
-
-
-
-
-###################
-
-
-
-    
+        exist = self._objects[self._count_key]
+        return np.sum(exist) <= len(self._objects) - 3
 
     def calcTargetId(self):
         exist = self._objects[self._count_key]
@@ -105,5 +73,26 @@ class ShootingBoxManager():
         else:
             return self._objects.loc[id]
     
+    def delete(self, id):
+        self._objects.loc[id, self._count_key] = False
+
+    def calcTargetTwin(self):
+        self.calcTargetId()
+        first = self.getTargetId()
+        if first is None:
+            self._target_ids = None, None
+            self._twin = False
+            return
+
+        self.updateState(first, False)
+
+        self.calcTargetId()
+        second = self.getTargetId()
+        self.updateState(first, True)
+        self._target_ids = first, second
     
+    def getTargetTwin(self):
+        return [self.getObj(id) for id in self._target_ids], self._twin
+
+
 
