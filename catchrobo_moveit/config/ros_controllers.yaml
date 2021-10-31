@@ -36,24 +36,24 @@ controller_list:
       - arm/joint3
       - arm/joint4
       - arm/joint5
-  - name: hand2_controller
-    action_ns: follow_joint_trajectory
-    default: True
-    type: FollowJointTrajectory
-    joints:
-      gripper/joint2
-  - name: hand1_controller
-    action_ns: follow_joint_trajectory
-    default: True
-    type: FollowJointTrajectory
-    joints:
-      gripper/joint1
-  - name: shooter_controller
-    action_ns: follow_joint_trajectory
-    default: True
-    type: FollowJointTrajectory
-    joints:
-      - guide/joint1
-      - sorter/joint1
-      - sorter/joint2
-      - sorter/joint3
+  # - name: hand2_controller
+  #   action_ns: follow_joint_trajectory
+  #   default: True
+  #   type: FollowJointTrajectory
+  #   joints:
+  #     gripper/joint2
+  # - name: hand1_controller
+  #   action_ns: follow_joint_trajectory
+  #   default: True
+  #   type: FollowJointTrajectory
+  #   joints:
+  #     gripper/joint1
+  # - name: shooter_controller
+  #   action_ns: follow_joint_trajectory
+  #   default: True
+  #   type: FollowJointTrajectory
+  #   joints:
+  #     - guide/joint1
+  #     - sorter/joint1
+  #     - sorter/joint2
+  #     - sorter/joint3

@@ -81,7 +81,7 @@ class ODriveBridge:
     def search_index_all(self):
         for i in range(self.MOTOR_NUM):
             self.search_index(joint=i)
-            time.sleep(0.5)
+            time.sleep(2.0)
     
     def get_errors(self,joint,clear=True):
         error_string = self._odrv[self._joint_config[joint][0]].get_errors(clear=clear)

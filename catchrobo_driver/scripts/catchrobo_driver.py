@@ -62,15 +62,14 @@ class catchrobo_driver:
         # setup odrive
         try:
             odrv_bridge = ODriveBridge(MOTOR_NUM=self.MOTOR_NUM,config=rosparam.get_param("arm"))
-            rospy.loginfo("Waiting for Odrive...")
+            rospy.loginfo("Waiting for odrive. Disable the emergency stop switch.")
             odrv_bridge.connect()
             odrv_bridge.set_mode(mode="POS")
             self._odrv_bridge = odrv_bridge
-            #odrv_bridge.set_pid()
         except Exception as e:
             rospy.logerr_throttle(1,"Failed to connect to Odrive: {}".format(e))
         else:
-            rospy.loginfo("Catchrobo driver is ready")
+            rospy.loginfo("Connected to odrives. Ready to execute index search.")
             rospy.Timer(rospy.Duration(1.0 / self._communication_freq), self.controll_callback)
             rospy.spin()
 
@@ -109,7 +108,6 @@ class catchrobo_driver:
         if self._joint_enable_state is False:
             for i in range(self.MOTOR_NUM):
                 self._joint_control.position[i] = self._joint_state.position[i]
-        #rospy.loginfo("self._joint_state: {}".format(self._joint_state.position))
         motor_control = self._cnverter.convert_joint_to_motor(self._joint_control)#(self._joint_control)
         #rospy.loginfo("mot_cnt: {}".format(motor_control.position))
         #rospy.loginfo("mot_state: {}".format(self._motor_state.position))
@@ -193,9 +191,10 @@ class catchrobo_driver:
                 if self._index_search_finished  is True:
                     self.engage_all()
                 else:
-                    rospy.loginfo("Starting index search")
+                    rospy.loginfo("Executing index search")
                     self._odrv_bridge.search_index_all()
                     self._index_search_finished  = True
+                    rospy.loginfo("Index search finished. Ready to engage joints.")
             else:
                 self.idle_all()
         else:
