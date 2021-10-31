@@ -1,55 +1,44 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import numpy as np
+
 import rospy
-import moveit_commander
 
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Float64
 
-class ArduinoSim:
-    def __init__(self):
-        self._robot = moveit_commander.RobotCommander()
-        self._gripper = [
-            moveit_commander.MoveGroupCommander("hand1"),
-            moveit_commander.MoveGroupCommander("hand2"),
-        ]
-        # rospy.Subscriber("arduino_command", JointState, self.jointControlCallback)
-        rospy.Subscriber("gripper1", Float64, self.gripper1Callback)
-        rospy.Subscriber("gripper2", Float64, self.gripper2Callback)
-
-    def arduino2moveit(self, dist):
-        move_small = 0.5
-        return (0.115 - dist)/2.0 * move_small
-
-    def gripper1Callback(self, msg):
-        val = msg.data
-        dist = self.arduino2moveit(val)
-
-        self._gripper[0].set_joint_value_target([dist, dist])
-        self._gripper[0].go(False)
+class Float2JointState:
+    def __init__(self, subscribe_name, publish_name, joint_name, arduino2moveit_func):
+        rospy.Subscriber(subscribe_name, Float64, self.callback)
+        self._joint_state_publisher = rospy.Publisher(publish_name, JointState, queue_size=1)
+        self._state = JointState()
+        self._state.name = [joint_name]
+        self._state.header.frame_id ="world"
+        self._state.position = [0] * len(self._state.name)#[0, 1.5707, -2.7925, 1.22173, 0]
+        self.arduino2moveit = arduino2moveit_func
     
-    def gripper2Callback(self, msg):
-        dist = msg.data
-        self._gripper[1].set_joint_value_target([dist, dist])
-        self._gripper[1].go(False)
+    def callback(self, msg):
+        val = msg.data
+        self._state.position[0] = self.arduino2moveit(val)
+        self._joint_state_publisher.publish(self._state)
 
+def arduino2moveitGripper(dist):
+    move_small = 0.05
+    return (0.115 - dist)/0.115/2.0  * move_small
 
-    # def jointControlCallback(self, msg):
-    #     state = msg
-    #     name = state.name[0] 
-    #     if name == "gripper1":
-    #         dist = state.position[0]
-    #         self._gripper[0].set_joint_value_target([dist, dist])
-    #         self._gripper[0].go(False)
-    #     elif name == "gripper2":
-    #         dist = state.position[0]
-    #         self._gripper[1].set_joint_value_target([dist, dist])
-    #         self._gripper[1].go(False)
-        
+def deg2rad(rad):
+    return np.deg2rad(rad)
 
 
 if __name__ == "__main__":
     rospy.init_node("arduino_sim")
-    joint_controller = ArduinoSim()
+
+
+    Float2JointState("gripper1", "gripper1_joint_state", "gripper/joint1", arduino2moveitGripper)
+    Float2JointState("gripper2", "gripper2_joint_state", "gripper/joint2", arduino2moveitGripper)
+    Float2JointState("guide", "guide_joint_state","guide/joint1",deg2rad)
+    Float2JointState("sorter1", "sorter1_joint_state", "sorter/joint1",deg2rad)
+    Float2JointState("sorter2", "sorter2_joint_state", "sorter/joint2",deg2rad)
+    Float2JointState("sorter3", "sorter3_joint_state", "sorter/joint3",deg2rad)
     rospy.spin()

@@ -79,9 +79,11 @@ class MyStateMachine():
         return next_state
 
     def calGameEndTime(self):
+        self._catchrobo.end()
         now = rospy.Time.now()
         done_time = now- self._start_time
         rospy.loginfo(done_time.to_sec())
+
         self._is_manual = True
         return self.manual
     

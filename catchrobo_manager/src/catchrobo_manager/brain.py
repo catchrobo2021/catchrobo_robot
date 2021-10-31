@@ -8,7 +8,7 @@ import tf
 
 from geometry_msgs.msg import Pose, Point, Quaternion, PoseStamped
 from catchrobo_manager.my_robot_action import MyRobotActionMaker
-from catchrobo_manager.gripper_manager import GripperNumber
+from catchrobo_manager.gripper_manager import GripperID, GripWay
 
 #helper function
 def getObjectPosi(obj):
@@ -17,11 +17,6 @@ def getObjectPosi(obj):
     posi.y = obj["y"]
     posi.z = obj["z"]
     return posi
-
-class GripWay:
-    LONG_GRIP = [0.086, 0.083]
-    SMALL_GRIP = [0.03, 0.023]
-    OPEN = 0.115 - 0.001
 
 class Brain():
     def __init__(self):
@@ -62,22 +57,22 @@ class Brain():
     def calcBiscoAction(self, targets,is_twin):
         if is_twin:
             actions = [
-                self.arriveBisco(GripperNumber.GRIPPER1, targets[0]),
-                self.graspAction(GripperNumber.GRIPPER1, targets[0], False),
-                self.graspAction(GripperNumber.GRIPPER2, targets[1], True),
+                self.arriveBisco(GripperID.NEAR, targets[0]),
+                self.graspAction(GripperID.NEAR, targets[0], False),
+                self.graspAction(GripperID.FAR, targets[1], True),
             ]
 
         else:     
             actions = [       
-                self.arriveBisco(GripperNumber.GRIPPER1, targets[0]),
-                self.graspAction(GripperNumber.GRIPPER1, targets[0], True),
+                self.arriveBisco(GripperID.NEAR, targets[0]),
+                self.graspAction(GripperID.NEAR, targets[0], True),
             ]
 
             if targets[1] is not None:
                 add = [
                     self.AboveHand(targets),
-                    self.arriveBisco(GripperNumber.GRIPPER2, targets[1]),
-                    self.graspAction(GripperNumber.GRIPPER2, targets[1], True),
+                    self.arriveBisco(GripperID.FAR, targets[1]),
+                    self.graspAction(GripperID.FAR, targets[1], True),
                 ]
                 actions = actions + add
         add = [
@@ -89,12 +84,12 @@ class Brain():
     
     def calcShootAction(self, targets, biscos):
         actions = [
-            MyRobotActionMaker.openShooter(targets[GripperNumber.GRIPPER1]),
-            self.arriveShoot(GripperNumber.GRIPPER1,targets, biscos),
-            self.releaseAction(GripperNumber.GRIPPER1, targets, biscos),
-            MyRobotActionMaker.openShooter(targets[GripperNumber.GRIPPER1]),
-            self.arriveShoot(GripperNumber.GRIPPER2,targets, biscos),
-            self.releaseAction(GripperNumber.GRIPPER2, targets, biscos),
+            MyRobotActionMaker.openShooter(targets[0]),
+            self.arriveShoot(GripperID.NEAR,targets, biscos),
+            self.releaseAction(GripperID.NEAR, targets, biscos),
+            MyRobotActionMaker.openShooter(targets[1]),
+            self.arriveShoot(GripperID.FAR,targets, biscos),
+            self.releaseAction(GripperID.FAR, targets, biscos),
             MyRobotActionMaker.finish(),
         ]
         self._actoins =  actions
@@ -112,10 +107,9 @@ class Brain():
         target_pose.position = getObjectPosi(target)
         target_pose.position.z = self.BISCO_GRIP_Z
         if target["my_area"]:
-            if target_gripper == GripperNumber.GRIPPER2:
+            if target_gripper == GripperID.FAR:
                 
                 add_x = 0.025 + self.ARM2GRIPPER
-                    ## [TODO] for blue, * minus
             else:
                 add_x = -0.025 - self.ARM2GRIPPER
             if self._color == "blue":
@@ -124,9 +118,8 @@ class Brain():
             target_pose.orientation = self.MY_GRIP_QUAT
 
         else:
-            if target_gripper == GripperNumber.GRIPPER2:
+            if target_gripper == GripperID.FAR:
                 add_y = self.ARM2GRIPPER
-                ## [TODO] for blue, * minus
             else:
                 add_y = -self.ARM2GRIPPER
             target_pose.position.y += add_y
@@ -138,9 +131,9 @@ class Brain():
 
     def graspAction(self, target_gripper, target, wait):
         if target["my_area"]:
-            grip_way = GripWay.SMALL_GRIP[target_gripper]
+            grip_way = GripWay.SMALL_GRIP
         else:
-            grip_way = GripWay.LONG_GRIP[target_gripper]
+            grip_way = GripWay.LONG_GRIP
 
         action = MyRobotActionMaker.grip(target_gripper, target, grip_way, wait)
         return action
@@ -172,9 +165,8 @@ class Brain():
         # target_pose.position.y -= 0.1
         target_pose.position.z += self.SHOOT_ADD_Z
         if gripping_bisco["my_area"]:
-            if target_gripper == GripperNumber.GRIPPER2:
+            if target_gripper == GripperID.FAR:
                 add_x = 0.025 + self.ARM2GRIPPER
-                ## [TODO] for blue, * minus
             else:
                 add_x = -0.025 - self.ARM2GRIPPER
             if self._color == "blue":
@@ -184,13 +176,13 @@ class Brain():
 
         else:
             if gripping_bisco["forward"]:
-                if target_gripper == GripperNumber.GRIPPER1:
+                if target_gripper == GripperID.NEAR:
                     add_y = -self.ARM2GRIPPER
                 else:
                     add_y = self.ARM2GRIPPER
                 orientation = self.COMMON_RELEASE_FORWARD
             else:
-                if target_gripper == GripperNumber.GRIPPER1:
+                if target_gripper == GripperID.NEAR:
                     add_y = self.ARM2GRIPPER
                 else:
                     add_y = -self.ARM2GRIPPER
