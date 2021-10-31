@@ -32,7 +32,7 @@ roslaunch catchrobo_moveit demo.launch
 ### simulation for catchrobo
 - roslaunch catchrobo_bringup bringup.launch #実機用
 - roslaunch catchrobo_bringup sim_bringup.launch #PCsim
-- rosrun catchrobo_manager game_manager.py
+- roslaunch catchrobo_manager catchrobo_manager.launch #game start
 
 
 

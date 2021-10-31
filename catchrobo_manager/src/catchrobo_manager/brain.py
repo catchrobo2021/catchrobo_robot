@@ -58,13 +58,16 @@ class Brain():
         if is_twin:
             actions = [
                 self.arriveBisco(GripperID.NEAR, targets[0]),
+                self.DownHand(),
                 self.graspAction(GripperID.NEAR, targets[0], False),
                 self.graspAction(GripperID.FAR, targets[1], True),
+                
             ]
 
         else:     
             actions = [       
                 self.arriveBisco(GripperID.NEAR, targets[0]),
+                self.DownHand(),
                 self.graspAction(GripperID.NEAR, targets[0], True),
             ]
 
@@ -72,6 +75,7 @@ class Brain():
                 add = [
                     self.AboveHand(targets),
                     self.arriveBisco(GripperID.FAR, targets[1]),
+                    self.DownHand(),
                     self.graspAction(GripperID.FAR, targets[1], True),
                 ]
                 actions = actions + add
@@ -105,7 +109,7 @@ class Brain():
     def arriveBisco(self, target_gripper, target):
         target_pose = Pose()
         target_pose.position = getObjectPosi(target)
-        target_pose.position.z = self.BISCO_GRIP_Z
+        target_pose.position.z = self.BISCO_ABOVE_Z
         if target["my_area"]:
             if target_gripper == GripperID.FAR:
                 
@@ -147,6 +151,9 @@ class Brain():
         action = MyRobotActionMaker.above(z)
         return action
         
+    def DownHand(self):
+        action = MyRobotActionMaker.above(self.BISCO_GRIP_Z)
+        return action
 
 
     def releaseAction(self, target_gripper, target_shooting_boxes, biscos):
