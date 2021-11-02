@@ -29,6 +29,8 @@ class Brain():
 
         self.MAX_HIGHT =  0.3272 - 0.03
         self.ARM2GRIPPER = 0.05
+
+        self.SAFE_Z_NO_GRIP = self.BISCO_SIZE[2] + 0.1
         self.BISCO_ABOVE_Z =self.MAX_HIGHT#self.BISCO_SIZE[2] + 0.06
         self.BISCO_GRIP_Z = self.BISCO_SIZE[2] + 0.03
         self.BISCO_ABOVE_COMMON_Z =self.MAX_HIGHT#self.BISCO_SIZE[2] + 0.1
@@ -57,7 +59,7 @@ class Brain():
     def calcBiscoAction(self, targets,is_twin):
         if is_twin:
             actions = [
-                self.arriveBisco(GripperID.NEAR, targets[0]),
+                self.arriveBisco(GripperID.NEAR, targets[0], self.SAFE_Z_NO_GRIP),
                 self.DownHand(),
                 self.graspAction(GripperID.NEAR, targets[0], False),
                 self.graspAction(GripperID.FAR, targets[1], True),
@@ -66,7 +68,7 @@ class Brain():
 
         else:     
             actions = [       
-                self.arriveBisco(GripperID.NEAR, targets[0]),
+                self.arriveBisco(GripperID.NEAR, targets[0], self.SAFE_Z_NO_GRIP),
                 self.DownHand(),
                 self.graspAction(GripperID.NEAR, targets[0], True),
             ]
@@ -74,7 +76,7 @@ class Brain():
             if targets[1] is not None:
                 add = [
                     self.AboveHand(targets),
-                    self.arriveBisco(GripperID.FAR, targets[1]),
+                    self.arriveBisco(GripperID.FAR, targets[1], self.BISCO_ABOVE_Z),
                     self.DownHand(),
                     self.graspAction(GripperID.FAR, targets[1], True),
                 ]
@@ -106,10 +108,10 @@ class Brain():
 
     
 
-    def arriveBisco(self, target_gripper, target):
+    def arriveBisco(self, target_gripper, target, height):
         target_pose = Pose()
         target_pose.position = getObjectPosi(target)
-        target_pose.position.z = self.BISCO_ABOVE_Z
+        target_pose.position.z += height
         if target["my_area"]:
             if target_gripper == GripperID.FAR:
                 
