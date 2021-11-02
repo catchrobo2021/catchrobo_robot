@@ -36,11 +36,11 @@ class Obstacle:
         # rospy.sleep(0.1)
         # self._scene.add_box("avoid_back", p, size)
 
-        size = 0.01, 1.350, 0.5
+        size = 0.1, 1.0, 0.4
         p.pose.position.x = 0.15
         if self._color == "blue":
             p.pose.position.x = -p.pose.position.x 
-        p.pose.position.y = size[1] /2
+        p.pose.position.y = size[1]/2 -0.05
         p.pose.position.z = size[2]/2 + 0.1
         p.pose.orientation.w = 1.0
         rospy.sleep(0.1)
@@ -71,11 +71,11 @@ class Obstacle:
         # rospy.sleep(0.1)
         # self._scene.add_box("avoid_back", p, size)
 
-        size = 0.01, 1.350, 0.5
+        size = 0.1, 1.0, 0.4
         p.pose.position.x = 0
         if self._color == "blue":
             p.pose.position.x = -p.pose.position.x 
-        p.pose.position.y = size[1] /2
+        p.pose.position.y = size[1]/2 -0.05
         p.pose.position.z = size[2]/2 + 0.1
         p.pose.orientation.w = 1.0
         rospy.sleep(0.1)
