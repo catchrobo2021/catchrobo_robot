@@ -76,9 +76,12 @@
     <disable_collisions link1="arm/link0" link2="arm/link2" reason="Never" />
     <disable_collisions link1="arm/link0" link2="arm/link3" reason="Never" />
     <disable_collisions link1="arm/link0" link2="base/base_link" reason="Adjacent" />
-    <disable_collisions link1="arm/link0" link2="base/entry_prohibited_area" reason="Never" />
+    <disable_collisions link1="arm/link0" link2="base/entry_prohibited_area_1" reason="Never" />
+    <disable_collisions link1="arm/link0" link2="base/entry_prohibited_area_2" reason="Never" />
+    <disable_collisions link1="arm/link0" link2="base/entry_prohibited_area_3" reason="Never" />
     <disable_collisions link1="arm/link0" link2="base/pc" reason="Never" />
-    <disable_collisions link1="arm/link0" link2="shooter/base_link" reason="Default" />
+    <disable_collisions link1="arm/link0" link2="base/weight_box" reason="Default" />
+    <disable_collisions link1="arm/link0" link2="shooter/base_link" reason="Never" />
     <disable_collisions link1="arm/link0" link2="shooter/sorter1" reason="Never" />
     <disable_collisions link1="arm/link0" link2="shooter/sorter2" reason="Never" />
     <disable_collisions link1="arm/link0" link2="shooter/sorter3" reason="Never" />
@@ -86,7 +89,11 @@
     <disable_collisions link1="arm/link1" link2="arm/link3" reason="Never" />
     <disable_collisions link1="arm/link1" link2="arm/link4" reason="Never" />
     <disable_collisions link1="arm/link1" link2="base/base_link" reason="Never" />
-    <disable_collisions link1="arm/link1" link2="base/entry_prohibited_area" reason="Never" />
+    <disable_collisions link1="arm/link1" link2="base/entry_prohibited_area_1" reason="Never" />
+    <disable_collisions link1="arm/link1" link2="base/entry_prohibited_area_2" reason="Never" />
+    <disable_collisions link1="arm/link1" link2="base/entry_prohibited_area_3" reason="Never" />
+    <disable_collisions link1="arm/link1" link2="base/pc" reason="Never" />
+    <disable_collisions link1="arm/link1" link2="base/weight_box" reason="Never" />
     <disable_collisions link1="arm/link1" link2="gripper/finger1_1" reason="Never" />
     <disable_collisions link1="arm/link1" link2="gripper/finger1_2" reason="Never" />
     <disable_collisions link1="arm/link1" link2="gripper/finger2_1" reason="Never" />
@@ -98,7 +105,9 @@
     <disable_collisions link1="arm/link2" link2="arm/link3" reason="Adjacent" />
     <disable_collisions link1="arm/link2" link2="arm/link4" reason="Default" />
     <disable_collisions link1="arm/link2" link2="base/base_link" reason="Never" />
-    <disable_collisions link1="arm/link2" link2="base/entry_prohibited_area" reason="Never" />
+    <disable_collisions link1="arm/link2" link2="base/entry_prohibited_area_1" reason="Never" />
+    <disable_collisions link1="arm/link2" link2="base/pc" reason="Never" />
+    <disable_collisions link1="arm/link2" link2="base/weight_box" reason="Never" />
     <disable_collisions link1="arm/link2" link2="gripper/finger1_1" reason="Never" />
     <disable_collisions link1="arm/link2" link2="gripper/finger1_2" reason="Never" />
     <disable_collisions link1="arm/link2" link2="gripper/finger2_1" reason="Never" />
@@ -109,6 +118,8 @@
     <disable_collisions link1="arm/link2" link2="shooter/sorter3" reason="Never" />
     <disable_collisions link1="arm/link3" link2="arm/link4" reason="Adjacent" />
     <disable_collisions link1="arm/link3" link2="base/base_link" reason="Never" />
+    <disable_collisions link1="arm/link3" link2="base/pc" reason="Never" />
+    <disable_collisions link1="arm/link3" link2="base/weight_box" reason="Never" />
     <disable_collisions link1="arm/link3" link2="gripper/base_link" reason="Never" />
     <disable_collisions link1="arm/link3" link2="gripper/finger1_1" reason="Never" />
     <disable_collisions link1="arm/link3" link2="gripper/finger1_2" reason="Never" />
@@ -119,33 +130,60 @@
     <disable_collisions link1="arm/link3" link2="shooter/sorter2" reason="Never" />
     <disable_collisions link1="arm/link3" link2="shooter/sorter3" reason="Never" />
     <disable_collisions link1="arm/link4" link2="base/base_link" reason="Never" />
+    <disable_collisions link1="arm/link4" link2="base/entry_prohibited_area_1" reason="Never" />
     <disable_collisions link1="arm/link4" link2="gripper/base_link" reason="Adjacent" />
     <disable_collisions link1="arm/link4" link2="gripper/finger1_1" reason="Never" />
     <disable_collisions link1="arm/link4" link2="gripper/finger1_2" reason="Never" />
     <disable_collisions link1="arm/link4" link2="gripper/finger2_1" reason="Never" />
     <disable_collisions link1="arm/link4" link2="gripper/finger2_2" reason="Never" />
     <disable_collisions link1="arm/link4" link2="shooter/sorter1" reason="Never" />
-    <disable_collisions link1="base/base_link" link2="base/entry_prohibited_area" reason="Adjacent" />
+    <disable_collisions link1="arm/link4" link2="shooter/sorter2" reason="Never" />
+    <disable_collisions link1="base/base_link" link2="base/entry_prohibited_area_1" reason="Adjacent" />
+    <disable_collisions link1="base/base_link" link2="base/entry_prohibited_area_2" reason="Adjacent" />
+    <disable_collisions link1="base/base_link" link2="base/entry_prohibited_area_3" reason="Adjacent" />
     <disable_collisions link1="base/base_link" link2="base/pc" reason="Adjacent" />
+    <disable_collisions link1="base/base_link" link2="base/weight_box" reason="Adjacent" />
     <disable_collisions link1="base/base_link" link2="shooter/base_link" reason="Adjacent" />
-    <disable_collisions link1="base/base_link" link2="shooter/guide" reason="Never" />
+    <disable_collisions link1="base/base_link" link2="shooter/guide" reason="Default" />
     <disable_collisions link1="base/base_link" link2="shooter/sorter1" reason="Never" />
     <disable_collisions link1="base/base_link" link2="shooter/sorter2" reason="Never" />
     <disable_collisions link1="base/base_link" link2="shooter/sorter3" reason="Never" />
-    <disable_collisions link1="base/entry_prohibited_area" link2="base/pc" reason="Never" />
-    <disable_collisions link1="base/entry_prohibited_area" link2="gripper/base_link" reason="Default" />
-    <disable_collisions link1="base/entry_prohibited_area" link2="gripper/finger1_2" reason="Default" />
-    <disable_collisions link1="base/entry_prohibited_area" link2="gripper/finger2_2" reason="Default" />
-    <disable_collisions link1="base/entry_prohibited_area" link2="shooter/base_link" reason="Never" />
-    <disable_collisions link1="base/entry_prohibited_area" link2="shooter/guide" reason="Never" />
-    <disable_collisions link1="base/entry_prohibited_area" link2="shooter/sorter1" reason="Never" />
-    <disable_collisions link1="base/entry_prohibited_area" link2="shooter/sorter2" reason="Never" />
-    <disable_collisions link1="base/entry_prohibited_area" link2="shooter/sorter3" reason="Never" />
+    <disable_collisions link1="base/entry_prohibited_area_1" link2="base/entry_prohibited_area_2" reason="Default" />
+    <disable_collisions link1="base/entry_prohibited_area_1" link2="base/entry_prohibited_area_3" reason="Default" />
+    <disable_collisions link1="base/entry_prohibited_area_1" link2="base/pc" reason="Never" />
+    <disable_collisions link1="base/entry_prohibited_area_1" link2="base/weight_box" reason="Never" />
+    <disable_collisions link1="base/entry_prohibited_area_1" link2="gripper/base_link" reason="Default" />
+    <disable_collisions link1="base/entry_prohibited_area_1" link2="gripper/finger1_2" reason="Default" />
+    <disable_collisions link1="base/entry_prohibited_area_1" link2="gripper/finger2_2" reason="Default" />
+    <disable_collisions link1="base/entry_prohibited_area_1" link2="shooter/base_link" reason="Never" />
+    <disable_collisions link1="base/entry_prohibited_area_1" link2="shooter/guide" reason="Never" />
+    <disable_collisions link1="base/entry_prohibited_area_1" link2="shooter/sorter1" reason="Never" />
+    <disable_collisions link1="base/entry_prohibited_area_1" link2="shooter/sorter2" reason="Never" />
+    <disable_collisions link1="base/entry_prohibited_area_1" link2="shooter/sorter3" reason="Never" />
+    <disable_collisions link1="base/entry_prohibited_area_2" link2="base/entry_prohibited_area_3" reason="Never" />
+    <disable_collisions link1="base/entry_prohibited_area_2" link2="base/pc" reason="Never" />
+    <disable_collisions link1="base/entry_prohibited_area_2" link2="base/weight_box" reason="Never" />
+    <disable_collisions link1="base/entry_prohibited_area_2" link2="shooter/base_link" reason="Never" />
+    <disable_collisions link1="base/entry_prohibited_area_2" link2="shooter/sorter1" reason="Never" />
+    <disable_collisions link1="base/entry_prohibited_area_2" link2="shooter/sorter2" reason="Never" />
+    <disable_collisions link1="base/entry_prohibited_area_2" link2="shooter/sorter3" reason="Never" />
+    <disable_collisions link1="base/entry_prohibited_area_3" link2="base/pc" reason="Default" />
+    <disable_collisions link1="base/entry_prohibited_area_3" link2="base/weight_box" reason="Never" />
+    <disable_collisions link1="base/entry_prohibited_area_3" link2="shooter/base_link" reason="Never" />
+    <disable_collisions link1="base/entry_prohibited_area_3" link2="shooter/guide" reason="Never" />
+    <disable_collisions link1="base/entry_prohibited_area_3" link2="shooter/sorter1" reason="Never" />
+    <disable_collisions link1="base/entry_prohibited_area_3" link2="shooter/sorter2" reason="Never" />
+    <disable_collisions link1="base/entry_prohibited_area_3" link2="shooter/sorter3" reason="Never" />
+    <disable_collisions link1="base/pc" link2="base/weight_box" reason="Never" />
     <disable_collisions link1="base/pc" link2="shooter/base_link" reason="Never" />
     <disable_collisions link1="base/pc" link2="shooter/guide" reason="Never" />
     <disable_collisions link1="base/pc" link2="shooter/sorter1" reason="Never" />
     <disable_collisions link1="base/pc" link2="shooter/sorter2" reason="Never" />
     <disable_collisions link1="base/pc" link2="shooter/sorter3" reason="Never" />
+    <disable_collisions link1="base/weight_box" link2="shooter/base_link" reason="Never" />
+    <disable_collisions link1="base/weight_box" link2="shooter/sorter1" reason="Never" />
+    <disable_collisions link1="base/weight_box" link2="shooter/sorter2" reason="Never" />
+    <disable_collisions link1="base/weight_box" link2="shooter/sorter3" reason="Never" />
     <disable_collisions link1="gripper/base_link" link2="gripper/finger1_1" reason="Adjacent" />
     <disable_collisions link1="gripper/base_link" link2="gripper/finger1_2" reason="Adjacent" />
     <disable_collisions link1="gripper/base_link" link2="gripper/finger2_1" reason="Adjacent" />
@@ -156,6 +194,7 @@
     <disable_collisions link1="gripper/finger1_2" link2="gripper/finger2_1" reason="Never" />
     <disable_collisions link1="gripper/finger1_2" link2="gripper/finger2_2" reason="Never" />
     <disable_collisions link1="gripper/finger2_1" link2="gripper/finger2_2" reason="Never" />
+    <disable_collisions link1="gripper/finger2_1" link2="shooter/sorter1" reason="Never" />
     <disable_collisions link1="shooter/base_link" link2="shooter/guide" reason="Adjacent" />
     <disable_collisions link1="shooter/base_link" link2="shooter/sorter1" reason="Adjacent" />
     <disable_collisions link1="shooter/base_link" link2="shooter/sorter2" reason="Adjacent" />

@@ -18,6 +18,8 @@ class MyRobot():
 
         self._arm.goHome(color)
         self._shooter.barDown()
+        self._gripper.releaseBisco(0)
+        self._gripper.releaseBisco(1)
 
         self._color = color
         
