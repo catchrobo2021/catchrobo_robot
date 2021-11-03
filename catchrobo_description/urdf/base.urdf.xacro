@@ -77,17 +77,17 @@
       <parent link="base/base_link"/>
       <child link="base/pc"/>
       <xacro:if value="${field=='blue'}">
-        <origin xyz="-0.85 0 0.15" rpy="0 0 0"/>
+        <origin xyz="-0.85 0 0.125" rpy="0 0 0"/>
       </xacro:if>
       <xacro:if value="${field=='red'}">
-        <origin xyz="0.85 0 0.15" rpy="0 0 0"/>
+        <origin xyz="0.85 0 0.125" rpy="0 0 0"/>
       </xacro:if>
     </joint>
 
     <link name="base/pc">
       <visual>
         <geometry>
-          <box size="0.25 0.4 0.3"/>
+          <box size="0.25 0.4 0.25"/>
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <material name="clear_grey"/>
