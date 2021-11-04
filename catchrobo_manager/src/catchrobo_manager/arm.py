@@ -39,7 +39,7 @@ class Arm(object):
         self._ik_request.timeout.secs = 1.0
         self._ik_request.avoid_collisions = True
 
-        self.SAFE_JOINT2 =  np.pi/2
+        self.SAFE_JOINT2 = 80.0/180.0 * np.pi
         # self._ik_request.attempts = 1000
 
     def goStartup(self):
