@@ -211,8 +211,8 @@ class ODriveNode(object):
 
     def search_index(self , axis=0):
         self.search(axis)
-        #while self.axes[axis].current_state != AXIS_STATE_IDLE:
-        #    time.sleep(0.5)
+        while self.axes[axis].current_state != AXIS_STATE_IDLE:
+            time.sleep(0.1)
         return True
 
     def idle(self, axis=0): self.axes[axis].requested_state = AXIS_STATE_IDLE
@@ -276,3 +276,7 @@ class ODriveNode(object):
         self.driver.save_configuration()
 
     def homing(self, axis=0):   self.axes[axis].requested_state = AXIS_STATE_HOMING
+
+    def move(self, axis=0,direction=1, vel_limit=0.1):
+        self.axes[axis].trap_traj.config.vel_limit = vel_limit
+        self.axes[axis].controller.move_incremental(direction*1000000, False)

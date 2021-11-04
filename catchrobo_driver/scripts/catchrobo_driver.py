@@ -8,7 +8,7 @@ roslib.load_manifest('diagnostic_updater')
 import diagnostic_updater
 import diagnostic_msgs
 from odrive_bridge import ODriveBridge
-
+import time
 from position_converter import PositionConverter
 
 
@@ -16,9 +16,6 @@ class catchrobo_driver:
     def __init__(self):
         self.MOTOR_NUM = 4 # number of joints
         rospy.init_node("catcrobo_driver")
-        rospy.Subscriber("enable_joints", Bool, self.engage_idle_callback)
-        rospy.Subscriber("joint_control", JointState, self.joint_control_callback)
-        self._joint_state_publisher = rospy.Publisher('joint_states', JointState, queue_size=100)
 
         # joint control
         joint_control = JointState()
@@ -66,10 +63,21 @@ class catchrobo_driver:
             odrv_bridge.connect()
             odrv_bridge.set_mode(mode="POS")
             self._odrv_bridge = odrv_bridge
+            rospy.loginfo("Connected to odrives.")
         except Exception as e:
             rospy.logerr_throttle(1,"Failed to connect to Odrive: {}".format(e))
         else:
-            rospy.loginfo("Connected to odrives. Ready to execute index search.")
+            rospy.loginfo("Executing index search")
+            self._odrv_bridge.search_index_all()
+            rospy.loginfo("Index search finished.")
+            rospy.loginfo("Start hominig sequence.")
+            odrv_bridge.hard_stop(joint=3,current_limit=2,direction=1,velocity=0.5)
+            rospy.loginfo("Homing findhed")
+            self._index_search_finished  = True
+
+            rospy.Subscriber("enable_joints", Bool, self.engage_idle_callback)
+            rospy.Subscriber("joint_control", JointState, self.joint_control_callback)
+            self._joint_state_publisher = rospy.Publisher('joint_states', JointState, queue_size=100)
             rospy.Timer(rospy.Duration(1.0 / self._communication_freq), self.controll_callback)
             rospy.spin()
 
@@ -185,16 +193,32 @@ class catchrobo_driver:
             state.summary(diagnostic_msgs.msg.DiagnosticStatus.STALE, "Not connected")
 
 
+    def hard_stop(self,joint,current_limit=2,direction=1,velocity=0.001,max_displacement=0.01):
+        start_position = self._joint_state.position[joint]
+        target_position = start_position
+        while True:
+            if abs(self._joint_state.effort[joint]) > current_limit:
+                rospy.loginfo("Hard stop detected")
+                rospy.loginfo(self._joint_state.effort[joint])
+                break
+            if abs(self._joint_state.position[joint] - start_position) > max_displacement:
+                rospy.loginfo("Failed to reach hard stop")
+                break
+            else:
+                rospy.loginfo_throttle(1,"Searching for hard stop")
+                target_position+= direction * velocity / self._communication_freq
+                self._joint_control.position[joint] = target_position
+                time.sleep(1/self._communication_freq)
+
     def engage_idle_callback(self,data):
         if self._robot_state < 2:
             if data.data is True:
-                if self._index_search_finished  is True:
+                if self._index_search_finished is True:
                     self.engage_all()
                 else:
                     rospy.loginfo("Executing index search")
                     self._odrv_bridge.search_index_all()
-                    self._index_search_finished  = True
-                    rospy.loginfo("Index search finished. Ready to engage joints.")
+                    rospy.loginfo("Index search finished.")
             else:
                 self.idle_all()
         else:
