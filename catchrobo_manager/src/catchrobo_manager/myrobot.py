@@ -13,11 +13,15 @@ class MyRobot():
     def __init__(self,color):
         self._brain = Brain()
         self._arm = Arm()
-        self._gripper = GripperManager()
-        self._shooter = ShooterManager()
+        self._gripper = GripperManager(color)
+        self._shooter = ShooterManager(color)
 
         self._arm.goHome(color)
-        self._shooter.barUp()
+        self._shooter.barDown()
+        self._gripper.releaseBisco(0)
+        self._gripper.releaseBisco(1)
+
+        self._color = color
         
 
     def doAction(self):
@@ -62,5 +66,5 @@ class MyRobot():
         self._brain.calcShootAction(targets, is_twin)
 
     def end(self):
-        self._arm.goHome()
+        self._arm.goHome(self._color)
         self._shooter.barUp()

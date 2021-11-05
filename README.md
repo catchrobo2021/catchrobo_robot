@@ -1,4 +1,4 @@
-# Catchrobo 2021 ROS
+# Catchrobo 2021 ROS Package
 
 ## Environment
 - ubuntu 18
@@ -13,28 +13,33 @@
 
 
 ## How to use
-### Display robot in Rviz
-Without field:
+### Moving the simulated robot
+1. Launch moveit
 ```
-roslaunch catchrobo_description catchrobo_display.launch 
+roslaunch catchrobo_bringup sim_bringup.launch
 ```
-With field (blue/red):
+2. Launch game manager
 ```
-roslaunch catchrobo_description catchrobo_display.launch field:=blue
+roslaunch catchrobo_manager catchrobo_manager.launch
 ```
-### Execute motion planning with Moveit
-demo:
-```
-roslaunch catchrobo_moveit demo.launch 
-```
-![demo](moveit_demo.png)
 
-### simulation for catchrobo
-- roslaunch catchrobo_bringup bringup.launch #実機用
-- roslaunch catchrobo_bringup sim_bringup.launch #PCsim
-- rosrun catchrobo_manager game_manager.py
-
-
+### Moving the actual robot
+1. Allow access to serial port
+```
+sudo chmod 666 /dev/USB0
+```
+2. Launch hardware driver
+```
+roslaunch catchrobo_driver catchrobo_driver.launch
+```
+3. Launch moveit
+```
+roslaunch catchrobo_bringup bringup.launch
+```
+4. Launch game manager
+```
+roslaunch catchrobo_manager catchrobo_manager.launch
+```
 
 
 <!-- 

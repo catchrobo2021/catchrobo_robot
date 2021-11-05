@@ -4,91 +4,75 @@
 import pandas as pd
 import numpy as np
 
+import rospy
 import rospkg
 
-from geometry_msgs.msg import Pose, Point, Quaternion
 
+from std_msgs.msg import Int32MultiArray
 
 class ShootingBoxManager():
     def __init__(self, color):
         self._count_key = "open"
         self._twin = False
         self.readCsv(color)
+        self._pub2gui = rospy.Publisher("box_update", Int32MultiArray, queue_size=1)
+        # rospy.Subscriber("box_gui", Int32MultiArray, self.guiCallback)
+        self._target_order = [0,2,4,
+                            1,0,1,0,1,0,1,
+                            3,2,3,2,3,2,3,
+                            5,4,5,4,5,4,5]
+
+    def sendGUI(self):
+        info = Int32MultiArray()
+        info.data = list(self._objects["space"])
+        self._pub2gui.publish(info)
+
+    def guiCallback(self,msg):
+        # rospy.loginfo(msg.data)
+        for i, val in enumerate(msg.data):
+            # rospy.loginfo("i, val {}{}".format(i,val))
+            self._objects.loc[i, "space"] = int(val)
+
     
     def readCsv(self, color):
         rospack = rospkg.RosPack()
         pkg_path = rospack.get_path("catchrobo_manager")
         config_path = pkg_path + "/config/"
-        csv = config_path + color + "_shoot.csv"
+        csv = config_path + color + "_shoot2.csv"
         self._objects = pd.read_csv(csv, index_col=0)
 
-    def calcTargetId(self):
-        exist = self._objects[self._count_key]
-        # print(self._objects[exist]["priority"])
-        if np.sum(exist) == 0:
-            self._target_id = None
-        else:
-            self.updatePriority()
-            self._target_id = self._objects[exist]["priority"].idxmin()
+    def canGoCommon(self):
+        group = self._objects.groupby("sorter_id").sum()
+        in_sorter_bool = group["space"] >=8
+        return in_sorter_bool.sum() <=0
 
-    # [TODO]
-    def updatePriority(self):
-        pass
+    def delete(self, id):
+        self._objects.loc[id, "space"] -= 1
 
-    def getTargetId(self):
-        return self._target_id
+        self._target_order.pop(0)
 
-    def getTagetObj(self):
-        return self._objects.iloc[self._target_id]
-
-    def updateState(self, id, value):
-        self._objects.loc[id, self._count_key] = value
-
-    def getPosi(self, id):
-        posi = Point()
-        posi.x = self._objects.loc[id, "x"]
-        posi.y = self._objects.loc[id, "y"]
-        posi.z = self._objects.loc[id, "z"]
-        return posi
-
-    def getName(self, id):
-        return "{}{}".format(self._name, id)
-
-    def getTargeName(self):
-        return self.getName(self.getTargetId())
-
-    def isExist(self, id):
-        return self._objects.loc[id, "exist"]
-
-    def getState(self, id, key):
-        return self._objects.loc[id, key]
+    def calcTargetTwin(self):
+        self._target_ids = self._target_order[0:2]
     
+    def getTargetTwin(self):
+        return [self.getObj(id) for id in self._target_ids], None
+
     def getObj(self, id):
         if id is None:
             return None
         else:
             return self._objects.loc[id]
-    
-    def delete(self, id):
-        self._objects.loc[id, self._count_key] = False
 
-    def calcTargetTwin(self):
-        self.calcTargetId()
-        first = self.getTargetId()
-        if first is None:
-            self._target_ids = None, None
-            self._twin = False
-            return
-
-        self.updateState(first, False)
-
-        self.calcTargetId()
-        second = self.getTargetId()
-        self.updateState(first, True)
-        self._target_ids = first, second
-    
-    def getTargetTwin(self):
-        return [self.getObj(id) for id in self._target_ids], self._twin
-
-
-
+if __name__=="__main__":
+    rospy.init_node("test_box")
+    manager = ShootingBoxManager("blue")
+    rate = rospy.Rate(1)
+    while not rospy.is_shutdown():
+        
+        ret = manager.canGoCommon()
+        rospy.loginfo(ret)
+        manager.calcTargetTwin()
+        ret, _ = manager.getTargetTwin()
+        manager.delete(ret[0].name)
+        rospy.loginfo(ret[0].name)
+        rate.sleep()

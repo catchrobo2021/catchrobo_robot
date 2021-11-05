@@ -1,6 +1,6 @@
 Panels:
   - Class: rviz/Displays
-    Help Height: 84
+    Help Height: 70
     Name: Displays
     Property Tree Widget:
       Expanded:
@@ -8,8 +8,9 @@ Panels:
         - /MotionPlanning1/Planning Request1
         - /TF1
         - /TF1/Frames1
-      Splitter Ratio: 0.7425600290298462
-    Tree Height: 390
+        - /TF1/Frames1/arm/link_tip1
+      Splitter Ratio: 0.4942965805530548
+    Tree Height: 386
   - Class: rviz/Help
     Name: Help
   - Class: rviz/Views
@@ -17,6 +18,10 @@ Panels:
       - /Current View1
     Name: Views
     Splitter Ratio: 0.5
+  - Class: field_2/Blue2
+    Name: Blue2
+  - Class: field_2/Red2
+    Name: Red2
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -109,11 +114,31 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          base/link_frame:
+          base/entry_prohibited_area_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          base/link_tip:
+            Value: true
+          base/entry_prohibited_area_2:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          base/entry_prohibited_area_3:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          base/pc:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          base/robot_tip:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          base/shooter_tip:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -258,11 +283,31 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          base/link_frame:
+          base/entry_prohibited_area_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          base/link_tip:
+            Value: true
+          base/entry_prohibited_area_2:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          base/entry_prohibited_area_3:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          base/pc:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          base/robot_tip:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          base/shooter_tip:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -352,9 +397,17 @@ Visualization Manager:
           Value: true
         base/base_link:
           Value: false
-        base/link_frame:
-          Value: true
-        base/link_tip:
+        base/entry_prohibited_area_1:
+          Value: false
+        base/entry_prohibited_area_2:
+          Value: false
+        base/entry_prohibited_area_3:
+          Value: false
+        base/pc:
+          Value: false
+        base/robot_tip:
+          Value: false
+        base/shooter_tip:
           Value: false
         gripper/base_link:
           Value: false
@@ -367,9 +420,9 @@ Visualization Manager:
         gripper/finger2_2:
           Value: false
         gripper/grasping_frame1:
-          Value: true
+          Value: false
         gripper/grasping_frame2:
-          Value: true
+          Value: false
         shooter/base_link:
           Value: false
         shooter/guide:
@@ -381,7 +434,7 @@ Visualization Manager:
         shooter/sorter3:
           Value: false
         world:
-          Value: true
+          Value: false
       Marker Scale: 1
       Name: TF
       Show Arrows: false
@@ -390,17 +443,15 @@ Visualization Manager:
       Tree:
         world:
           base/base_link:
-            base/link_frame:
-              shooter/base_link:
-                shooter/guide:
-                  {}
-                shooter/sorter1:
-                  {}
-                shooter/sorter2:
-                  {}
-                shooter/sorter3:
-                  {}
-            base/link_tip:
+            base/entry_prohibited_area_1:
+              {}
+            base/entry_prohibited_area_2:
+              {}
+            base/entry_prohibited_area_3:
+              {}
+            base/pc:
+              {}
+            base/robot_tip:
               arm/link0:
                 arm/link1:
                   arm/link2:
@@ -420,6 +471,16 @@ Visualization Manager:
                               {}
                             gripper/grasping_frame2:
                               {}
+            base/shooter_tip:
+              shooter/base_link:
+                shooter/guide:
+                  {}
+                shooter/sorter1:
+                  {}
+                shooter/sorter2:
+                  {}
+                shooter/sorter3:
+                  {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -438,27 +499,29 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 2.4779531955718994
+      Distance: 2.600646495819092
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.4611464738845825
-        Y: 0.4042176604270935
+        X: -0.6104581952095032
+        Y: 0.8335043787956238
         Z: 2.2351800055275817e-7
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.21979686617851257
+      Pitch: 0.8597968816757202
       Target Frame: world
       Value: XYOrbit (rviz)
-      Yaw: 1.4917644262313843
+      Yaw: 2.3367719650268555
     Saved: ~
 Window Geometry:
+  Blue2:
+    collapsed: false
   Displays:
     collapsed: false
   Height: 1023
@@ -470,7 +533,9 @@ Window Geometry:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd000000010000000000000210000003a5fc0200000007fb000000100044006900730070006c006100790073010000003d00000217000000c900fffffffb0000000800480065006c00700000000342000000bb0000006e00fffffffb0000000a0056006900650077007300000003b0000000b0000000a400fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000001600000016fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e0067010000025a000001880000018800ffffff0000039a000003a500000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd000000010000000000000210000003a5fc0200000007fb000000100044006900730070006c006100790073010000003d00000205000000c900fffffffb0000000800480065006c00700000000342000000bb0000006e00fffffffb0000000a0056006900650077007300000003b0000000b0000000a400fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000001600000016fc000002480000019a0000019a0100001cfa000000010100000003fb0000000800520065006400320100000000ffffffff0000005800fffffffb0000000a0042006c0075006500320100000000ffffffff0000005c00fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e0067010000000000000210000001f300ffffff0000039a000003a500000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Red2:
+    collapsed: false
   Views:
     collapsed: false
   Width: 1456

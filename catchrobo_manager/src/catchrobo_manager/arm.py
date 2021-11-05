@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import numpy as np
+import copy
+
 import rospy
 import moveit_commander
 
@@ -9,12 +12,17 @@ from moveit_msgs.msg import RobotTrajectory, PositionIKRequest
 from moveit_msgs.srv import GetPositionIK
 
 
+
 class Arm(object):
     def __init__(self):
           # sleep a bit to update roscore
         self._robot = moveit_commander.RobotCommander()
-        
         self._arm = moveit_commander.MoveGroupCommander("arm0")
+
+        accel = rospy.get_param("max_acceleration_scaling_factor")
+        vel = rospy.get_param("max_velosity_scaling_factor")
+        self._arm.set_max_acceleration_scaling_factor(accel)
+        self._arm.set_max_velocity_scaling_factor(vel)
         # rospy.loginfo(self._robot.get_joint_names("arm0"))
         # rosp
         
@@ -30,6 +38,8 @@ class Arm(object):
         # self._ik_request.ik_link_names = hand1_attached_link_names
         self._ik_request.timeout.secs = 1.0
         self._ik_request.avoid_collisions = True
+
+        self.SAFE_JOINT2 = 80.0/180.0 * np.pi
         # self._ik_request.attempts = 1000
 
     def goStartup(self):
@@ -104,10 +114,168 @@ class Arm(object):
 
         return ret
 
+    def calcInverseKinematics(self, goal):
+
+        rospy.loginfo(goal.position)
+        now = rospy.Time.now()
+        self._pose_stamped.header.stamp = now
+        self._pose_stamped.pose = goal
+        self._ik_request.pose_stamped = self._pose_stamped
+        self._ik_request.robot_state = self._robot.get_current_state()
+
+        request_value = self.compute_ik(self._ik_request)
+        if request_value.error_code.val < 0:
+            rospy.logerr("ik error {}".format(request_value.error_code.val))
+            return False
+        joints = request_value.solution.joint_state.position
+        # rospy.loginfo(request_value)
+        # rospy.loginfo(self._ik_request.ik_link_names)
+
+        # self._arm.set_joint_value_target(goal, self._arm.get_end_effector_link(), True)
+        dt = rospy.Time.now().to_sec() - now.to_sec()
+        rospy.loginfo("IK time : {}".format(dt))
+
+        return joints[0:4]
+
+    
+    def go(self, mode ="normal"):
+        # self._arm.set_pose_target(self._target_pose)
+        
+        # return self._arm.go()
+
+
+        goal = self._target_pose
+        rospy.loginfo(goal.position)
+        now = rospy.Time.now()
+        self._pose_stamped.header.stamp = now
+        self._pose_stamped.pose = goal
+        self._ik_request.pose_stamped = self._pose_stamped
+        self._ik_request.robot_state = self._robot.get_current_state()
+
+        request_value = self.compute_ik(self._ik_request)
+        if request_value.error_code.val < 0:
+            rospy.logerr("ik error {}".format(request_value.error_code.val))
+            return False
+        joints = request_value.solution.joint_state.position
+        # rospy.loginfo(request_value)
+        # rospy.loginfo(self._ik_request.ik_link_names)
+
+        self._arm.set_joint_value_target(joints[0:4])
+
+        # self._arm.set_joint_value_target(goal, self._arm.get_end_effector_link(), True)
+        dt = rospy.Time.now().to_sec() - now.to_sec()
+        rospy.loginfo("IK time : {}".format(dt))
+
+        # if mode == "safe":
+        now = rospy.Time.now().to_sec()
+        if mode == "normal":
+            plan = self._arm.plan()
+        elif mode == "cartesian":
+            waypoints = [goal]
+            (plan, fraction) = self._arm.compute_cartesian_path(waypoints, 100, 0)
+
+        dt = rospy.Time.now().to_sec() - now
+        temp = "plan time : {}".format(dt)
+        rospy.loginfo(temp)
+
+        now = rospy.Time.now().to_sec()
+        ret = self._arm.execute(plan)
+
+        dt = rospy.Time.now().to_sec() - now
+        temp = "execute time : {}".format(dt)
+        rospy.loginfo(temp)
+
+        # elif mode == "cartesian":
+        #     waypoints = [goal]
+        #     (plan, fraction) = self._arm.compute_cartesian_path(waypoints, 100, 0)
+        #     ret = self._arm.execute(plan, wait=True)
+
+        return ret
+
     def move(self, target_pose):
         self.setTargetPose(target_pose)
-        return self.go()
+
+        final_target_joints = self.calcInverseKinematics(target_pose)
+        
+        current_state = self._robot.get_current_state()
+        current_position = current_state.joint_state.position
+        current_arm_position = current_position[:4]
+
+
+        # move joint2 to safety point.
+        ### assumption: ０度を超えない
+        abs_current_joint2 = abs(current_arm_position[1])
+        abs_target_joint2 = abs(final_target_joints[1])
+        sign = np.sign(final_target_joints[1])
+
+        
+        
+        if abs_current_joint2 >= self.SAFE_JOINT2 and abs_target_joint2 >= self.SAFE_JOINT2:
+            rospy.loginfo("normal move")
+            move_joint2_first = False
+            move_join1_only = False
+            abs_safe_joint2 = abs_target_joint2
+        elif abs_current_joint2 < self.SAFE_JOINT2 and  abs_target_joint2 >= self.SAFE_JOINT2:
+            move_joint2_first = True
+            move_join1_only = False
+            abs_safe_joint2 = abs_target_joint2
+        elif abs_current_joint2 >= self.SAFE_JOINT2 and abs_target_joint2 < self.SAFE_JOINT2:
+            move_joint2_first = False
+            move_join1_only = True
+            abs_safe_joint2 = abs_current_joint2
+        elif abs_current_joint2 < self.SAFE_JOINT2 and abs_target_joint2 < self.SAFE_JOINT2:
+            move_joint2_first = True
+            move_join1_only = True
+            abs_safe_joint2 = self.SAFE_JOINT2
+
+        safe_joint2 = sign * abs_safe_joint2
+        if move_joint2_first:
+            rospy.loginfo("move joint2")
+            target_joints = list(copy.deepcopy(current_arm_position))
+            target_joints[1] = safe_joint2
+            self.go2TargetJoints(target_joints)
+
+        # move joints all except joint2
+        if move_join1_only:
+            rospy.loginfo("move joint1")
+            target_joints = list(copy.deepcopy(final_target_joints))
+            target_joints[1] = safe_joint2
+            self.go2TargetJoints(target_joints)
+
+        # move joint2
+        ret = self.go2TargetJoints(final_target_joints)
+
+        return ret 
+
     
+    def go2TargetJoints(self, target_joints, mode ="normal"):
+        self._arm.set_joint_value_target(target_joints)
+
+        now = rospy.Time.now().to_sec()
+        if mode == "normal":
+            plan = self._arm.plan()
+        elif mode == "cartesian":
+            waypoints = [goal]
+            (plan, fraction) = self._arm.compute_cartesian_path(waypoints, 100, 0)
+
+        dt = rospy.Time.now().to_sec() - now
+        temp = "plan time : {}".format(dt)
+        # rospy.loginfo(temp)
+
+        now = rospy.Time.now().to_sec()
+        ret = self._arm.execute(plan)
+
+        dt = rospy.Time.now().to_sec() - now
+        temp = "execute time : {}".format(dt)
+        # rospy.loginfo(temp)
+
+        # elif mode == "cartesian":
+        #     waypoints = [goal]
+        #     (plan, fraction) = self._arm.compute_cartesian_path(waypoints, 100, 0)
+        #     ret = self._arm.execute(plan, wait=True)
+
+        return ret
+
     def above(self, z):
         target_pose = self.getTargetPose()
         target_pose.position.z = z
