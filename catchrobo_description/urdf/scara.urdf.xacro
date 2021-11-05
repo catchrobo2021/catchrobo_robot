@@ -26,7 +26,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://catchrobo_description/mesh/scara/collision/link0.stl" scale="${collision_mesh_scale}"/>
+          <mesh filename="package://catchrobo_description/mesh/scara/collision/link0_bold.stl" scale="${collision_mesh_scale}"/>
         </geometry>
       </collision>
     </link>

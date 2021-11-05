@@ -52,10 +52,10 @@
       <parent link="base/base_link"/>
       <child link="base/robot_tip"/>
       <xacro:if value="${field=='blue'}">
-        <origin xyz="-0.795 0.390 0.0044" rpy="0 0 0"/>
+        <origin xyz="-0.795 0.350 0.0044" rpy="0 0 0"/>
       </xacro:if>
       <xacro:if value="${field=='red'}">
-        <origin xyz="0.795 0.390 0.0044" rpy="0 0 ${180*M_PI/180}"/>
+        <origin xyz="0.795 0.350 0.0044" rpy="0 0 ${180*M_PI/180}"/>
       </xacro:if>
     </joint>
     <link name="base/robot_tip"/>
@@ -143,10 +143,10 @@
       <parent link="base/base_link"/>
       <child link="base/entry_prohibited_area_3"/>
       <xacro:if value="${field=='blue'}">
-        <origin xyz="-0.25 -0.15 0.25" rpy="0 0 0"/>
+        <origin xyz="-0.25 -0.20 0.25" rpy="0 0 0"/>
       </xacro:if>
       <xacro:if value="${field=='red'}">
-        <origin xyz="0.25 -0.15 0.25" rpy="0 0 0"/>
+        <origin xyz="0.25 -0.20 0.25" rpy="0 0 0"/>
       </xacro:if>
     </joint>
 
@@ -161,28 +161,27 @@
     </link>
 
 
-    <!--
+    
     <joint name="base/weight_box" type="fixed">
       <parent link="base/base_link"/>
       <child link="base/weight_box"/>
       <xacro:if value="${field=='blue'}">
-        <origin xyz="-1.2 0.25 0.125" rpy="0 0 0"/>
+        <origin xyz="-1.2 0.25 0.15" rpy="0 0 0"/>
       </xacro:if>
       <xacro:if value="${field=='red'}">
-        <origin xyz="1.2 0.25 0.125" rpy="0 0 0"/>
+        <origin xyz="1.2 0.25 0.15" rpy="0 0 0"/>
       </xacro:if>
     </joint>
 
     <link name="base/weight_box">
       <visual>
         <geometry>
-          <box size="0.4 0.3 0.25"/>
+          <box size="0.4 0.3 0.3"/>
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <material name="clear_grey"/>
       </visual>
     </link>
-    -->
 
   </xacro:macro>
 </robot>
