@@ -72,20 +72,29 @@ link_directories(${catkin_LIBRARY_DIRS})
 set(HEADERS
   include/field/blue_field_2.h
   include/field/red_field_2.h
+<<<<<<< HEAD
   include/field/blue_box.h
   include/field/red_box.h
+=======
+>>>>>>> aa1b2b6228aaea09f420d789b4bcd3331384039b
   )
 qt5_wrap_ui(UIC_FILES
   src/ui/blue_2.ui
   src/ui/red_2.ui
+<<<<<<< HEAD
   src/ui/blue_box.ui
   src/ui/red_box.ui
+=======
+>>>>>>> aa1b2b6228aaea09f420d789b4bcd3331384039b
   )
 set(SOURCE_FILES
   src/blue_field_2.cpp
   src/red_field_2.cpp
+<<<<<<< HEAD
   src/blue_box.cpp
   src/red_box.cpp
+=======
+>>>>>>> aa1b2b6228aaea09f420d789b4bcd3331384039b
   )
 
 #set(HEADERS
