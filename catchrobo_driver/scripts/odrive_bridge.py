@@ -81,7 +81,7 @@ class ODriveBridge:
     def search_index_all(self):
         for i in range(self.MOTOR_NUM):
             self.search_index(joint=i)
-            #time.sleep(2.0)
+            time.sleep(2.0)
     
     def get_errors(self,joint,clear=True):
         error_string = self._odrv[self._joint_config[joint][0]].get_errors(clear=clear)
@@ -96,9 +96,9 @@ class ODriveBridge:
         return error_string
 
     def hard_stop(self,joint,current_limit=1,direction=1,velocity=0.1):
-        time.sleep(0.1)
+        time.sleep(3.0)
         self.engage(joint=joint,index_search=False)
-        time.sleep(0.1)
+        time.sleep(0.5)
         start_position = self._odrv[self._joint_config[joint][0]].get_pos(axis = self._joint_config[joint][1])
         target_position = start_position
         while True:

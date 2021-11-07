@@ -22,13 +22,15 @@ class Guide:
     def guideOnOff(self, on_off):
         msg = Bool()
         msg.data =on_off
-        self._pub_enable.publish(on_off)
+        self._pub_enable.publish(msg)
             
     def barUp(self):
         self._bar.move(self.BAR_UP)
         self.guideOnOff(False)
 
     def barDown(self):
+        self.guideOnOff(True)
+        rospy.sleep(0.1)
         self._bar.move(self.BAR_DOWN)
         
 
@@ -69,7 +71,8 @@ class ShooterManager:
         row = shooting_box.name
         sorter_id, sign = self.getRow2Direction(row)
         shooter = self._shooters[sorter_id]
-        deg = - sign * self.OPEN_DEG
+        # deg = - sign * self.OPEN_DEG
+        deg = 0
         shooter.move(deg)
         rospy.sleep(0.5)
 

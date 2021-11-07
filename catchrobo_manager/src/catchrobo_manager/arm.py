@@ -10,7 +10,7 @@ import moveit_commander
 from geometry_msgs.msg import Pose, Point, Quaternion, PoseStamped
 from moveit_msgs.msg import RobotTrajectory, PositionIKRequest
 from moveit_msgs.srv import GetPositionIK
-
+from std_msgs.msg import Bool
 
 
 class Arm(object):
@@ -41,6 +41,9 @@ class Arm(object):
 
         self.SAFE_JOINT2 = 80.0/180.0 * np.pi
         # self._ik_request.attempts = 1000
+        self._enable_joints_publisher = rospy.Publisher('arm0_controller/enable_joints', Bool, queue_size=1)
+        self._enable_joints_publisher.publish(True)
+
 
     def goStartup(self):
         for i in range(2):
@@ -195,55 +198,58 @@ class Arm(object):
     def move(self, target_pose):
         self.setTargetPose(target_pose)
 
-        final_target_joints = self.calcInverseKinematics(target_pose)
+        ##### move joint1 -> joint2 version
+        # final_target_joints = self.calcInverseKinematics(target_pose)
         
-        current_state = self._robot.get_current_state()
-        current_position = current_state.joint_state.position
-        current_arm_position = current_position[:4]
+        # # current_state = self._robot.get_current_state()
+        # # current_position = current_state.joint_state.position
+        # # current_arm_position = current_position[:4]
 
 
-        # move joint2 to safety point.
-        ### assumption: ０度を超えない
-        abs_current_joint2 = abs(current_arm_position[1])
-        abs_target_joint2 = abs(final_target_joints[1])
-        sign = np.sign(final_target_joints[1])
+        # # # move joint2 to safety point.
+        # # ### assumption: ０度を超えない
+        # # abs_current_joint2 = abs(current_arm_position[1])
+        # # abs_target_joint2 = abs(final_target_joints[1])
+        # # sign = np.sign(final_target_joints[1])
 
         
         
-        if abs_current_joint2 >= self.SAFE_JOINT2 and abs_target_joint2 >= self.SAFE_JOINT2:
-            rospy.loginfo("normal move")
-            move_joint2_first = False
-            move_join1_only = False
-            abs_safe_joint2 = abs_target_joint2
-        elif abs_current_joint2 < self.SAFE_JOINT2 and  abs_target_joint2 >= self.SAFE_JOINT2:
-            move_joint2_first = True
-            move_join1_only = False
-            abs_safe_joint2 = abs_target_joint2
-        elif abs_current_joint2 >= self.SAFE_JOINT2 and abs_target_joint2 < self.SAFE_JOINT2:
-            move_joint2_first = False
-            move_join1_only = True
-            abs_safe_joint2 = abs_current_joint2
-        elif abs_current_joint2 < self.SAFE_JOINT2 and abs_target_joint2 < self.SAFE_JOINT2:
-            move_joint2_first = True
-            move_join1_only = True
-            abs_safe_joint2 = self.SAFE_JOINT2
+        # # if abs_current_joint2 >= self.SAFE_JOINT2 and abs_target_joint2 >= self.SAFE_JOINT2:
+        # #     rospy.loginfo("normal move")
+        # #     move_joint2_first = False
+        # #     move_join1_only = False
+        # #     abs_safe_joint2 = abs_target_joint2
+        # # elif abs_current_joint2 < self.SAFE_JOINT2 and  abs_target_joint2 >= self.SAFE_JOINT2:
+        # #     move_joint2_first = True
+        # #     move_join1_only = False
+        # #     abs_safe_joint2 = abs_target_joint2
+        # # elif abs_current_joint2 >= self.SAFE_JOINT2 and abs_target_joint2 < self.SAFE_JOINT2:
+        # #     move_joint2_first = False
+        # #     move_join1_only = True
+        # #     abs_safe_joint2 = abs_current_joint2
+        # # elif abs_current_joint2 < self.SAFE_JOINT2 and abs_target_joint2 < self.SAFE_JOINT2:
+        # #     move_joint2_first = True
+        # #     move_join1_only = True
+        # #     abs_safe_joint2 = self.SAFE_JOINT2
 
-        safe_joint2 = sign * abs_safe_joint2
-        if move_joint2_first:
-            rospy.loginfo("move joint2")
-            target_joints = list(copy.deepcopy(current_arm_position))
-            target_joints[1] = safe_joint2
-            self.go2TargetJoints(target_joints)
+        # # safe_joint2 = sign * abs_safe_joint2
+        # # if move_joint2_first:
+        # #     rospy.loginfo("move joint2")
+        # #     target_joints = list(copy.deepcopy(current_arm_position))
+        # #     target_joints[1] = safe_joint2
+        # #     self.go2TargetJoints(target_joints)
 
-        # move joints all except joint2
-        if move_join1_only:
-            rospy.loginfo("move joint1")
-            target_joints = list(copy.deepcopy(final_target_joints))
-            target_joints[1] = safe_joint2
-            self.go2TargetJoints(target_joints)
+        # # # move joints all except joint2
+        # # if move_join1_only:
+        # #     rospy.loginfo("move joint1")
+        # #     target_joints = list(copy.deepcopy(final_target_joints))
+        # #     target_joints[1] = safe_joint2
+        # #     self.go2TargetJoints(target_joints)
 
         # move joint2
-        ret = self.go2TargetJoints(final_target_joints)
+        # ret = self.go2TargetJoints(final_target_joints)
+
+        ret = self.go()
 
         return ret 
 

@@ -1,12 +1,23 @@
 <launch>
-<group ns="arm0_controller/">
-        <rosparam command="load" file="$(find catchrobo_driver)/config/hardware_config.yaml"/>
-        <node name="catchrobo_driver" pkg="catchrobo_driver" type="catchrobo_driver.py" output="screen"/>
-        <node name="joy_node" pkg="joy" type="joy_node" output="screen"/>
-        <node name="gamepad_ctrl" pkg="catchrobo_driver" type="gamepad_ctrl.py" output="screen"/>
-</group>
-<node name="serial_node"        pkg="rosserial_python"      type="serial_node.py">
-<param name="port"              type="string"               value="/dev/ttyUSB0"/>
-<param name="baud"              type="int"                  value="57600"/>
-</node>
+        <group ns="arm0_controller/">
+                <rosparam command="load" file="$(find catchrobo_driver)/config/hardware_config.yaml"/>
+                <node name="catchrobo_driver" pkg="catchrobo_driver" type="catchrobo_driver.py" output="screen"/>
+                <node name="joy_node" pkg="joy" type="joy_node" output="screen"/>
+                <node name="gamepad_ctrl" pkg="catchrobo_driver" type="gamepad_ctrl.py" output="screen"/>
+        </group>
+
+        <!-- <node name="serial_node"        pkg="rosserial_python"      type="serial_node.py">
+                <param name="port"              type="string"               value="/dev/ttyUSB0"/>
+                <param name="baud"              type="int"                  value="57600"/>
+        </node> -->
+
+        <node pkg="uvc_camera" name="camera1" type="uvc_camera_node" output="screen">
+                <param name="device" type="string" value="/dev/video0"/>
+                <param name="width" type="int" value="640"/>
+                <param name="height" type="int" value="480"/>
+                <param name="pixel_format" value="mjpeg"/>
+                <param name="camera_frame_id" value="usb_cam"/>
+                <param name="io_method" value="mmap"/>
+                <param name="frame_id" value="camera"/>
+        </node>
 </launch>

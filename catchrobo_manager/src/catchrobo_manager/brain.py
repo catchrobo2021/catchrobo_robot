@@ -27,10 +27,10 @@ class Brain():
         self._world_frame = "world"
 
 
-        self.MAX_HIGHT =  0.37
+        self.MAX_HIGHT =  0.35
         self.ARM2GRIPPER = 0.05
 
-        self.SAFE_Z_NO_GRIP = self.BISCO_SIZE[2] + 0.1
+        self.SAFE_Z_NO_GRIP = self.BISCO_SIZE[2] + 0.15
         
         self.BISCO_GRIP_Z = self.BISCO_SIZE[2] + 0.05
         self.BISCO_ABOVE_Z =self.BISCO_GRIP_Z + self.BISCO_SIZE[2]  + 0.03  #self.BISCO_SIZE[2] + 0.06

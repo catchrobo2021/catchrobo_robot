@@ -3,9 +3,11 @@
     <arg name="field" value="blue"/>
     </include>
   
+  <include file ="$(find catchrobo_driver)/launch/catchrobo_driver.launch"/>
+  <include file ="$(find catchrobo_driver)/launch/arduino.launch"/>
 <!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
     <param name="use_gui" value="true" />
     <rosparam param="source_list">[arm0_controller/joint_states]</rosparam>
   </node> -->
-
+  
 </launch>

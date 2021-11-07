@@ -57,5 +57,4 @@
     <rosparam param="source_list">[arm0_controller/joint_states, gripper1_joint_state, gripper2_joint_state, guide_joint_state, sorter1_joint_state, sorter2_joint_state, sorter3_joint_state]</rosparam>
   </node>
 
-
 </launch>

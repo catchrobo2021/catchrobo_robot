@@ -33,6 +33,9 @@ class GripperManager():
 
         self._grip_dist = rospy.get_param("grip_dist")
 
+        self.releaseBisco(0)
+        self.releaseBisco(1)
+
     def getGripDist(self, target_gripper, grip_way):
         if grip_way == GripWay.LONG_GRIP:
             ret = self._grip_dist["long"][target_gripper]

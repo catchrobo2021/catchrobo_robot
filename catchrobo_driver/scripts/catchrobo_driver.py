@@ -71,7 +71,7 @@ class catchrobo_driver:
             self._odrv_bridge.search_index_all()
             rospy.loginfo("Index search finished.")
             rospy.loginfo("Start hominig sequence.")
-            odrv_bridge.hard_stop(joint=3,current_limit=2,direction=1,velocity=0.5)
+            odrv_bridge.hard_stop(joint=3,current_limit=2,direction=1,velocity=1.0)
             rospy.loginfo("Homing findhed")
             self._index_search_finished  = True
 
