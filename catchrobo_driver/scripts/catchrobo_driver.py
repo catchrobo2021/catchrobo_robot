@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rospy
 from sensor_msgs.msg import JointState
-from std_msgs.msg import Bool
+from std_msgs.msg import Bool, Float32
 import rosparam
 import roslib
 roslib.load_manifest('diagnostic_updater')
@@ -17,6 +17,11 @@ class catchrobo_driver:
         self.MOTOR_NUM = 4 # number of joints
         rospy.init_node("catcrobo_driver")
 
+        # publisher
+        self._joint_state_publisher = rospy.Publisher('joint_states', JointState, queue_size=100)
+        self._joint_state_publisher = rospy.Publisher('joint_states', JointState, queue_size=100)
+        self._power_voltage_publisher = rospy.Publisher('power_voltage', Float32, queue_size=10)
+        
         # joint control
         joint_control = JointState()
         joint_control.name = [""] * self.MOTOR_NUM
@@ -77,8 +82,8 @@ class catchrobo_driver:
 
             rospy.Subscriber("enable_joints", Bool, self.engage_idle_callback)
             rospy.Subscriber("joint_control", JointState, self.joint_control_callback)
-            self._joint_state_publisher = rospy.Publisher('joint_states', JointState, queue_size=100)
             rospy.Timer(rospy.Duration(1.0 / self._communication_freq), self.controll_callback)
+            rospy.loginfo("Catchrobo driver is ready.")
             rospy.spin()
 
 
@@ -110,6 +115,7 @@ class catchrobo_driver:
         self._joint_state.velocity = joint_state.velocity
         self._joint_state.effort = self._motor_state.effort #[TODO]
         self._joint_state_publisher.publish(self._joint_state)
+        self._power_voltage_publisher.publish(self._odrv_bridge.read_vbus_voltage())
         
     def write(self):
         # over write control command if joints are not enabled:
@@ -257,15 +263,15 @@ class catchrobo_driver:
             
 
     def controll_callback(self,event):
-        try:
-            self.read()
-            self.safety_check()
-            self.write()
-            self._joint_com_state = True
-        except Exception as e:
-            self.idle_all()
-            self._joint_com_state = False
-            rospy.logerr_throttle(1,"ERROR DETECTED: {}".format(e))
+        #try:
+        self.read()
+        self.safety_check()
+        self.write()
+        self._joint_com_state = True
+        #except Exception as e:
+        #    self.idle_all()
+        #    self._joint_com_state = False
+        #    rospy.logerr_throttle(1,"ERROR DETECTED: {}".format(e))
         self._diagnostic_updater.update()
 
 if __name__ == "__main__":

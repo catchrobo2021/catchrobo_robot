@@ -18,7 +18,7 @@ arm:
       velocity: 20.0
       current: 24.0
     tolerence: 0.2
-    offset: -2.611162898
+    offset: -2.604385772
 
   joint2:
     name: arm/joint2
@@ -32,7 +32,7 @@ arm:
       velocity: 10.0
       current: 24.0
     tolerence: 0.2
-    offset: 2.098302656
+    offset: 2.722884417
 
   joint3:
     name: arm/joint3
@@ -46,7 +46,7 @@ arm:
       velocity: 10.0
       current: 24.0
     tolerence: 0.2
-    offset: -0.7019496179
+    offset: -0.639903166
 
   joint4:
     name: arm/joint4
@@ -60,4 +60,4 @@ arm:
       velocity: 10.0
       current: 24.0
     tolerence: 0.05
-    offset: 0.0009585000277
+    offset: -0.00412446928

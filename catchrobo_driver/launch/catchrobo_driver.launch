@@ -4,6 +4,7 @@
                 <node name="catchrobo_driver" pkg="catchrobo_driver" type="catchrobo_driver.py" output="screen"/>
                 <node name="joy_node" pkg="joy" type="joy_node" output="screen"/>
                 <node name="gamepad_ctrl" pkg="catchrobo_driver" type="gamepad_ctrl.py" output="screen"/>
+                <node name="state_publisher" pkg="catchrobo_driver" type="state_publisher.py" output="screen"/>
         </group>
 
         <!-- <node name="serial_node"        pkg="rosserial_python"      type="serial_node.py">

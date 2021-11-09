@@ -280,3 +280,7 @@ class ODriveNode(object):
     def move(self, axis=0,direction=1, vel_limit=0.1):
         self.axes[axis].trap_traj.config.vel_limit = vel_limit
         self.axes[axis].controller.move_incremental(direction*1000000, False)
+
+    def read_vbus_voltage(self):
+        voltage = self.driver.vbus_voltage
+        return voltage
