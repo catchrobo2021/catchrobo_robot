@@ -263,15 +263,15 @@ class catchrobo_driver:
             
 
     def controll_callback(self,event):
-        #try:
-        self.read()
-        self.safety_check()
-        self.write()
-        self._joint_com_state = True
-        #except Exception as e:
-        #    self.idle_all()
-        #    self._joint_com_state = False
-        #    rospy.logerr_throttle(1,"ERROR DETECTED: {}".format(e))
+        try:
+            self.read()
+            self.safety_check()
+            self.write()
+            self._joint_com_state = True
+        except Exception as e:
+            self.idle_all()
+            self._joint_com_state = False
+            rospy.logerr_throttle(1,"ERROR DETECTED: {}".format(e))
         self._diagnostic_updater.update()
 
 if __name__ == "__main__":

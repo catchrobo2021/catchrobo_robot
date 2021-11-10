@@ -5,7 +5,7 @@ from sensor_msgs.msg import JointState
 
 class state_publisher:
     def __init__(self):
-        rospy.init_node('gamepad_ctrl')
+        rospy.init_node('state_publisher')
         self.MOTOR_NUM = 4 # number of joints
         # joint state
         joint_state = JointState()
@@ -24,32 +24,20 @@ class state_publisher:
         self._joint4_position_publisher = rospy.Publisher('joint4/position', Float32, queue_size=10)
         self._joint4_effort_publisher = rospy.Publisher('joint4/effort', Float32, queue_size=10)
 
-        self._joint1_goal_position_publisher = rospy.Publisher('joint1/goal_position', Float32, queue_size=10)
-        self._joint2_goal_position_publisher = rospy.Publisher('joint2/goal_position', Float32, queue_size=10)
-        self._joint3_goal_position_publisher = rospy.Publisher('joint3/goal_position', Float32, queue_size=10)
-        self._joint4_goal_position_publisher = rospy.Publisher('joint4/goal_position', Float32, queue_size=10)
-
-        rospy.Subscriber("joint_state", JointState, self.joint_state_callback)
-        rospy.Subscriber("joint_control", JointState, self.joint_control_callback)
+        rospy.Subscriber("joint_states", JointState, self.joint_state_callback)
         
         rospy.spin()
 
 
     def joint_state_callback(self,data):
         self._joint1_position_publisher.publish(data.position[0])
-        self._joint1_effort_publisher.publish(data.effort[0])
+        self._joint1_effort_publisher.publish(abs(data.effort[0]))
         self._joint2_position_publisher.publish(data.position[1])
-        self._joint2_effort_publisher.publish(data.effort[1])
+        self._joint2_effort_publisher.publish(abs(data.effort[1]))
         self._joint3_position_publisher.publish(data.position[2])
-        self._joint3_effort_publisher.publish(data.effort[2])
+        self._joint3_effort_publisher.publish(abs(data.effort[2]))
         self._joint4_position_publisher.publish(data.position[3])
-        self._joint4_effort_publisher.publish(data.effort[3])
-
-    def joint_control_callback(self,data):
-        self._joint1_goal_position_publisher.publish(data.position[0])
-        self._joint2_goal_position_publisher.publish(data.position[1])
-        self._joint3_goal_position_publisher.publish(data.position[2])
-        self._joint4_goal_position_publisher.publish(data.position[3])
+        self._joint4_effort_publisher.publish(abs(data.effort[3]))
  
 if __name__ == "__main__":
     state_publisher()
