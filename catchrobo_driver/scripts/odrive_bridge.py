@@ -69,9 +69,13 @@ class ODriveBridge:
         motor_state.effort = [0] * self.MOTOR_NUM
         for i in range(self.MOTOR_NUM):
             motor_state.position[i] = self._odrv[self._joint_config[i][0]].get_pos(axis = self._joint_config[i][1])
-            motor_state.velocity[i] = self._odrv[self._joint_config[i][0]].get_vel(axis = self._joint_config[i][1])
+            #motor_state.velocity[i] = self._odrv[self._joint_config[i][0]].get_vel(axis = self._joint_config[i][1])
             motor_state.effort[i] = self._odrv[self._joint_config[i][0]].get_current(axis = self._joint_config[i][1])
         return motor_state
+
+    def read_vbus_voltage(self):
+        voltage = self._odrv[0].read_vbus_voltage() 
+        return voltage
 
     def search_index(self,joint):
         self._odrv[self._joint_config[joint][0]].search_index(axis=self._joint_config[joint][1])
