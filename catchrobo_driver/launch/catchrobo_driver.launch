@@ -2,6 +2,7 @@
         <group ns="arm0_controller/">
                 <rosparam command="load" file="$(find catchrobo_driver)/config/hardware_config.yaml"/>
                 <node name="catchrobo_driver" pkg="catchrobo_driver" type="catchrobo_driver.py" output="screen"/>
+                <!--<node name="catchrobo_driver" pkg="catchrobo_driver" type="catchrobo_driver_can.py" output="screen"/>-->
                 <node name="joy_node" pkg="joy" type="joy_node" output="screen"/>
                 <node name="gamepad_ctrl" pkg="catchrobo_driver" type="gamepad_ctrl.py" output="screen"/>
                 <node name="state_publisher" pkg="catchrobo_driver" type="state_publisher.py" output="screen"/>
