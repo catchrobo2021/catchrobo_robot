@@ -207,7 +207,7 @@ class TargetBiscoCalculator:
 
         biscos.delete(first)
         second = self.getMininumPriorityId(biscos)
-        if biscos.isExsist(second)==0:
+        if biscos.isExist(second)==0:
             return first, None
         
         return first, second
