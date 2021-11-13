@@ -12,6 +12,12 @@ from moveit_msgs.msg import RobotTrajectory, PositionIKRequest
 from moveit_msgs.srv import GetPositionIK
 from std_msgs.msg import Bool
 
+class ArmExtensionState:
+    NEAR2NEAR = 0
+    NEAR2FAR = 1
+    FAR2FAR = 2
+    FAR2NEAR = 3
+
 
 class Arm(object):
     def __init__(self):
@@ -39,7 +45,7 @@ class Arm(object):
         self._ik_request.timeout.secs = 1.0
         self._ik_request.avoid_collisions = True
 
-        self.SAFE_JOINT2 = 80.0/180.0 * np.pi
+        self.SAFE_JOINT2 = 77.0/180.0 * np.pi
         # self._ik_request.attempts = 1000
         self._enable_joints_publisher = rospy.Publisher('arm0_controller/enable_joints', Bool, queue_size=1)
         self._enable_joints_publisher.publish(True)
@@ -143,6 +149,34 @@ class Arm(object):
         rospy.loginfo("IK time : {}".format(dt))
 
         return joints[0:4]
+    
+
+
+    def checkExtention(self, final_target_joints):
+        #### move joint1 -> joint2 version
+        current_state = self._robot.get_current_state()
+        current_position = current_state.joint_state.position
+        current_arm_position = current_position[:4]
+
+
+        # move joint2 to safety point.
+        ### assumption: ０度を超えない
+        abs_current_joint2 = abs(current_arm_position[1])
+        abs_target_joint2 = abs(final_target_joints[1])
+        sign = np.sign(final_target_joints[1])
+
+        
+        if abs_current_joint2 >= self.SAFE_JOINT2 and abs_target_joint2 >= self.SAFE_JOINT2:
+            rospy.loginfo("normal move")
+            state= ArmExtensionState.NEAR2NEAR
+        elif abs_current_joint2 < self.SAFE_JOINT2 and  abs_target_joint2 >= self.SAFE_JOINT2:
+            state= ArmExtensionState.FAR2NEAR
+        elif abs_current_joint2 >= self.SAFE_JOINT2 and abs_target_joint2 < self.SAFE_JOINT2:
+            state= ArmExtensionState.NEAR2FAR
+        elif abs_current_joint2 < self.SAFE_JOINT2 and abs_target_joint2 < self.SAFE_JOINT2:
+            state= ArmExtensionState.FAR2FAR
+        return state
+
 
     def moveJoint1First(self):
         #### move joint1 -> joint2 version
@@ -197,12 +231,17 @@ class Arm(object):
         return ret
 
     def arriveMiddlePoint(self, target_pose):
-        middle_pose = copy.deepcopy(target_pose)
-        middle_pose.position.x = self.MIDDLE_POINT_X
-        middle_pose.position.y = self.MIDDLE_POINT_Y
-        self.setTargetPose(middle_pose)
-        ret = self.go()
-    
+        final_target_joints = self.calcInverseKinematics(target_pose)
+        state = self.checkExtention(final_target_joints)
+        if state == ArmExtensionState.NEAR2NEAR or state == ArmExtensionState.FAR2NEAR:
+            return
+        if state == ArmExtensionState.NEAR2FAR or state == ArmExtensionState.FAR2FAR:
+            middle_pose = copy.deepcopy(target_pose)
+            middle_pose.position.x = self.MIDDLE_POINT_X
+            middle_pose.position.y = self.MIDDLE_POINT_Y
+            self.setTargetPose(middle_pose)
+            ret = self.go()
+        
 
     def move(self, target_pose):
         self.arriveMiddlePoint(target_pose)
