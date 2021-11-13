@@ -184,10 +184,11 @@ class TargetBiscoCalculator:
         # common area        
         for j in range(6):
             check=2*biscos.isExist(7-j)+biscos.isExist(6-j)
-            print(check)
+            #print(check)
             if check==2:
                 biscos.updateState(7-j, "priority", biscos.isExist(7-j)+40)
-
+        
+        '''
         # debag
         print("in1=",in1)
         print("in2=",in2)
@@ -198,6 +199,7 @@ class TargetBiscoCalculator:
         for h in range(6):
             print(biscos.getState(8-h, "priority"), biscos.getState(14-h, "priority"),biscos.getState(20-h, "priority"), biscos.getState(26-h, "priority"))
         print("\n")
+        '''
 
         first = self.getMininumPriorityId(biscos)
         if first is None:
@@ -205,6 +207,9 @@ class TargetBiscoCalculator:
 
         biscos.delete(first)
         second = self.getMininumPriorityId(biscos)
+        if biscos.isExsist(second)==0:
+            return first, None
+        
         return first, second
 
     def getMininumPriorityId(self, database):
