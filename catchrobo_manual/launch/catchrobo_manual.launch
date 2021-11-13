@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="ManualManager" pkg="catchrobo_manual" type="catchrobo_manual.py" output="screen" />
+    <rosparam file="$(find catchrobo_manager)/config/gripper.yaml" command="load" ns="" />
+
+<rosparam file="$(find catchrobo_manager)/config/scaling_factor.yaml" command="load" ns="" />    
+</launch>
