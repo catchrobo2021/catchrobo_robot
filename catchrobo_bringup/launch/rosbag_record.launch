@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="rosbag_record" pkg="rosbag" type="record" output="screen" args="record -o $(find catchrobo_bringup)/rosbag/sim -a"/> 
+</launch>
