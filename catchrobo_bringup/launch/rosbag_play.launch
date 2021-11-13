@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+  <include file="$(find catchrobo_my_moveit)/launch/moveit_rviz.launch">
+    <arg name="config" value="true" />
+    <arg name="debug" value="false" />
+  </include>
+
+<arg name="file" default=""/>
+<node pkg="rosbag" type="play" name="rosbag_play" output="screen" required="true"
+         args="$(find catchrobo_bringup)/rosbag/$(arg file)"/>  
+</launch>

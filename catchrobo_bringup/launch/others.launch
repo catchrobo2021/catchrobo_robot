@@ -56,5 +56,4 @@
     <param name="use_gui" value="true" />
     <rosparam param="source_list">[arm0_controller/joint_states, gripper1_joint_state, gripper2_joint_state, guide_joint_state, sorter1_joint_state, sorter2_joint_state, sorter3_joint_state]</rosparam>
   </node>
-<node name="rosbag_record" pkg="rosbag" type="record" output="screen" args="record -o $(find catchrobo_bringup).rosbag -a -x"/> 
 </launch>
