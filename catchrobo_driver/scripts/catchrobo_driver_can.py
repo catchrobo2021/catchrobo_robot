@@ -318,6 +318,7 @@ class catchrobo_driver:
             self.idle_all()
             self._joint_com_state = False
             rospy.logerr_throttle(1,"ERROR DETECTED: {}".format(e))
+            
         self._diagnostic_updater.update()
 
 if __name__ == "__main__":

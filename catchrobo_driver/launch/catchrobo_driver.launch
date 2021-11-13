@@ -8,11 +8,6 @@
                 <node name="state_publisher" pkg="catchrobo_driver" type="state_publisher.py" output="screen"/>
         </group>
 
-        <!-- <node name="serial_node"        pkg="rosserial_python"      type="serial_node.py">
-                <param name="port"              type="string"               value="/dev/ttyUSB0"/>
-                <param name="baud"              type="int"                  value="57600"/>
-        </node> -->
-
         <node pkg="uvc_camera" name="camera1" type="uvc_camera_node" output="screen">
                 <param name="device" type="string" value="/dev/video2"/>
                 <param name="width" type="int" value="640"/>

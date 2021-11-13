@@ -29,6 +29,8 @@ class ODriveBridge:
     def connect(self):
         for i in range(self.ODRIVE_NUM):
             self._odrv[i].connect(serial_number=self._serial_number[i])
+            self.idle(joint=i)
+
 
     def disconnect(self):
         for i in range(self.ODRIVE_NUM):

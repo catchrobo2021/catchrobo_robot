@@ -74,7 +74,7 @@ class ShooterManager:
         # deg = - sign * self.OPEN_DEG
         deg = 0
         shooter.move(deg)
-        rospy.sleep(0.5)
+        # rospy.sleep(0.5)
 
     def barUp(self):
         self._guide.barUp()

@@ -15,7 +15,8 @@ class Servo:
         send_msg = Float64(val)
         self._pub.publish(send_msg)
         if wait:
-            rospy.sleep(0.5)
+            # rospy.sleep(0.5)
+            pass
 
 
 class Laser:

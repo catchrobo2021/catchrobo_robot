@@ -18,7 +18,7 @@ arm:
       velocity: 20.0
       current: 20.0
     tolerence: 0.2
-    offset: -2.562366973
+    offset: -2.56629396
 
   joint2:
     name: arm/joint2
