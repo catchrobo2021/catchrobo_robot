@@ -14,6 +14,13 @@ controller_list:
     type: $(arg execution_type)
     joints:
       - gripper/joint1
+  - name: fake_shooter_controller
+    type: $(arg execution_type)
+    joints:
+      - guide/joint1
+      - sorter/joint1
+      - sorter/joint2
+      - sorter/joint3
 initial:  # Define initial robot poses.
   - group: arm0
-    pose: startup
+    pose: home_red

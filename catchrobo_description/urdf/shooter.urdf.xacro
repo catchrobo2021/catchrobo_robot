@@ -9,53 +9,35 @@
   <xacro:property name="visual_mesh_scale" value="1.0 1.0 1.0"/>
   <xacro:property name="collision_mesh_scale" value="1.0 1.0 1.0"/>
 
-  <xacro:include filename="$(find catchrobo_description)/urdf/shooter.transmission.xacro"/>
-
   <!-- Link & Joint -->
-  <xacro:macro name="shooter_base" params="prefix parent *joint_origin">
+  <xacro:macro name="shooter" params="prefix parent *joint_origin">
   
-    <joint name="${prefix}shooter_base/root" type="fixed">
+    <joint name="${prefix}shooter/root" type="fixed">
       <xacro:insert_block name="joint_origin"/>
       <parent link="${parent}"/>
-      <child link="${prefix}shooter_base/base_link"/>
+      <child link="${prefix}shooter/base_link"/>
     </joint>
 
-    <link name="${prefix}shooter_base/base_link">
-      <xacro:if value="${field=='blue'}">
-        <visual>
-          <geometry>
-            <mesh filename="package://catchrobo_description/mesh/shooter/visual/shooter_base_fixed_axis.stl" scale="${visual_mesh_scale}"/>
-          </geometry>
-          <material name="white"/>
-        </visual>
-        <collision>
-          <geometry>
-            <mesh filename="package://catchrobo_description/mesh/shooter/collision/shooter_base_fixed_axis.stl" scale="${collision_mesh_scale}"/>
-          </geometry>
-        </collision>
-      </xacro:if>
-
-      <xacro:if value="${field=='red'}">
-        <visual>
-          <geometry>
-            <mesh filename="package://catchrobo_description/mesh/shooter/visual/shooter_base_fixed_axis.stl" scale="${visual_mesh_scale}"/>
-          </geometry>
-          <material name="white"/>
-        </visual>
-        <collision>
-          <geometry>
-            <mesh filename="package://catchrobo_description/mesh/shooter/collision/shooter_base_fixed_axis.stl" scale="${collision_mesh_scale}"/>
-          </geometry>
-        </collision>
-      </xacro:if>
+    <link name="${prefix}shooter/base_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://catchrobo_description/mesh/shooter/visual/base.stl" scale="${visual_mesh_scale}"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://catchrobo_description/mesh/shooter/collision/base.stl" scale="${collision_mesh_scale}"/>
+        </geometry>
+      </collision>
     </link>
 
-    <joint name="${prefix}shooter/joint1" type="revolute">
-      <parent link="${prefix}shooter_base/base_link"/>
+    <joint name="${prefix}guide/joint1" type="revolute">
+      <parent link="${prefix}shooter/base_link"/>
       <child link="${prefix}shooter/guide"/>
-      <origin xyz="0.3083 0.42041555 0.07832442" rpy="${-90*M_PI/180} ${35*M_PI/180} ${90*M_PI/180}"/>
+      <origin xyz="0.3083 0.4215627 0.07996272" rpy="${-90*M_PI/180} ${35*M_PI/180} ${90*M_PI/180}"/>
       <axis xyz="0 0 1"/>
-      <limit lower="${-175*M_PI/180}" upper="${175*M_PI/180}" effort="6"
+      <limit lower="${-180*M_PI/180}" upper="${0*M_PI/180}" effort="6"
               velocity="5" acceleration="5"/>
     </joint>  
 
@@ -64,7 +46,7 @@
         <geometry>
           <mesh filename="package://catchrobo_description/mesh/shooter/visual/guide.stl" scale="${visual_mesh_scale}"/>
         </geometry>
-        <material name="white"/>
+        <material name="orange"/>
       </visual>
       <collision>
         <geometry>
@@ -73,12 +55,12 @@
       </collision>
     </link>
 
-    <joint name="${prefix}shooter/joint2" type="revolute">
-      <parent link="${prefix}shooter_base/base_link"/>
+    <joint name="${prefix}sorter/joint1" type="revolute">
+      <parent link="${prefix}shooter/base_link"/>
       <child link="${prefix}shooter/sorter1"/>
       <origin xyz="0.195 0.41552443 0.01729232" rpy="0 ${35*M_PI/180} ${90*M_PI/180}"/>
       <axis xyz="0 0 1"/>
-      <limit lower="${-175*M_PI/180}" upper="${175*M_PI/180}" effort="6"
+      <limit lower="${-45*M_PI/180}" upper="${45*M_PI/180}" effort="6"
               velocity="5" acceleration="5"/>
     </joint>  
 
@@ -87,7 +69,7 @@
         <geometry>
           <mesh filename="package://catchrobo_description/mesh/shooter/visual/sorter.stl" scale="${visual_mesh_scale}"/>
         </geometry>
-        <material name="white"/>
+        <material name="orange"/>
       </visual>
       <collision>
         <geometry>
@@ -96,12 +78,12 @@
       </collision>
     </link>
     
-    <joint name="${prefix}shooter/joint3" type="revolute">
-      <parent link="${prefix}shooter_base/base_link"/>
+    <joint name="${prefix}sorter/joint2" type="revolute">
+      <parent link="${prefix}shooter/base_link"/>
       <child link="${prefix}shooter/sorter2"/>
       <origin xyz="0 0.41552443 0.01729232" rpy="0 ${35*M_PI/180} ${90*M_PI/180}"/>
       <axis xyz="0 0 1"/>
-      <limit lower="${-175*M_PI/180}" upper="${175*M_PI/180}" effort="6"
+      <limit lower="${-45*M_PI/180}" upper="${45*M_PI/180}" effort="6"
               velocity="5" acceleration="5"/>
     </joint>  
 
@@ -110,7 +92,7 @@
         <geometry>
           <mesh filename="package://catchrobo_description/mesh/shooter/visual/sorter.stl" scale="${visual_mesh_scale}"/>
         </geometry>
-        <material name="white"/>
+        <material name="orange"/>
       </visual>
       <collision>
         <geometry>
@@ -119,12 +101,12 @@
       </collision>
     </link>
 
-    <joint name="${prefix}shooter/joint4" type="revolute">
-      <parent link="${prefix}shooter_base/base_link"/>
+    <joint name="${prefix}sorter/joint3" type="revolute">
+      <parent link="${prefix}shooter/base_link"/>
       <child link="${prefix}shooter/sorter3"/>
       <origin xyz="-0.195 0.41552443 0.01729232" rpy="0 ${35*M_PI/180} ${90*M_PI/180}"/>
       <axis xyz="0 0 1"/>
-      <limit lower="${-175*M_PI/180}" upper="${175*M_PI/180}" effort="6"
+      <limit lower="${-45*M_PI/180}" upper="${45*M_PI/180}" effort="6"
               velocity="5" acceleration="5"/>
     </joint>  
     <link name="${prefix}shooter/sorter3">
@@ -132,7 +114,7 @@
         <geometry>
           <mesh filename="package://catchrobo_description/mesh/shooter/visual/sorter.stl" scale="${visual_mesh_scale}"/>
         </geometry>
-        <material name="white"/>
+        <material name="orange"/>
       </visual>
       <collision>
         <geometry>

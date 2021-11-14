@@ -15,10 +15,10 @@ sudo pip3 install --upgrade odrive
 odrivetool
 ```
 
-##  Joint Setup Procedure:
+## Clibration Procedure
 1. Set configurations for ABI encoders:  
 ```
-odrv0.axis0.controller.config.vel_limit = 20
+odrv0.axis0.controller.config.vel_limit = 25
 odrv0.axis0.motor.config.current_lim = 24
 odrv0.axis0.motor.config.calibration_current = 5
 odrv0.axis0.motor.config.pole_pairs = 21
@@ -27,12 +27,8 @@ odrv0.axis0.encoder.config.mode = ENCODER_MODE_INCREMENTAL
 odrv0.axis0.encoder.config.cpr = 4000
 odrv0.axis0.encoder.config.calib_scan_distance = 100
 odrv0.axis0.encoder.config.use_index = True
-odrv0.config.brake_resistance = 0.55
-odrv0.config.enable_brake_resistor = True
-odrv0.save_configuration()
-odrv0.reboot()
 
-odrv0.axis1.controller.config.vel_limit = 20
+odrv0.axis1.controller.config.vel_limit = 25
 odrv0.axis1.motor.config.current_lim = 24
 odrv0.axis1.motor.config.calibration_current = 5
 odrv0.axis1.motor.config.pole_pairs = 21
@@ -41,7 +37,9 @@ odrv0.axis1.encoder.config.mode = ENCODER_MODE_INCREMENTAL
 odrv0.axis1.encoder.config.cpr = 4000
 odrv0.axis1.encoder.config.calib_scan_distance = 100
 odrv0.axis1.encoder.config.use_index = True
+
 odrv0.config.brake_resistance = 0.55
+odrv0.config.enable_brake_resistor = True
 odrv0.save_configuration()
 odrv0.reboot()
 ```
@@ -49,7 +47,6 @@ odrv0.reboot()
 2. Calibration
 ```
 odrv0.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
-
 odrv0.axis1.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
 ```
 
@@ -72,6 +69,14 @@ odrv0.reboot()
 ```
 odrv0.axis0.requested_state = AXIS_STATE_ENCODER_INDEX_SEARCH
 odrv0.axis1.requested_state = AXIS_STATE_ENCODER_INDEX_SEARCH
+```
+
+6. Set pid gain
+```
+odrv0.axis0.controller.config.pos_gain = 20
+odrv0.axis0.controller.config.vel_gain = 0.3
+odrv0.axis1.controller.config.pos_gain = 100
+odrv0.axis1.controller.config.vel_gain = 0.3
 ```
 
 ## Tools

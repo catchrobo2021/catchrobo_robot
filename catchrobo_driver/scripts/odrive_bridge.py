@@ -20,21 +20,17 @@ class ODriveBridge:
         odrive2 = ODriveNode()
 
         self._odrv = [odrive0,odrive1,odrive2]
-        self._serial_number = [config['odrive_serial_number']['odrive0'],config['odrive_serial_number']['odrive1'],config['odrive_serial_number']['odrive2']]    
+        self._serial_number = [config['odrive_serial_number']['odrive0'],config['odrive_serial_number']['odrive1']]    
         self._joint_config = [  [config['joint1']['odrive']['id'], config['joint1']['odrive']['axis']],
                                 [config['joint2']['odrive']['id'], config['joint2']['odrive']['axis']],
                                 [config['joint3']['odrive']['id'], config['joint3']['odrive']['axis']],
-                                [config['joint4']['odrive']['id'], config['joint4']['odrive']['axis']],
-                                [config['joint5']['odrive']['id'], config['joint5']['odrive']['axis']]]
-        self._pid_config = [  [config['joint1']['pos_kp'], config['joint1']['vel_kp'], config['joint1']['vel_ki']],
-                              [config['joint2']['pos_kp'], config['joint2']['vel_kp'], config['joint2']['vel_ki']],
-                              [config['joint3']['pos_kp'], config['joint3']['vel_kp'], config['joint3']['vel_ki']],
-                              [config['joint4']['pos_kp'], config['joint4']['vel_kp'], config['joint4']['vel_ki']],
-                              [config['joint5']['pos_kp'], config['joint5']['vel_kp'], config['joint5']['vel_ki']]]
+                                [config['joint4']['odrive']['id'], config['joint4']['odrive']['axis']]]
 
     def connect(self):
         for i in range(self.ODRIVE_NUM):
             self._odrv[i].connect(serial_number=self._serial_number[i])
+            self.idle(joint=i)
+
 
     def disconnect(self):
         for i in range(self.ODRIVE_NUM):
@@ -62,12 +58,6 @@ class ODriveBridge:
     def set_mode(self, mode):
         for i in range(self.MOTOR_NUM):
             self._odrv[self._joint_config[i][0]].control_mode(axis=self._joint_config[i][1], mode=mode)
-
-    def set_pid(self):
-        for i in range(self.MOTOR_NUM):
-            self._odrv[self._joint_config[i][0]].set_PID(axis=self._joint_config[i][1], pos_P=self._pid_config[i][0], vel_P=self._pid_config[i][1], vel_I=self._pid_config[i][2])
-        for i in range(self.ODRIVE_NUM):
-            self._odrv[i].save()
             
     def write(self, position):
         for i in range(self.MOTOR_NUM):
@@ -81,9 +71,13 @@ class ODriveBridge:
         motor_state.effort = [0] * self.MOTOR_NUM
         for i in range(self.MOTOR_NUM):
             motor_state.position[i] = self._odrv[self._joint_config[i][0]].get_pos(axis = self._joint_config[i][1])
-            motor_state.velocity[i] = self._odrv[self._joint_config[i][0]].get_vel(axis = self._joint_config[i][1])
+            #motor_state.velocity[i] = self._odrv[self._joint_config[i][0]].get_vel(axis = self._joint_config[i][1])
             motor_state.effort[i] = self._odrv[self._joint_config[i][0]].get_current(axis = self._joint_config[i][1])
         return motor_state
+
+    def read_vbus_voltage(self):
+        voltage = self._odrv[0].read_vbus_voltage() 
+        return voltage
 
     def search_index(self,joint):
         self._odrv[self._joint_config[joint][0]].search_index(axis=self._joint_config[joint][1])
@@ -93,7 +87,7 @@ class ODriveBridge:
     def search_index_all(self):
         for i in range(self.MOTOR_NUM):
             self.search_index(joint=i)
-            time.sleep(0.1)
+            time.sleep(2.0)
     
     def get_errors(self,joint,clear=True):
         error_string = self._odrv[self._joint_config[joint][0]].get_errors(clear=clear)
@@ -106,3 +100,19 @@ class ODriveBridge:
             if error_string_joint is not None:
                 error_string += error_string_joint
         return error_string
+
+    def hard_stop(self,joint,current_limit=1,direction=1,velocity=0.1):
+        time.sleep(3.0)
+        self.engage(joint=joint,index_search=False)
+        time.sleep(0.5)
+        start_position = self._odrv[self._joint_config[joint][0]].get_pos(axis = self._joint_config[joint][1])
+        target_position = start_position
+        while True:
+            if abs(self._odrv[self._joint_config[joint][0]].get_current(axis=self._joint_config[joint][1])) > current_limit:
+                self.idle(joint=joint)
+                break
+            else:
+                target_position += direction * velocity * 0.05
+                self._odrv[self._joint_config[joint][0]].drive_pos(axis=self._joint_config[joint][1], val=target_position)
+                time.sleep(0.05)
+        self.search_index(joint=joint)

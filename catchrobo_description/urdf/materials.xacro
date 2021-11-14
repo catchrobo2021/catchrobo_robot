@@ -45,4 +45,9 @@
     <color rgba="0.5 0.5 0.5 0.1"/>
   </material>
 
+  <material name="clear_grey">
+    <color rgba="0.2 0.2 0.2 0.5"/>
+  </material>
+  
+
 </robot>

@@ -12,8 +12,6 @@
         
       </group>
 
-
-
       <!-- <node name="game_manager" pkg="catchrobo_manager" type="game_manager.py" output="screen" >
       </node> -->
       
@@ -33,13 +31,13 @@
   <!-- <arg name="use_gui" default="true" /> -->
 
   <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
-  <include file="$(find catchrobo_manager)/launch/planning_context.launch">
+  <include file="$(find catchrobo_my_moveit)/launch/planning_context.launch">
     <arg name="load_robot_description" value="true" />
     <arg name="field" value="$(arg field)" />
   </include>
 
   <!-- Run the main MoveIt! executable without trajectory execution (we do not have controllers configured by default) -->
-  <include file="$(find catchrobo_manager)/launch/move_group.launch">
+  <include file="$(find catchrobo_my_moveit)/launch/move_group.launch">
     <arg name="allow_trajectory_execution" value="true" />
     <arg name="fake_execution" value="false" />
     <arg name="info" value="true" />
@@ -47,12 +45,18 @@
   </include>
 
   <!-- Run Rviz and load the default config to see the state of the move_group node -->
-  <include file="$(find catchrobo_moveit)/launch/moveit_rviz.launch">
+  <include file="$(find catchrobo_my_moveit)/launch/moveit_rviz.launch">
     <arg name="config" value="true" />
     <arg name="debug" value="$(arg debug)" />
   </include>
 
   
+    <node name="arduino_sim" pkg="catchrobo_driver_sim" type="arduino_sim.py" output="screen" />
+<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="use_gui" value="true" />
+    <rosparam param="source_list">[arm0_controller/joint_states, gripper1_joint_state, gripper2_joint_state, guide_joint_state, sorter1_joint_state, sorter2_joint_state, sorter3_joint_state]</rosparam>
+  </node>
 
+  <node name="sorter" pkg="catchrobo_manager" type="sorter_node.py" output="screen" />
 
 </launch>

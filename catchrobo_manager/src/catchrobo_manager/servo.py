@@ -11,11 +11,11 @@ class Servo:
         self._name = name
         self._pub = rospy.Publisher(name, Float64, queue_size=10)
         
-    def move(self, val, wait=True):
+    def move(self, val, wait_s=0):
         send_msg = Float64(val)
         self._pub.publish(send_msg)
-        if wait:
-            rospy.sleep(0.5)
+        if wait_s > 0:
+            rospy.sleep(wait_s)
 
 
 class Laser:

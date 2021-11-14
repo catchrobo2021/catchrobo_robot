@@ -38,6 +38,7 @@ class ODriveNode(object):
     def connect(self, serial_number, timeout = 10):
         if self.driver:
             rospy.loginfo("Already connected. Disconnecting and reconnecting.")
+            self.disconnect()
         try:
             self.driver = odrive.find_any(serial_number=serial_number, timeout=timeout)
             self.axes = (self.driver.axis0, self.driver.axis1)
@@ -211,8 +212,8 @@ class ODriveNode(object):
 
     def search_index(self , axis=0):
         self.search(axis)
-        while self.axes[axis].current_state != AXIS_STATE_IDLE:
-            time.sleep(0.1)
+        #while self.axes[axis].current_state != AXIS_STATE_IDLE:
+        #    time.sleep(0.1)
         return True
 
     def idle(self, axis=0): self.axes[axis].requested_state = AXIS_STATE_IDLE
@@ -276,3 +277,11 @@ class ODriveNode(object):
         self.driver.save_configuration()
 
     def homing(self, axis=0):   self.axes[axis].requested_state = AXIS_STATE_HOMING
+
+    def move(self, axis=0,direction=1, vel_limit=0.1):
+        self.axes[axis].trap_traj.config.vel_limit = vel_limit
+        self.axes[axis].controller.move_incremental(direction*1000000, False)
+
+    def read_vbus_voltage(self):
+        voltage = self.driver.vbus_voltage
+        return voltage
