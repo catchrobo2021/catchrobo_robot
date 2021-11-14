@@ -1,5 +1,5 @@
-#ifndef Red_FIELD_2_H
-#define Red_FIELD_2_H
+#ifndef Shoot_H
+#define Shoot_H
 
 #pragma once
 
@@ -20,19 +20,19 @@
 #include <geometry_msgs/PointStamped.h>
 
 namespace Ui {
-class Red2;
+class Shoot;
 }
 
-namespace field_2
+namespace shoot
 {
-class Red2: public rviz::Panel
+class Shoot: public rviz::Panel
 {
     Q_OBJECT
 
 public:
     //explicit Blue2_field(QWidget *parent = 0);
-    Red2(QWidget *parent = 0);
-    ~Red2() override; 
+    Shoot(QWidget *parent = 0);
+    ~Shoot() override; 
 
     int Arr[27];
 
@@ -40,9 +40,6 @@ public:
     void onEnable();
     void onDisable();
     void arrayback(const std_msgs::Int32MultiArray& msg);
-    void marker_off(int value);
-    void marker_on(int value);
-    void arrayback2(const std_msgs::Int32MultiArray& msg);
 
 private Q_SLOTS:
   void dialValueChanged(int value);
@@ -51,7 +48,7 @@ private Q_SLOTS:
   void send_msg();
 
 protected:
-  Ui::Red2 *ui;
+  Ui::Shoot *ui;
   QGraphicsScene *scene;
   QGraphicsPixmapItem *pix;
   QIcon icon;
@@ -60,9 +57,8 @@ protected:
   ros::NodeHandle nh_;
   ros::Publisher pub_;
   ros::Subscriber sub_;
-  ros::Subscriber sub2_;
   ros::Timer ti_; 
   ros::NodeHandle n;
 };
 }
-#endif // Red2_FIELD_2_H
+#endif // Shoot_H
