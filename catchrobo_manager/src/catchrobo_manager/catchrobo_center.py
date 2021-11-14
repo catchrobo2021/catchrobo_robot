@@ -14,24 +14,22 @@ class ActionResult():
     FINISH = 1
     GAME_END = 2
 
-        
 
 class CatchroboCenter():
     def __init__(self):
         self._color = rospy.get_param("/color")
-        self._robot = MyRobot(self._color) 
-        
-    
-        self._biscos = BiscoManager(self._color)   
-        self._shooting_box = ShootingBoxManager(self._color)   
+        self._robot = MyRobot(self._color)
+
+        self._biscos = BiscoManager(self._color)
+        self._shooting_box = ShootingBoxManager(self._color)
         self._obstacle = Obstacle(self._color)
 
         self._can_go_common = False
-        
+
     def doAction(self):
         result = self._robot.doAction()
         params = result.getParams()
-        
+
         if result.isFinish():
             return ActionResult.FINISH
         elif result.isGrip():
@@ -41,9 +39,9 @@ class CatchroboCenter():
         elif result.isShoot():
             bisco_id, shooting_box_id = params
             self._biscos.release(bisco_id)
-            self._shooting_box.delete(shooting_box_id)
+            self._shooting_box.shoot(shooting_box_id)
         return ActionResult.DOING
-    
+
     def calcBiscoAction(self):
         self._biscos.calcTargetTwin()
         targets, is_twin = self._biscos.getTargetTwin()
@@ -51,13 +49,13 @@ class CatchroboCenter():
             return ActionResult.GAME_END
         self._robot.calcBiscoAction(targets, is_twin)
 
-        ### obstacle to prevent robot intrude common area after picking common biscos
+        # obstacle to prevent robot intrude common area after picking common biscos
         if not self._biscos.isCommonExist():
             self._obstacle.makeCommonAreaMiddleObstacle()
         else:
             self._obstacle.deleteCommonAreaMiddleObstacle()
         return ActionResult.DOING
-    
+
     def doBiscoAction(self):
         return self.doAction()
 
@@ -70,10 +68,10 @@ class CatchroboCenter():
         self._robot.calcShootAction(targets, biscos)
 
         return ActionResult.DOING
-    
+
     def doShootAction(self):
 
-        ### obstacle to prevent robot intrude common area before filling all shooting box
+        # obstacle to prevent robot intrude common area before filling all shooting box
         if not self._can_go_common:
             self._can_go_common = self._shooting_box.canGoCommon()
             if self._can_go_common:
