@@ -21,6 +21,8 @@ class GripperManager():
     def __init__(self, color):
         self._grippers = [Servo("gripper1"), Servo("gripper2")]
         self._lasers = [Laser("laser1"), Laser("laser2")]
+        self.RELEASE_WAIT_S = 0.5
+        self.GRIP_WAIT_S = 0.5
 
         id_map = [0,1]
         if color == "red":
@@ -50,7 +52,12 @@ class GripperManager():
     def graspBisco(self, target_gripper, grip_way,wait):
         target_gripper_id = self._id_map[target_gripper]
         dist = self.getGripDist(target_gripper, grip_way)
-        self._grippers[target_gripper_id].move(dist,wait)
+
+        if wait is True:
+            wait_s = self.GRIP_WAIT_S
+        else:
+            wait_s = 0
+        self._grippers[target_gripper_id].move(dist,wait_s)
         temp = "gripper {}: {} cm".format(target_gripper_id, dist)
         rospy.loginfo(temp)
 
@@ -58,7 +65,7 @@ class GripperManager():
     def releaseBisco(self, target_gripper):
         target_gripper_id = self._id_map[target_gripper]
         dist = self._grip_dist["max"]
-        self._grippers[target_gripper_id].move(dist)
+        self._grippers[target_gripper_id].move(dist,self.RELEASE_WAIT_S)
         
         rospy.loginfo("release")
 

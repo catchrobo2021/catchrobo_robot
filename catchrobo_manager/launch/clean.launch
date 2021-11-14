@@ -1,3 +1,0 @@
-<launch>
-<node name="cleaner" pkg="catchrobo_manager" type="obscatler_clean.py" output="screen" />
-</launch>

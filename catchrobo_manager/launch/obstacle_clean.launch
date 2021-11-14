@@ -1,0 +1,3 @@
+<launch>
+<node name="cleaner" pkg="catchrobo_manager" type="obstacle_clean.py" output="screen" />
+</launch>

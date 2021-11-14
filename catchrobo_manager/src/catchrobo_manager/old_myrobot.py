@@ -7,25 +7,19 @@ from catchrobo_manager.brain import Brain
 from catchrobo_manager.arm import Arm
 from catchrobo_manager.my_robot_result import MyRobotResultMaker
 from catchrobo_manager.gripper_manager import GripperManager
-# from catchrobo_manager.shooter_manager import ShooterManager
-from catchrobo_manager.guide import Guide
-from catchrobo_manager.sorter import SorterClient
+from catchrobo_manager.shooter_manager import ShooterManager
 
 class MyRobot():
     def __init__(self,color):
         self._brain = Brain()
         self._arm = Arm()
         self._gripper = GripperManager(color)
-        self._guide = Guide()
-        self._sorter = SorterClient()
+        self._shooter = ShooterManager(color)
 
         self._arm.goHome(color)
-        self._guide.barDown()
+        self._shooter.barDown()
         self._gripper.releaseBisco(0)
         self._gripper.releaseBisco(1)
-        open_row = [0,2,4]
-        for i in open_row:
-            self._sorter.open(i)
 
         self._color = color
         
@@ -53,7 +47,7 @@ class MyRobot():
         elif action.isShoot():
             target_gripper, bisco, shooting_box = params
             self._gripper.releaseBisco(target_gripper)
-            self._sorter.close(shooting_box.name)
+            self._shooter.close(shooting_box)
             result = MyRobotResultMaker.shoot(bisco.name, shooting_box.name)
 
         elif action.isFinish():
@@ -61,7 +55,7 @@ class MyRobot():
             
         elif action.isOpenShooter():
             shooting_box = params[0]
-            self._sorter.open(shooting_box.name)
+            self._shooter.open(shooting_box)
 
         return result
     
