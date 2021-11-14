@@ -231,6 +231,8 @@ class Arm(object):
         return ret
 
     def arriveMiddlePoint(self, target_pose):
+        if target_pose.position.x < -0.8:
+            return
         final_target_joints = self.calcInverseKinematics(target_pose)
         state = self.checkExtention(final_target_joints)
         if state == ArmExtensionState.NEAR2NEAR or state == ArmExtensionState.FAR2NEAR:
