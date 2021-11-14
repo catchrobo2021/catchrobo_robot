@@ -23,7 +23,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj15">
+  <widget class="QPushButton" name="obj10">
    <property name="geometry">
     <rect>
      <x>360</x>
@@ -45,7 +45,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj21">
+  <widget class="QPushButton" name="obj16">
    <property name="geometry">
     <rect>
      <x>360</x>
@@ -67,7 +67,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj27">
+  <widget class="QPushButton" name="obj22">
    <property name="geometry">
     <rect>
      <x>360</x>
@@ -89,7 +89,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj14">
+  <widget class="QPushButton" name="obj11">
    <property name="geometry">
     <rect>
      <x>300</x>
@@ -111,7 +111,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj20">
+  <widget class="QPushButton" name="obj17">
    <property name="geometry">
     <rect>
      <x>300</x>
@@ -133,7 +133,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj26">
+  <widget class="QPushButton" name="obj23">
    <property name="geometry">
     <rect>
      <x>300</x>
@@ -155,7 +155,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj9">
+  <widget class="QPushButton" name="obj1">
    <property name="geometry">
     <rect>
      <x>397</x>
@@ -177,7 +177,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj8">
+  <widget class="QPushButton" name="obj2">
    <property name="geometry">
     <rect>
      <x>348</x>
@@ -199,7 +199,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj7">
+  <widget class="QPushButton" name="obj3">
    <property name="geometry">
     <rect>
      <x>299</x>
@@ -221,7 +221,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj6">
+  <widget class="QPushButton" name="obj4">
    <property name="geometry">
     <rect>
      <x>250</x>
@@ -243,7 +243,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj13">
+  <widget class="QPushButton" name="obj12">
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -265,7 +265,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj25">
+  <widget class="QPushButton" name="obj24">
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -287,7 +287,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj19">
+  <widget class="QPushButton" name="obj18">
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -331,7 +331,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj12">
+  <widget class="QPushButton" name="obj13">
    <property name="geometry">
     <rect>
      <x>150</x>
@@ -353,7 +353,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj4">
+  <widget class="QPushButton" name="obj6">
    <property name="geometry">
     <rect>
      <x>152</x>
@@ -375,7 +375,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj3">
+  <widget class="QPushButton" name="obj7">
    <property name="geometry">
     <rect>
      <x>103</x>
@@ -397,7 +397,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj11">
+  <widget class="QPushButton" name="obj14">
    <property name="geometry">
     <rect>
      <x>90</x>
@@ -419,7 +419,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj10">
+  <widget class="QPushButton" name="obj15">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -441,7 +441,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj24">
+  <widget class="QPushButton" name="obj25">
    <property name="geometry">
     <rect>
      <x>150</x>
@@ -463,7 +463,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj23">
+  <widget class="QPushButton" name="obj26">
    <property name="geometry">
     <rect>
      <x>90</x>
@@ -485,7 +485,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj22">
+  <widget class="QPushButton" name="obj27">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -507,7 +507,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj18">
+  <widget class="QPushButton" name="obj19">
    <property name="geometry">
     <rect>
      <x>150</x>
@@ -529,7 +529,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj17">
+  <widget class="QPushButton" name="obj20">
    <property name="geometry">
     <rect>
      <x>90</x>
@@ -551,7 +551,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj16">
+  <widget class="QPushButton" name="obj21">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -573,7 +573,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj2">
+  <widget class="QPushButton" name="obj8">
    <property name="geometry">
     <rect>
      <x>54</x>
@@ -595,7 +595,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="obj1">
+  <widget class="QPushButton" name="obj9">
    <property name="geometry">
     <rect>
      <x>5</x>
@@ -617,538 +617,538 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QFrame" name="frm15">
-   <property name="geometry">
-    <rect>
-     <x>357</x>
-     <y>107</y>
-     <width>47</width>
-     <height>67</height>
-    </rect>
-   </property>
-   <property name="palette">
-    <palette>
-     <active>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </active>
-     <inactive>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </inactive>
-     <disabled>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </disabled>
-    </palette>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Box</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Plain</enum>
-   </property>
-   <property name="lineWidth">
-    <number>4</number>
-   </property>
-   <property name="midLineWidth">
-    <number>20</number>
-   </property>
-  </widget>
-  <widget class="QFrame" name="frm21">
-   <property name="geometry">
-    <rect>
-     <x>357</x>
-     <y>172</y>
-     <width>47</width>
-     <height>67</height>
-    </rect>
-   </property>
-   <property name="palette">
-    <palette>
-     <active>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </active>
-     <inactive>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </inactive>
-     <disabled>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </disabled>
-    </palette>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Box</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Plain</enum>
-   </property>
-   <property name="lineWidth">
-    <number>4</number>
-   </property>
-   <property name="midLineWidth">
-    <number>20</number>
-   </property>
-  </widget>
-  <widget class="QFrame" name="frm27">
-   <property name="geometry">
-    <rect>
-     <x>357</x>
-     <y>237</y>
-     <width>47</width>
-     <height>67</height>
-    </rect>
-   </property>
-   <property name="palette">
-    <palette>
-     <active>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </active>
-     <inactive>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </inactive>
-     <disabled>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </disabled>
-    </palette>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Box</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Plain</enum>
-   </property>
-   <property name="lineWidth">
-    <number>4</number>
-   </property>
-   <property name="midLineWidth">
-    <number>20</number>
-   </property>
-  </widget>
-  <widget class="QFrame" name="frm14">
-   <property name="geometry">
-    <rect>
-     <x>297</x>
-     <y>107</y>
-     <width>47</width>
-     <height>67</height>
-    </rect>
-   </property>
-   <property name="palette">
-    <palette>
-     <active>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </active>
-     <inactive>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </inactive>
-     <disabled>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </disabled>
-    </palette>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Box</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Plain</enum>
-   </property>
-   <property name="lineWidth">
-    <number>4</number>
-   </property>
-   <property name="midLineWidth">
-    <number>20</number>
-   </property>
-  </widget>
-  <widget class="QFrame" name="frm20">
-   <property name="geometry">
-    <rect>
-     <x>297</x>
-     <y>172</y>
-     <width>47</width>
-     <height>67</height>
-    </rect>
-   </property>
-   <property name="palette">
-    <palette>
-     <active>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </active>
-     <inactive>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </inactive>
-     <disabled>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </disabled>
-    </palette>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Box</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Plain</enum>
-   </property>
-   <property name="lineWidth">
-    <number>4</number>
-   </property>
-   <property name="midLineWidth">
-    <number>20</number>
-   </property>
-  </widget>
-  <widget class="QFrame" name="frm26">
-   <property name="geometry">
-    <rect>
-     <x>297</x>
-     <y>237</y>
-     <width>47</width>
-     <height>67</height>
-    </rect>
-   </property>
-   <property name="palette">
-    <palette>
-     <active>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </active>
-     <inactive>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </inactive>
-     <disabled>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </disabled>
-    </palette>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Box</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Plain</enum>
-   </property>
-   <property name="lineWidth">
-    <number>4</number>
-   </property>
-   <property name="midLineWidth">
-    <number>20</number>
-   </property>
-  </widget>
-  <widget class="QFrame" name="frm13">
-   <property name="geometry">
-    <rect>
-     <x>237</x>
-     <y>107</y>
-     <width>47</width>
-     <height>67</height>
-    </rect>
-   </property>
-   <property name="palette">
-    <palette>
-     <active>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </active>
-     <inactive>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </inactive>
-     <disabled>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </disabled>
-    </palette>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Box</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Plain</enum>
-   </property>
-   <property name="lineWidth">
-    <number>4</number>
-   </property>
-   <property name="midLineWidth">
-    <number>20</number>
-   </property>
-  </widget>
-  <widget class="QFrame" name="frm19">
-   <property name="geometry">
-    <rect>
-     <x>237</x>
-     <y>172</y>
-     <width>47</width>
-     <height>67</height>
-    </rect>
-   </property>
-   <property name="palette">
-    <palette>
-     <active>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </active>
-     <inactive>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </inactive>
-     <disabled>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </disabled>
-    </palette>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Box</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Plain</enum>
-   </property>
-   <property name="lineWidth">
-    <number>4</number>
-   </property>
-   <property name="midLineWidth">
-    <number>20</number>
-   </property>
-  </widget>
-  <widget class="QFrame" name="frm25">
-   <property name="geometry">
-    <rect>
-     <x>237</x>
-     <y>237</y>
-     <width>47</width>
-     <height>67</height>
-    </rect>
-   </property>
-   <property name="palette">
-    <palette>
-     <active>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </active>
-     <inactive>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </inactive>
-     <disabled>
-      <colorrole role="WindowText">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </disabled>
-    </palette>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Box</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Plain</enum>
-   </property>
-   <property name="lineWidth">
-    <number>4</number>
-   </property>
-   <property name="midLineWidth">
-    <number>20</number>
-   </property>
-  </widget>
   <widget class="QFrame" name="frm10">
+   <property name="geometry">
+    <rect>
+     <x>357</x>
+     <y>107</y>
+     <width>47</width>
+     <height>67</height>
+    </rect>
+   </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>4</number>
+   </property>
+   <property name="midLineWidth">
+    <number>20</number>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frm16">
+   <property name="geometry">
+    <rect>
+     <x>357</x>
+     <y>172</y>
+     <width>47</width>
+     <height>67</height>
+    </rect>
+   </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>4</number>
+   </property>
+   <property name="midLineWidth">
+    <number>20</number>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frm22">
+   <property name="geometry">
+    <rect>
+     <x>357</x>
+     <y>237</y>
+     <width>47</width>
+     <height>67</height>
+    </rect>
+   </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>4</number>
+   </property>
+   <property name="midLineWidth">
+    <number>20</number>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frm11">
+   <property name="geometry">
+    <rect>
+     <x>297</x>
+     <y>107</y>
+     <width>47</width>
+     <height>67</height>
+    </rect>
+   </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>4</number>
+   </property>
+   <property name="midLineWidth">
+    <number>20</number>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frm17">
+   <property name="geometry">
+    <rect>
+     <x>297</x>
+     <y>172</y>
+     <width>47</width>
+     <height>67</height>
+    </rect>
+   </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>4</number>
+   </property>
+   <property name="midLineWidth">
+    <number>20</number>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frm23">
+   <property name="geometry">
+    <rect>
+     <x>297</x>
+     <y>237</y>
+     <width>47</width>
+     <height>67</height>
+    </rect>
+   </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>4</number>
+   </property>
+   <property name="midLineWidth">
+    <number>20</number>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frm12">
+   <property name="geometry">
+    <rect>
+     <x>237</x>
+     <y>107</y>
+     <width>47</width>
+     <height>67</height>
+    </rect>
+   </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>4</number>
+   </property>
+   <property name="midLineWidth">
+    <number>20</number>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frm18">
+   <property name="geometry">
+    <rect>
+     <x>237</x>
+     <y>172</y>
+     <width>47</width>
+     <height>67</height>
+    </rect>
+   </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>4</number>
+   </property>
+   <property name="midLineWidth">
+    <number>20</number>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frm24">
+   <property name="geometry">
+    <rect>
+     <x>237</x>
+     <y>237</y>
+     <width>47</width>
+     <height>67</height>
+    </rect>
+   </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>115</red>
+         <green>210</green>
+         <blue>22</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>4</number>
+   </property>
+   <property name="midLineWidth">
+    <number>20</number>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frm15">
    <property name="geometry">
     <rect>
      <x>27</x>
@@ -1207,7 +1207,7 @@
     <number>20</number>
    </property>
   </widget>
-  <widget class="QFrame" name="frm11">
+  <widget class="QFrame" name="frm14">
    <property name="geometry">
     <rect>
      <x>87</x>
@@ -1266,7 +1266,7 @@
     <number>20</number>
    </property>
   </widget>
-  <widget class="QFrame" name="frm12">
+  <widget class="QFrame" name="frm13">
    <property name="geometry">
     <rect>
      <x>147</x>
@@ -1325,7 +1325,7 @@
     <number>20</number>
    </property>
   </widget>
-  <widget class="QFrame" name="frm7">
+  <widget class="QFrame" name="frm3">
    <property name="geometry">
     <rect>
      <x>296</x>
@@ -1384,7 +1384,7 @@
     <number>20</number>
    </property>
   </widget>
-  <widget class="QFrame" name="frm6">
+  <widget class="QFrame" name="frm4">
    <property name="geometry">
     <rect>
      <x>247</x>
@@ -1502,7 +1502,7 @@
     <number>20</number>
    </property>
   </widget>
-  <widget class="QFrame" name="frm4">
+  <widget class="QFrame" name="frm6">
    <property name="geometry">
     <rect>
      <x>149</x>
@@ -1561,7 +1561,7 @@
     <number>20</number>
    </property>
   </widget>
-  <widget class="QFrame" name="frm3">
+  <widget class="QFrame" name="frm7">
    <property name="geometry">
     <rect>
      <x>100</x>
@@ -1620,7 +1620,7 @@
     <number>20</number>
    </property>
   </widget>
-  <widget class="QFrame" name="frm2">
+  <widget class="QFrame" name="frm8">
    <property name="geometry">
     <rect>
      <x>51</x>
@@ -1679,7 +1679,7 @@
     <number>20</number>
    </property>
   </widget>
-  <widget class="QFrame" name="frm1">
+  <widget class="QFrame" name="frm9">
    <property name="geometry">
     <rect>
      <x>2</x>
@@ -1738,7 +1738,7 @@
     <number>20</number>
    </property>
   </widget>
-  <widget class="QFrame" name="frm24">
+  <widget class="QFrame" name="frm25">
    <property name="geometry">
     <rect>
      <x>147</x>
@@ -1797,7 +1797,7 @@
     <number>20</number>
    </property>
   </widget>
-  <widget class="QFrame" name="frm18">
+  <widget class="QFrame" name="frm19">
    <property name="geometry">
     <rect>
      <x>147</x>
@@ -1856,7 +1856,7 @@
     <number>20</number>
    </property>
   </widget>
-  <widget class="QFrame" name="frm17">
+  <widget class="QFrame" name="frm20">
    <property name="geometry">
     <rect>
      <x>87</x>
@@ -1915,7 +1915,7 @@
     <number>20</number>
    </property>
   </widget>
-  <widget class="QFrame" name="frm16">
+  <widget class="QFrame" name="frm21">
    <property name="geometry">
     <rect>
      <x>27</x>
@@ -1974,7 +1974,7 @@
     <number>20</number>
    </property>
   </widget>
-  <widget class="QFrame" name="frm23">
+  <widget class="QFrame" name="frm26">
    <property name="geometry">
     <rect>
      <x>87</x>
@@ -2033,7 +2033,7 @@
     <number>20</number>
    </property>
   </widget>
-  <widget class="QFrame" name="frm22">
+  <widget class="QFrame" name="frm27">
    <property name="geometry">
     <rect>
      <x>27</x>
@@ -2092,7 +2092,7 @@
     <number>20</number>
    </property>
   </widget>
-  <widget class="QFrame" name="frm9">
+  <widget class="QFrame" name="frm1">
    <property name="geometry">
     <rect>
      <x>394</x>
@@ -2151,7 +2151,7 @@
     <number>20</number>
    </property>
   </widget>
-  <widget class="QFrame" name="frm8">
+  <widget class="QFrame" name="frm2">
    <property name="geometry">
     <rect>
      <x>345</x>
@@ -2211,60 +2211,60 @@
    </property>
   </widget>
   <zorder>graphicsView</zorder>
-  <zorder>frm14</zorder>
-  <zorder>frm26</zorder>
-  <zorder>frm12</zorder>
   <zorder>frm11</zorder>
-  <zorder>frm3</zorder>
-  <zorder>frm6</zorder>
-  <zorder>frm27</zorder>
-  <zorder>frm24</zorder>
-  <zorder>frm25</zorder>
-  <zorder>frm18</zorder>
-  <zorder>frm19</zorder>
-  <zorder>frm8</zorder>
-  <zorder>frm16</zorder>
-  <zorder>frm21</zorder>
-  <zorder>frm20</zorder>
+  <zorder>frm23</zorder>
   <zorder>frm13</zorder>
-  <zorder>frm1</zorder>
-  <zorder>frm9</zorder>
-  <zorder>frm5</zorder>
+  <zorder>frm14</zorder>
+  <zorder>frm7</zorder>
   <zorder>frm4</zorder>
   <zorder>frm22</zorder>
+  <zorder>frm25</zorder>
+  <zorder>frm24</zorder>
+  <zorder>frm19</zorder>
+  <zorder>frm18</zorder>
   <zorder>frm2</zorder>
-  <zorder>frm7</zorder>
-  <zorder>frm15</zorder>
-  <zorder>frm10</zorder>
-  <zorder>frm23</zorder>
+  <zorder>frm21</zorder>
+  <zorder>frm16</zorder>
   <zorder>frm17</zorder>
-  <zorder>obj15</zorder>
-  <zorder>obj21</zorder>
-  <zorder>obj27</zorder>
-  <zorder>obj14</zorder>
-  <zorder>obj20</zorder>
-  <zorder>obj26</zorder>
-  <zorder>obj9</zorder>
-  <zorder>obj8</zorder>
-  <zorder>obj7</zorder>
-  <zorder>obj6</zorder>
-  <zorder>obj13</zorder>
-  <zorder>obj25</zorder>
-  <zorder>obj19</zorder>
-  <zorder>obj5</zorder>
-  <zorder>obj12</zorder>
-  <zorder>obj4</zorder>
-  <zorder>obj3</zorder>
+  <zorder>frm12</zorder>
+  <zorder>frm9</zorder>
+  <zorder>frm1</zorder>
+  <zorder>frm5</zorder>
+  <zorder>frm6</zorder>
+  <zorder>frm27</zorder>
+  <zorder>frm8</zorder>
+  <zorder>frm3</zorder>
+  <zorder>frm10</zorder>
+  <zorder>frm15</zorder>
+  <zorder>frm26</zorder>
+  <zorder>frm20</zorder>
   <zorder>obj11</zorder>
-  <zorder>obj10</zorder>
-  <zorder>obj24</zorder>
+  <zorder>obj25</zorder>
+  <zorder>obj21</zorder>
+  <zorder>obj20</zorder>
   <zorder>obj23</zorder>
-  <zorder>obj22</zorder>
-  <zorder>obj18</zorder>
+  <zorder>obj7</zorder>
   <zorder>obj17</zorder>
-  <zorder>obj16</zorder>
+  <zorder>obj18</zorder>
+  <zorder>obj6</zorder>
+  <zorder>obj9</zorder>
   <zorder>obj2</zorder>
+  <zorder>obj24</zorder>
+  <zorder>obj13</zorder>
+  <zorder>obj10</zorder>
+  <zorder>obj3</zorder>
+  <zorder>obj19</zorder>
+  <zorder>obj22</zorder>
+  <zorder>obj16</zorder>
+  <zorder>obj5</zorder>
+  <zorder>obj8</zorder>
+  <zorder>obj15</zorder>
+  <zorder>obj14</zorder>
   <zorder>obj1</zorder>
+  <zorder>obj4</zorder>
+  <zorder>obj12</zorder>
+  <zorder>obj27</zorder>
+  <zorder>obj26</zorder>
  </widget>
  <resources/>
  <connections/>
