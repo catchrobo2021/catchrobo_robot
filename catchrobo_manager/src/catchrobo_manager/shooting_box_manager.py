@@ -51,7 +51,7 @@ class ShootingBoxManager():
 
     def shoot(self, id):
         self._objects.loc[id, "exist"] += 1
-        self._target_order.pop(0)
+        # self._target_order.pop(0)
         self.sendGUI()
 
     def calcTargetTwin(self):

@@ -45,6 +45,8 @@ class CatchroboCenter():
     def calcBiscoAction(self):
         self._biscos.calcTargetTwin()
         targets, is_twin = self._biscos.getTargetTwin()
+        temp = "target bisco : {}".format(targets)
+        rospy.loginfo(temp)
         if targets[0] is None and targets[1] is None:
             return ActionResult.GAME_END
         self._robot.calcBiscoAction(targets, is_twin)
@@ -62,6 +64,8 @@ class CatchroboCenter():
     def calcShootAction(self):
         self._shooting_box.calcTargetTwin()
         targets, _ = self._shooting_box.getTargetTwin()
+        temp = "target shoot : {}".format(targets)
+        rospy.loginfo(temp)
         biscos, _ = self._biscos.getTargetTwin()
         if targets[0] is None and targets[1] is None:
             return ActionResult.GAME_END

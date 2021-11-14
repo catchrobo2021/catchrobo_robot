@@ -20,6 +20,7 @@ def getObjectPosi(obj):
 
 class Brain():
     def __init__(self):
+        
         self.BISCO_SIZE = 0.086, 0.029, 0.136
         self.BISCO_NUM = 27
         self._color = rospy.get_param("/color")
@@ -43,9 +44,15 @@ class Brain():
         if self._color == "red":
             self.COMMON_RELEASE_FORWARD = Quaternion(*common_pick_quat1)
             self.COMMON_RELEASE_BACKWARD = Quaternion(*common_pick_quat2)
+
+            self.COMMON_RELEASE_FORWARD_EULER = [np.pi, 0, 0]
+            self.COMMON_RELEASE_BACKWARD_EULER = [np.pi, 0, np.pi]
         else:
             self.COMMON_RELEASE_FORWARD = Quaternion(*common_pick_quat2)
             self.COMMON_RELEASE_BACKWARD = Quaternion(*common_pick_quat1)
+
+            self.COMMON_RELEASE_FORWARD_EULER = [np.pi, 0, np.pi]
+            self.COMMON_RELEASE_BACKWARD_EULER = [np.pi, 0, 0]
         
         
         
@@ -56,6 +63,7 @@ class Brain():
 
         my_pick_quat = tf.transformations.quaternion_from_euler(np.pi, 0, -np.pi / 2)
         self.MY_GRIP_QUAT = Quaternion(*my_pick_quat)
+        self.MY_RELEASE_EULER = [np.pi, 0, -np.pi / 2]
 
     def calcBiscoAction(self, targets,is_twin):
         if is_twin:
@@ -76,8 +84,8 @@ class Brain():
 
             if targets[1] is not None:
                 add = [
-                    self.AboveHand(targets),
-                    self.arriveBisco(GripperID.FAR, targets[1], self.BISCO_ABOVE_Z),
+                    # self.AboveHand(targets),
+                    self.arriveBisco(GripperID.FAR, targets[1], self.SAFE_Z_NO_GRIP),
                     self.DownHand(),
                     self.graspAction(GripperID.FAR, targets[1], True),
                 ]
@@ -93,12 +101,15 @@ class Brain():
         actions = [
             MyRobotActionMaker.openShooter(targets[0]),
             self.arriveShoot(GripperID.NEAR,targets, biscos),
-            self.releaseAction(GripperID.NEAR, targets, biscos),
-            MyRobotActionMaker.openShooter(targets[1]),
-            self.arriveShoot(GripperID.FAR,targets, biscos),
-            self.releaseAction(GripperID.FAR, targets, biscos),
-            MyRobotActionMaker.finish(),
-        ]
+            self.releaseAction(GripperID.NEAR, targets, biscos),]
+        if targets[1] is not None and biscos[1] is not None:
+            add =[
+                    MyRobotActionMaker.openShooter(targets[1]),
+                    self.arriveShoot(GripperID.FAR,targets, biscos),
+                    self.releaseAction(GripperID.FAR, targets, biscos),
+                    MyRobotActionMaker.finish(),
+                ]
+            actions = actions + add
         self._actoins =  actions
 
     def popAction(self):
@@ -172,6 +183,7 @@ class Brain():
         ###### above bisco
         target_pose = Pose()
         target_pose.position = getObjectPosi(target_shoot)
+
         # target_pose.position.y -= 0.1
         target_pose.position.z += self.SHOOT_ADD_Z
         if gripping_bisco["my_area"]:
@@ -182,7 +194,9 @@ class Brain():
             if self._color == "blue":
                     add_x = - add_x
             target_pose.position.x += add_x
-            target_pose.orientation = self.MY_GRIP_QUAT
+            # target_pose.orientation = self.MY_GRIP_QUAT
+
+            euler = self.MY_RELEASE_EULER
 
         else:
             if gripping_bisco["forward"]:
@@ -190,16 +204,24 @@ class Brain():
                     add_y = -self.ARM2GRIPPER
                 else:
                     add_y = self.ARM2GRIPPER
-                orientation = self.COMMON_RELEASE_FORWARD
+                # orientation = self.COMMON_RELEASE_FORWARD              
+                euler = self.COMMON_RELEASE_FORWARD_EULER
             else:
                 if target_gripper == GripperID.NEAR:
                     add_y = self.ARM2GRIPPER
                 else:
                     add_y = -self.ARM2GRIPPER
-                orientation = self.COMMON_RELEASE_BACKWARD
+                # orientation = self.COMMON_RELEASE_BACKWARD
+                euler = self.COMMON_RELEASE_BACKWARD_EULER
 
             target_pose.position.y += add_y
-            target_pose.orientation = orientation
+            # target_pose.orientation = orientation
+        
+        ##### orientation change
+        euler = list(euler)
+        euler[2] += target_shoot["yaw_deg"]/180.0 * np.pi
+        quat = tf.transformations.quaternion_from_euler(*euler)
+        target_pose.orientation = Quaternion(*quat)
         
         action = MyRobotActionMaker.move(target_pose, False)
 
