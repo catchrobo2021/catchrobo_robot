@@ -102,7 +102,7 @@ class Brain():
             MyRobotActionMaker.openShooter(targets[0]),
             self.arriveShoot(GripperID.NEAR,targets, biscos),
             self.releaseAction(GripperID.NEAR, targets, biscos),]
-        if targets[1] is not None:
+        if targets[1] is not None and biscos[1] is not None:
             add =[
                     MyRobotActionMaker.openShooter(targets[1]),
                     self.arriveShoot(GripperID.FAR,targets, biscos),
