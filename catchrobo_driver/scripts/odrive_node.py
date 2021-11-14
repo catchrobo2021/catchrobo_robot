@@ -38,6 +38,7 @@ class ODriveNode(object):
     def connect(self, serial_number, timeout = 10):
         if self.driver:
             rospy.loginfo("Already connected. Disconnecting and reconnecting.")
+            self.disconnect()
         try:
             self.driver = odrive.find_any(serial_number=serial_number, timeout=timeout)
             self.axes = (self.driver.axis0, self.driver.axis1)

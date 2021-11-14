@@ -7,7 +7,7 @@ import roslib
 roslib.load_manifest('diagnostic_updater')
 import diagnostic_updater
 import diagnostic_msgs
-from odrive_bridge import ODriveBridge
+from odrive_bridge_can import ODriveBridgeCAN
 import time
 from position_converter import PositionConverter
 
@@ -50,6 +50,8 @@ class catchrobo_driver:
         self._robot_state = 0          # OK=0, WARN=1, ERROR=2, STALE=3
         self._counter = 0 
         self._joint_error_message = ""
+        self._engage_flag = False
+        self._idle_flag = False
 
         # get param
         self.get_param()
@@ -64,10 +66,10 @@ class catchrobo_driver:
 
         # setup odrive
         try:
-            odrv_bridge = ODriveBridge(MOTOR_NUM=self.MOTOR_NUM,config=rosparam.get_param("arm"))
+            odrv_bridge = ODriveBridgeCAN(MOTOR_NUM=self.MOTOR_NUM,config=rosparam.get_param("arm"))
             rospy.loginfo("Waiting for odrive. Disable the emergency stop switch.")
-            odrv_bridge.connect()
-            odrv_bridge.set_mode(mode="POS")
+            #odrv_bridge.connect()
+            #odrv_bridge.set_mode(mode="POS")
             self._odrv_bridge = odrv_bridge
             rospy.loginfo("Connected to odrives.")
         except Exception as e:
@@ -76,16 +78,17 @@ class catchrobo_driver:
             rospy.loginfo("Executing index search")
             self._odrv_bridge.search_index_all()
             rospy.loginfo("Index search finished.")
-            rospy.loginfo("Start hominig sequence.")
-            odrv_bridge.hard_stop(joint=3,current_limit=2,direction=1,velocity=1.0)
-            rospy.loginfo("Homing findhed")
+            #rospy.loginfo("Start hominig sequence.")
+            #odrv_bridge.hard_stop(joint=1,tolerance=0.0001,direction=1,velocity=0.5)
+            #rospy.loginfo("Homing findhed")
             self._index_search_finished  = True
 
+            #TODO
             rospy.Subscriber("enable_joints", Bool, self.engage_idle_callback)
             rospy.Subscriber("joint_control", JointState, self.joint_control_callback)
-            rospy.Timer(rospy.Duration(1.0 / self._communication_freq), self.controll_callback)
             rospy.loginfo("Catchrobo driver is ready.")
-            rospy.spin()
+            while not rospy.is_shutdown():
+                self.controll_callback()
 
 
     def get_param(self):
@@ -102,33 +105,53 @@ class catchrobo_driver:
             self._joint_currernt_limit.append(rosparam.get_param("arm/joint"+str(i+1)+"/limit/current"))
             self._joint_position_offset.append(rosparam.get_param("arm/joint"+str(i+1)+"/offset"))
             self._joint_position_tolerence.append(rosparam.get_param("arm/joint"+str(i+1)+"/tolerence"))
-        self._communication_freq = rosparam.get_param("arm/communincation_frequency") 
-        # set kp, kd
-        #for i in range(self.MOTOR_NUM):
-        #    joint_control.kp[i]  = rosparam.get_param("arm/joint"+str(i+1)+"/kp")
-        #    joint_control.kd[i]  = rosparam.get_param("arm/joint"+str(i+1)+"/kd")
+        self._communication_freq = rosparam.get_param("arm/communincation_frequency")
+
 
     def read(self):
-        self._motor_state = self._odrv_bridge.read()
-        joint_state = self._cnverter.convert_motor_to_joint(motor_state_round=self._motor_state)
+        motor_state = self._odrv_bridge.read()
+        joint_state = self._cnverter.convert_motor_to_joint(motor_state_round=motor_state)
         
         self._joint_state.position = joint_state.position
         self._joint_state.velocity = joint_state.velocity
-        self._joint_state.effort = self._motor_state.effort #[TODO]
+        self._joint_state.effort = motor_state.effort #[TODO]
         self._joint_state_publisher.publish(self._joint_state)
+        #rospy.loginfo("motor_state: {}".format(motor_state.position))
         
+        
+
     def write(self):
+        # over write control command if joints are not enabled:
+        if self._joint_enable_state is True:
+            motor_control = self._cnverter.convert_joint_to_motor(self._joint_control)
+            self._odrv_bridge.write(motor_control = motor_control)
+        else:
+            for i in range(self.MOTOR_NUM):
+                self._joint_control.position[i] = self._joint_state.position[i]
+                self._joint_control.velocity[i] = 0.0
+                motor_control = self._cnverter.convert_joint_to_motor(self._joint_control)
+        
+        #rospy.loginfo("motor_control: {}".format(motor_control.position))
+
+
+    def communicate(self):
         # over write control command if joints are not enabled:
         if self._joint_enable_state is False:
             for i in range(self.MOTOR_NUM):
                 self._joint_control.position[i] = self._joint_state.position[i]
-        motor_control = self._cnverter.convert_joint_to_motor(self._joint_control)#(self._joint_control)
-        #rospy.loginfo("mot_cnt: {}".format(motor_control.position))
-        #rospy.loginfo("mot_state: {}".format(self._motor_state.position))
+                self._joint_control.velocity[i] = 0.0
+        motor_control = self._cnverter.convert_joint_to_motor(self._joint_control)
+
         if self._index_search_finished is True:
-            self._odrv_bridge.write(position=motor_control.position)
+            motor_state = self._odrv_bridge.communicate(motor_control = motor_control)
+            joint_state = self._cnverter.convert_motor_to_joint(motor_state_round=motor_state)
+            self._joint_state.position = joint_state.position
+            self._joint_state.velocity = joint_state.velocity
+            self._joint_state.effort = motor_state.effort #[TODO]
+            self._joint_state_publisher.publish(self._joint_state)
         else:
             pass
+        #rospy.loginfo("goal:state {}:{}".format(motor_control.position,motor_state.position))
 
 
     def idle_all(self):
@@ -142,8 +165,8 @@ class catchrobo_driver:
 
     def engage_all(self):
         if self._joint_enable_state is False:
-            self._odrv_bridge.engage_all()
             self._joint_enable_state = True
+            self._odrv_bridge.engage_all()
             rospy.loginfo("Engage joints")
         else:
             pass
@@ -214,15 +237,23 @@ class catchrobo_driver:
         if self._robot_state < 2:
             if data.data is True:
                 if self._index_search_finished is True:
-                    self.engage_all()
+                    self._engage_flag = True
                 else:
-                    rospy.loginfo("Executing index search")
-                    self._odrv_bridge.search_index_all()
-                    rospy.loginfo("Index search finished.")
+                    rospy.logerr("Robot is not ready. Execute index search first.")
             else:
-                self.idle_all()
+                self._idle_flag = True
         else:
             rospy.logerr("Robot is not ready. Failed to engage/idle")
+
+
+    def engage_idle(self):
+        if self._engage_flag is True:
+            self.engage_all()
+            self._engage_flag = False
+
+        if self._idle_flag is True:
+            self.idle_all()
+            self._idle_flag = False
 
 
     def joint_control_callback(self,data):
@@ -256,8 +287,8 @@ class catchrobo_driver:
             pass
 
 
-    def periodical_callback(self,hz = 10):
-        if self._counter is int(self._communication_freq / hz):
+    def periodical_callback(self,period = 10):
+        if self._counter is period:
             
             # check batttery voltage
             self._power_voltage_publisher.publish(self._odrv_bridge.read_vbus_voltage())
@@ -274,20 +305,20 @@ class catchrobo_driver:
             self._counter += 1
             
 
-    def controll_callback(self,event):
+    def controll_callback(self):
         try:
+            self.engage_idle()
             self.read()
             self.safety_check()
             self.write()
-            self.periodical_callback(hz=1)
+            self.periodical_callback(period=100)
             self._joint_com_state = True
-            
+
         except Exception as e:
             self.idle_all()
             self._joint_com_state = False
             rospy.logerr_throttle(1,"ERROR DETECTED: {}".format(e))
-            self._odrv_bridge.connect()
-            self.idle_all()
+            
         self._diagnostic_updater.update()
 
 if __name__ == "__main__":

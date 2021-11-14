@@ -82,9 +82,9 @@ class RvizBisco:
     def release(self, bisco_id):
         box_name = self.getName(bisco_id)
         self._scene.remove_attached_object(self._LINK_NAME, name=box_name)
-        rospy.sleep(0.1)
+        rospy.sleep(0.01)
         self._scene.remove_world_object(box_name)
-        rospy.sleep(0.1)
+        rospy.sleep(0.01)
     
     def addBox2Scene(self, database):
 

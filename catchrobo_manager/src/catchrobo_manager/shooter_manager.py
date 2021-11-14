@@ -64,7 +64,7 @@ class ShooterManager:
         sorter_id, sign = self.getRow2Direction(row)
         deg = sign * self.OPEN_DEG
         shooter = self._shooters[sorter_id]
-        shooter.move(deg)
+        shooter.move(deg, False)
 
 
     def close(self, shooting_box):
@@ -73,8 +73,8 @@ class ShooterManager:
         shooter = self._shooters[sorter_id]
         # deg = - sign * self.OPEN_DEG
         deg = 0
-        shooter.move(deg)
-        rospy.sleep(0.5)
+        shooter.move(deg, True)
+        # rospy.sleep(0.5)
 
     def barUp(self):
         self._guide.barUp()

@@ -67,4 +67,4 @@ class MyRobot():
 
     def end(self):
         self._arm.goHome(self._color)
-        self._shooter.barUp()
+        # self._shooter.barUp()

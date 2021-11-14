@@ -10,7 +10,7 @@
         Panel plugin.
     </description>
   </class>
-<<<<<<< HEAD
+
   <class name="shootbox/blue_box" type="shootbox::blue_box" base_class_type="rviz::Panel">
     <description>
         Panel plugin.
@@ -21,6 +21,10 @@
         Panel plugin.
     </description>
   </class>
-=======
->>>>>>> aa1b2b6228aaea09f420d789b4bcd3331384039b
+
+  <class name="servo/Servo" type="servo::Servo" base_class_type="rviz::Panel">
+    <description>
+        Panel plugin.
+    </description>
+  </class>
 </library>
