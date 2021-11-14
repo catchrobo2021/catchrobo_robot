@@ -7,7 +7,11 @@ import copy
 
 
 class TargetBiscoCalculator:
-
+    def __init__(self):
+        self._can_go_common = False
+        
+    def setCanGoCommon(self, flag):
+        self._can_go_common = flag
     # [TODO]
     def calcTargetTwin(self, database):
         biscos = copy.deepcopy(database)
