@@ -5,7 +5,8 @@
     <arg name="debug" value="false" />
   </include>
 
-<arg name="file" default=""/>
-<node pkg="rosbag" type="play" name="rosbag_play" output="screen" required="true"
-         args="$(find catchrobo_bringup)/rosbag/$(arg file)"/>  
+<!-- <arg name="file" default=""/> -->
+<!-- <node pkg="rosbag" type="play" name="rosbag_play" output="screen" required="true"
+         args="$(find catchrobo_bringup)/rosbag/$(arg file)"/>   -->
+         
 </launch>
