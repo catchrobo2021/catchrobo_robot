@@ -16,9 +16,9 @@ class gamepad_ctrl:
     def __init__(self):
         rospy.init_node('gamepad_ctrl')
         rospy.Subscriber("joy",Joy,self.joyCallback)
-        self._enable_joints_publisher = rospy.Publisher('enable_joints', Bool, queue_size=10)
+        self._enable_joints_publisher = rospy.Publisher('arm0_controller/enable_joints', Bool, queue_size=10)
         self._guide_enable_publisher =  rospy.Publisher("guide_enable", Bool, queue_size=1)
-        self._manual_flag_pub = rospy.Publisher('on_manual', Bool, queue_size=1)
+        self._manual_flag_pub = rospy.Publisher('pause', Bool, queue_size=1)
 
 
         rospy.spin()

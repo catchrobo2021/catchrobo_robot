@@ -14,7 +14,7 @@ class MyStateMachine():
         self._next_state = self.calcBiscoAction
         self._start_time = rospy.Time.now()
 
-        rospy.Subscriber("on_manual",Bool,self.joyCallback)
+        rospy.Subscriber("pause",Bool,self.joyCallback)
         self._is_manual = True
         self._state_after_manual = self._next_state 
 

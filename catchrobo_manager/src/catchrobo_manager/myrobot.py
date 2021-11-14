@@ -18,7 +18,7 @@ class MyRobot():
         self._gripper = GripperManager(color)
         self._guide = Guide()
         self._sorter = SorterClient()
-
+        rospy.sleep(1)
         self._arm.goHome(color)
         self._guide.barDown()
         self._gripper.releaseBisco(0)
