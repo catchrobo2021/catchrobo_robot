@@ -91,7 +91,7 @@ class Brain():
                 ]
                 actions = actions + add
         add = [
-            self.AboveHand(targets),
+            MyRobotActionMaker.above(self.BISCO_ABOVE_Z),
             MyRobotActionMaker.finish(),
         ]
         actions = actions + add
@@ -107,9 +107,9 @@ class Brain():
                     MyRobotActionMaker.openShooter(targets[1]),
                     self.arriveShoot(GripperID.FAR,targets, biscos),
                     self.releaseAction(GripperID.FAR, targets, biscos),
-                    MyRobotActionMaker.finish(),
                 ]
             actions = actions + add
+        actions = actions + [MyRobotActionMaker.finish()]
         self._actoins =  actions
 
     def popAction(self):
@@ -157,12 +157,12 @@ class Brain():
         return action
 
 
-    def AboveHand(self, biscos):
-        if biscos[0]["my_area"] and biscos[1]["my_area"]:
-            z = self.BISCO_ABOVE_Z
-        else:
-            z = self.BISCO_ABOVE_COMMON_Z
-        action = MyRobotActionMaker.above(z)
+    def AboveHand(self, z):
+        # if biscos[0]["my_area"] and biscos[1]["my_area"]:
+        #     z = self.BISCO_ABOVE_Z
+        # else:
+        #     z = self.BISCO_ABOVE_COMMON_Z
+        action = MyRobotActionMaker.above(self.BISCO_ABOVE_Z)
         return action
         
     def DownHand(self):
