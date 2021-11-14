@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+<node name="shootingbox" pkg="catchrobo_manager" type="test_shootingbox.py" output="screen" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find catchrobo_gui)/blue_full.rviz" />
+</launch>

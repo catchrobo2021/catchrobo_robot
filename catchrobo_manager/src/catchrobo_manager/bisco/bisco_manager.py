@@ -39,7 +39,7 @@ class BiscoManager():
 
     def setCanGoCommon(self, flag):
         self._can_go_common = flag
-        self._calculator.setCanGoComon(flag)
+        self._calculator.setCanGoCommon(flag)
 
     def isCommonExist(self):
         return self._database.isCommonExist()
