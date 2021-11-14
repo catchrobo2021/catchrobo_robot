@@ -81,3 +81,5 @@ class ShooterManager:
     
     def barDown(self):
         self._guide.barDown()
+
+

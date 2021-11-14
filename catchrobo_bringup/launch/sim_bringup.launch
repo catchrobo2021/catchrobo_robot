@@ -7,5 +7,5 @@
       <node name="robot" pkg="catchrobo_driver_sim" type="joint_controller_sim.py" output="screen" />
     </group>
     <node name="gamepad_ctrl" pkg="catchrobo_manager" type="gamepad_ctrl.py" output="screen"/>
-    <node name="rosbag_record" pkg="rosbag" type="record" output="screen" args="record -o $(find catchrobo_bringup)/rosbag/sim -a"/> 
+    <!-- <node name="rosbag_record" pkg="rosbag" type="record" output="screen" args="record -o $(find catchrobo_bringup)/rosbag/sim -a"/>  -->
 </launch>

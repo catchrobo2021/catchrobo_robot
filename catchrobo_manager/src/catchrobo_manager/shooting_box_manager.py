@@ -15,8 +15,10 @@ class ShootingBoxManager():
         self._count_key = "open"
         self._twin = False
         self.readCsv(color)
-        self._pub2gui = rospy.Publisher("box_update", Int32MultiArray, queue_size=1)
-        # rospy.Subscriber("box_gui", Int32MultiArray, self.guiCallback)
+        self._pub2gui = rospy.Publisher("goal_sub", Int32MultiArray, queue_size=1)
+        rospy.Subscriber("goal_pub", Int32MultiArray, self.guiCallback)
+
+
         self._target_order = [0,2,4,
                             1,0,1,0,1,0,1,
                             3,2,3,2,3,2,3,
@@ -50,6 +52,7 @@ class ShootingBoxManager():
         self._objects.loc[id, "space"] -= 1
 
         self._target_order.pop(0)
+        self.sendGUI()
 
     def calcTargetTwin(self):
         self._target_ids = self._target_order[0:2]
