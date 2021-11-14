@@ -65,11 +65,11 @@ class Brain():
         self.MY_GRIP_QUAT = Quaternion(*my_pick_quat)
         self.MY_RELEASE_EULER = [np.pi, 0, -np.pi / 2]
 
-        try:
-            (trans,rot) = self._listener.lookupTransform('/world', '/base/robot_tip', rospy.Time(0))
-        except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-            pass
-        self._base_posi = trans
+        # try:
+        #     (trans,rot) = self._listener.lookupTransform('/world', '/base/robot_tip', rospy.Time(0))
+        # except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
+        #     pass
+        # self._base_posi = trans
 
 
     def calcBiscoAction(self, targets,is_twin):
@@ -208,9 +208,7 @@ class Brain():
                     add_y = -self.ARM2GRIPPER
                 else:
                     add_y = self.ARM2GRIPPER
-                # orientation = self.COMMON_RELEASE_FORWARD
-
-                
+                # orientation = self.COMMON_RELEASE_FORWARD              
                 euler = self.COMMON_RELEASE_FORWARD_EULER
             else:
                 if target_gripper == GripperID.NEAR:
@@ -224,9 +222,10 @@ class Brain():
             # target_pose.orientation = orientation
         
         ##### orientation change
-        euler[2] += target_shoot["add_yaw"]
+        euler = list(euler)
+        euler[2] += target_shoot["yaw_deg"]/180.0 * np.pi
         quat = tf.transformations.quaternion_from_euler(*euler)
-        target_pose.orientation =quat
+        target_pose.orientation = Quaternion(*quat)
         
         action = MyRobotActionMaker.move(target_pose, False)
 
