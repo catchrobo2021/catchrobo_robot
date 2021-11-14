@@ -73,7 +73,7 @@ odrv0.axis1.requested_state = AXIS_STATE_ENCODER_INDEX_SEARCH
 
 6. Set pid gain
 ```
-odrv0.axis0.controller.config.pos_gain = 100
+odrv0.axis0.controller.config.pos_gain = 20
 odrv0.axis0.controller.config.vel_gain = 0.3
 odrv0.axis1.controller.config.pos_gain = 100
 odrv0.axis1.controller.config.vel_gain = 0.3

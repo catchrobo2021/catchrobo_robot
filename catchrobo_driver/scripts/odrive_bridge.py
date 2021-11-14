@@ -29,6 +29,8 @@ class ODriveBridge:
     def connect(self):
         for i in range(self.ODRIVE_NUM):
             self._odrv[i].connect(serial_number=self._serial_number[i])
+            self.idle(joint=i)
+
 
     def disconnect(self):
         for i in range(self.ODRIVE_NUM):
@@ -69,9 +71,13 @@ class ODriveBridge:
         motor_state.effort = [0] * self.MOTOR_NUM
         for i in range(self.MOTOR_NUM):
             motor_state.position[i] = self._odrv[self._joint_config[i][0]].get_pos(axis = self._joint_config[i][1])
-            motor_state.velocity[i] = self._odrv[self._joint_config[i][0]].get_vel(axis = self._joint_config[i][1])
+            #motor_state.velocity[i] = self._odrv[self._joint_config[i][0]].get_vel(axis = self._joint_config[i][1])
             motor_state.effort[i] = self._odrv[self._joint_config[i][0]].get_current(axis = self._joint_config[i][1])
         return motor_state
+
+    def read_vbus_voltage(self):
+        voltage = self._odrv[0].read_vbus_voltage() 
+        return voltage
 
     def search_index(self,joint):
         self._odrv[self._joint_config[joint][0]].search_index(axis=self._joint_config[joint][1])
@@ -94,3 +100,19 @@ class ODriveBridge:
             if error_string_joint is not None:
                 error_string += error_string_joint
         return error_string
+
+    def hard_stop(self,joint,current_limit=1,direction=1,velocity=0.1):
+        time.sleep(3.0)
+        self.engage(joint=joint,index_search=False)
+        time.sleep(0.5)
+        start_position = self._odrv[self._joint_config[joint][0]].get_pos(axis = self._joint_config[joint][1])
+        target_position = start_position
+        while True:
+            if abs(self._odrv[self._joint_config[joint][0]].get_current(axis=self._joint_config[joint][1])) > current_limit:
+                self.idle(joint=joint)
+                break
+            else:
+                target_position += direction * velocity * 0.05
+                self._odrv[self._joint_config[joint][0]].drive_pos(axis=self._joint_config[joint][1], val=target_position)
+                time.sleep(0.05)
+        self.search_index(joint=joint)

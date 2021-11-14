@@ -39,3 +39,6 @@ class BiscoManager():
 
     def setCanGoCommon(self, flag):
         self._can_go_common = flag
+
+    def isCommonExist(self):
+        return self._database.isCommonExist()

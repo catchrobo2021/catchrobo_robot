@@ -25,7 +25,8 @@
   </xacro:arm>-->
 
   <xacro:scara prefix="" parent="base/robot_tip">
-    <origin xyz="0 0 0" rpy="0 0 0" />
+    <!--<origin xyz="0 0 -0.02" rpy="0 0 0" />-->
+    <origin xyz="0 0 0.019" rpy="0 0 0" />
   </xacro:scara>
 
   <xacro:gripper prefix="" parent="arm/link_tip">
@@ -33,7 +34,8 @@
   </xacro:gripper>
 
   <xacro:shooter prefix="" parent="base/shooter_tip">
-    <origin xyz="0 0 -0.030" rpy="0 0 0" />
+    <!--<origin xyz="0 0 0.0" rpy="0 0 0" />-->
+    <origin xyz="0 0 0.039" rpy="0 0 0" />
   </xacro:shooter>
 
 </robot>

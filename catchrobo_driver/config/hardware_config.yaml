@@ -13,12 +13,12 @@ arm:
       axis: 1
     limit:
       position:
-        max: 2.82743
-        min: -2.82743
+        max: 2.879793266
+        min: -2.879793266
       velocity: 20.0
-      current: 24.0
-    tolerence: 0.3
-    offset: -2.613322727
+      current: 20.0
+    tolerence: 0.2
+    offset: -2.56629396
 
   joint2:
     name: arm/joint2
@@ -27,12 +27,12 @@ arm:
       axis: 0
     limit:
       position:
-        max: 2.82743
-        min: -2.82743
+        max: 2.705260341
+        min: -2.705260341
       velocity: 10.0
-      current: 24.0
-    tolerence: 0.3
-    offset: 2.474456577
+      current: 12.0
+    tolerence: 0.2
+    offset: 2.592514454
 
   joint3:
     name: arm/joint3
@@ -41,12 +41,12 @@ arm:
       axis: 1
     limit:
       position:
-        max: 2.82743
-        min: -2.82743
+        max: 2.967059728
+        min: -2.967059728
       velocity: 10.0
-      current: 24.0
-    tolerence: 0.3
-    offset: -0.7430834483
+      current: 12.0
+    tolerence: 0.2
+    offset: -0.46199818995170433
 
   joint4:
     name: arm/joint4
@@ -55,9 +55,9 @@ arm:
       axis: 0
     limit:
       position:
-        max: 0.1
-        min: -0.25
+        max: 0.01
+        min: -0.26
       velocity: 10.0
       current: 24.0
-    tolerence: 0.3
-    offset: -0.001945500016
+    tolerence: 0.05
+    offset: -0.005750468731

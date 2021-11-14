@@ -9,6 +9,7 @@ import threading
 import rospkg
 
 from geometry_msgs.msg import Pose, Point, Quaternion, PoseStamped
+import rospy
 
 class BiscoDatabase:
     def __init__(self):
@@ -51,3 +52,8 @@ class BiscoDatabase:
     
     def getNum(self):
         return len(self._objects)
+
+    def isCommonExist(self):
+        group =  self._objects.groupby("my_area").sum()
+        return group.loc[False,"exist"] >0
+
