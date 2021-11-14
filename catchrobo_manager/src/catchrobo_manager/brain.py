@@ -84,8 +84,8 @@ class Brain():
 
             if targets[1] is not None:
                 add = [
-                    self.AboveHand(targets),
-                    self.arriveBisco(GripperID.FAR, targets[1], self.BISCO_ABOVE_Z),
+                    # self.AboveHand(targets),
+                    self.arriveBisco(GripperID.FAR, targets[1], self.SAFE_Z_NO_GRIP),
                     self.DownHand(),
                     self.graspAction(GripperID.FAR, targets[1], True),
                 ]
@@ -101,12 +101,15 @@ class Brain():
         actions = [
             MyRobotActionMaker.openShooter(targets[0]),
             self.arriveShoot(GripperID.NEAR,targets, biscos),
-            self.releaseAction(GripperID.NEAR, targets, biscos),
-            MyRobotActionMaker.openShooter(targets[1]),
-            self.arriveShoot(GripperID.FAR,targets, biscos),
-            self.releaseAction(GripperID.FAR, targets, biscos),
-            MyRobotActionMaker.finish(),
-        ]
+            self.releaseAction(GripperID.NEAR, targets, biscos),]
+        if targets[1] is not None and biscos[1] is not None:
+            add =[
+                    MyRobotActionMaker.openShooter(targets[1]),
+                    self.arriveShoot(GripperID.FAR,targets, biscos),
+                    self.releaseAction(GripperID.FAR, targets, biscos),
+                    MyRobotActionMaker.finish(),
+                ]
+            actions = actions + add
         self._actoins =  actions
 
     def popAction(self):

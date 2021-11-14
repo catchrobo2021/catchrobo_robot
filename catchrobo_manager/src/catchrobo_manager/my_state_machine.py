@@ -15,7 +15,7 @@ class MyStateMachine():
         self._start_time = rospy.Time.now()
 
         rospy.Subscriber("on_manual",Bool,self.joyCallback)
-        self._is_manual = True
+        self._is_manual = False
         self._state_after_manual = self._next_state 
 
     def joyCallback(self, msg):
