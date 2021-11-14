@@ -20,7 +20,7 @@ def getObjectPosi(obj):
 
 class Brain():
     def __init__(self):
-        self._listener = tf.TransformListener()
+        
         self.BISCO_SIZE = 0.086, 0.029, 0.136
         self.BISCO_NUM = 27
         self._color = rospy.get_param("/color")
@@ -64,13 +64,6 @@ class Brain():
         my_pick_quat = tf.transformations.quaternion_from_euler(np.pi, 0, -np.pi / 2)
         self.MY_GRIP_QUAT = Quaternion(*my_pick_quat)
         self.MY_RELEASE_EULER = [np.pi, 0, -np.pi / 2]
-
-        # try:
-        #     (trans,rot) = self._listener.lookupTransform('/world', '/base/robot_tip', rospy.Time(0))
-        # except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-        #     pass
-        # self._base_posi = trans
-
 
     def calcBiscoAction(self, targets,is_twin):
         if is_twin:

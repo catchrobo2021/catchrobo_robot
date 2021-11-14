@@ -3,9 +3,11 @@
 
 import numpy as np
 import copy
+import math
 
 import rospy
 import moveit_commander
+import tf
 
 from geometry_msgs.msg import Pose, Point, Quaternion, PoseStamped
 from moveit_msgs.msg import RobotTrajectory, PositionIKRequest
@@ -24,6 +26,7 @@ class Arm(object):
           # sleep a bit to update roscore
         self._robot = moveit_commander.RobotCommander()
         self._arm = moveit_commander.MoveGroupCommander("arm0")
+        
 
         accel = rospy.get_param("max_acceleration_scaling_factor")
         vel = rospy.get_param("max_velosity_scaling_factor")
@@ -45,7 +48,7 @@ class Arm(object):
         self._ik_request.timeout.secs = 1.0
         self._ik_request.avoid_collisions = True
 
-        self.SAFE_JOINT2 = 77.0/180.0 * np.pi
+        self.SAFE_JOINT2 = 90.0/180.0 * np.pi
         # self._ik_request.attempts = 1000
         self._enable_joints_publisher = rospy.Publisher('arm0_controller/enable_joints', Bool, queue_size=1)
         self._enable_joints_publisher.publish(True)
@@ -53,6 +56,15 @@ class Arm(object):
         self.MIDDLE_POINT_X = -0.52
         self.MIDDLE_POINT_Y = 0.35
 
+        self._listener = tf.TransformListener()
+        self.MIDDLE_POINT_RADIUS = 0.4
+
+        self._listener.waitForTransform("/world", "/base/robot_tip", rospy.Time(), rospy.Duration(4.0))
+        try:
+            (trans,rot) = self._listener.lookupTransform('/world', '/base/robot_tip', rospy.Time(0))
+        except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
+            pass
+        self._base_posi = trans
 
 
     def goStartup(self):
@@ -238,9 +250,14 @@ class Arm(object):
         if state == ArmExtensionState.NEAR2NEAR or state == ArmExtensionState.FAR2NEAR:
             return
         if state == ArmExtensionState.NEAR2FAR or state == ArmExtensionState.FAR2FAR:
+            
+            x = target_pose.position.x - self._base_posi[0]
+            y = target_pose.position.y - self._base_posi[1]
+
+            rad = math.atan2(y,x)
             middle_pose = copy.deepcopy(target_pose)
-            middle_pose.position.x = self.MIDDLE_POINT_X
-            middle_pose.position.y = self.MIDDLE_POINT_Y
+            middle_pose.position.x = self.MIDDLE_POINT_RADIUS * math.cos(rad) + self._base_posi[0]
+            middle_pose.position.y = self.MIDDLE_POINT_RADIUS * math.sin(rad) + self._base_posi[1]
             self.setTargetPose(middle_pose)
             ret = self.go()
         
