@@ -15,8 +15,6 @@ class state_publisher:
         joint_state.effort = [0] * self.MOTOR_NUM
         self._joint_state = joint_state
         
-        self._time_start = 0
-        self._game_has_started = False
 
         self._joint1_position_publisher = rospy.Publisher('joint1/position', Float32, queue_size=10)
         self._joint1_effort_publisher = rospy.Publisher('joint1/effort', Float32, queue_size=10)
@@ -26,11 +24,8 @@ class state_publisher:
         self._joint3_effort_publisher = rospy.Publisher('joint3/effort', Float32, queue_size=10)
         self._joint4_position_publisher = rospy.Publisher('joint4/position', Float32, queue_size=10)
         self._joint4_effort_publisher = rospy.Publisher('joint4/effort', Float32, queue_size=10)
-        self._time_left_publisher = rospy.Publisher('time_left', Float32, queue_size=10)
 
         rospy.Subscriber("joint_states", JointState, self.joint_state_callback)
-        #rospy.Subscriber("game_start", Bool, self.game_start_callback)
-        #rospy.Timer(rospy.Duration(0.1), self.timer_callback)
         rospy.spin()
 
 
@@ -43,23 +38,7 @@ class state_publisher:
         self._joint3_effort_publisher.publish(abs(data.effort[2]))
         self._joint4_position_publisher.publish(data.position[3])
         self._joint4_effort_publisher.publish(abs(data.effort[3]))
+        
 
-
-    def game_start_callback(self,data):
-        if data.data is True:
-            self._time_start = rospy.Time.now()
-            self._game_has_started = True
-        else: 
-            pass
-
-
-    def timer_callback(self,event):
-        if self._game_has_started is True:
-            time_left = 180 - (rospy.Time.now()-self._time_start)
-        else:
-            time_left = 180
-        self._time_left_publisher.publish(time_left)
-    
- 
 if __name__ == "__main__":
     state_publisher()
