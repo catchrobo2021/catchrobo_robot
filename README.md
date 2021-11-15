@@ -10,7 +10,8 @@
 - pip install pandas numpy
 - sudo apt install ros-melodic-joy
 - sudo apt install ros-melodic-joystick-drivers 
-
+- sudo pip3 install --upgrade odrive 
+- sudo apt-get install -y ros-kinetic-jsk-visualization
 
 ## How to use
 ### Moving the simulated robot
@@ -26,21 +27,17 @@ roslaunch catchrobo_manager catchrobo_manager.launch
 ### Moving the actual robot
 1. Allow access to serial port
 ```
-sudo chmod 666 /dev/USB0
+sudo chmod 666 /dev/ttyUSB0
+sudo chmod 666 /dev/ttyACM0
 ```
-2. Launch hardware driver
-```
-roslaunch catchrobo_driver catchrobo_driver.launch
-```
-3. Launch moveit
+2. Bringup robot
 ```
 roslaunch catchrobo_bringup bringup.launch
 ```
-4. Launch game manager
+3. Launch manager
 ```
 roslaunch catchrobo_manager catchrobo_manager.launch
 ```
-
 
 <!-- 
 ## IKFast  
