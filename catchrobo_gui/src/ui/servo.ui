@@ -60,7 +60,7 @@
     </palette>
    </property>
    <property name="text">
-    <string>Engage</string>
+    <string>none</string>
    </property>
    <property name="checkable">
     <bool>true</bool>
@@ -113,7 +113,7 @@
     </palette>
    </property>
    <property name="text">
-    <string>Idle</string>
+    <string>pause</string>
    </property>
    <property name="checkable">
     <bool>true</bool>
