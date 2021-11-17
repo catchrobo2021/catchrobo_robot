@@ -10,6 +10,7 @@ from catchrobo_manager.gripper_manager import GripperManager
 # from catchrobo_manager.shooter_manager import ShooterManager
 from catchrobo_manager.guide import Guide
 from catchrobo_manager.sorter import SorterClient
+from std_msgs.msg import Bool
 
 class MyRobot():
     def __init__(self,color):
@@ -18,6 +19,8 @@ class MyRobot():
         self._gripper = GripperManager(color)
         self._guide = Guide()
         self._sorter = SorterClient()
+        self._enable_joints_publisher = rospy.Publisher('arm0_controller/enable_joints', Bool, queue_size=10)
+        self._enable_joints_publisher.publish(True)
         rospy.sleep(1)
         self._arm.goHome(color)
         self._guide.barDown()
