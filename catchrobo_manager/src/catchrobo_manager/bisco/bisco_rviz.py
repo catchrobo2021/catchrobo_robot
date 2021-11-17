@@ -15,6 +15,7 @@ class BiscoRviz:
         self._LINK_NAME = "arm/link_tip"
 
         self._scene = moveit_commander.PlanningSceneInterface(synchronous=True)
+        # self._scene = moveit_commander.PlanningSceneInterface()
 
         # self.cleanRviz()
 
