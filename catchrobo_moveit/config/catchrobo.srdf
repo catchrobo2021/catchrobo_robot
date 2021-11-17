@@ -199,6 +199,7 @@
     <disable_collisions link1="shooter/base_link" link2="shooter/sorter1" reason="Adjacent" />
     <disable_collisions link1="shooter/base_link" link2="shooter/sorter2" reason="Adjacent" />
     <disable_collisions link1="shooter/base_link" link2="shooter/sorter3" reason="Adjacent" />
+    <disable_collisions link1="shooter/base_link" link2="shooter/wire_guide" reason="Adjacent" />
     <disable_collisions link1="shooter/guide" link2="shooter/sorter1" reason="Never" />
     <disable_collisions link1="shooter/guide" link2="shooter/sorter2" reason="Never" />
     <disable_collisions link1="shooter/guide" link2="shooter/sorter3" reason="Never" />
