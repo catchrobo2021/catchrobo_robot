@@ -30,6 +30,8 @@ class GameManager():
 
     def main(self):
         self._command = GameStatus.MAIN_START
+        rospy.sleep(1)
+        self._my_state_machine.setup()
         while not rospy.is_shutdown():
             if self._command == GameStatus.MAIN_START:
                 self._my_state_machine.mainStart()

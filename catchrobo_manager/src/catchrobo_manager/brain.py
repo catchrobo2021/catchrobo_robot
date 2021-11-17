@@ -84,7 +84,7 @@ class Brain():
 
             if targets[1] is not None:
                 add = [
-                    # self.AboveHand(targets),
+                    MyRobotActionMaker.above(self.SAFE_Z_NO_GRIP),
                     self.arriveBisco(GripperID.FAR, targets[1], self.SAFE_Z_NO_GRIP),
                     self.DownHand(),
                     self.graspAction(GripperID.FAR, targets[1], True),

@@ -50,9 +50,6 @@ class Arm(object):
 
         self.SAFE_JOINT2 = 90.0/180.0 * np.pi
         # self._ik_request.attempts = 1000
-        self._enable_joints_publisher = rospy.Publisher('arm0_controller/enable_joints', Bool, queue_size=1)
-        self._enable_joints_publisher.publish(True)
-
 
         self.MIDDLE_POINT_X = -0.52
         self.MIDDLE_POINT_Y = 0.35

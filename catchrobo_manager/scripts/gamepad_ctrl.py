@@ -11,6 +11,11 @@ class JoyButtonEnum:
     SQUARE = 3
     R2 = 7
 
+class MenuEnum:
+    START = 1
+    PAUSE = 2
+    STOP = 3
+
 
 class gamepad_ctrl:
     def __init__(self):

@@ -17,6 +17,9 @@ class MyStateMachine():
         rospy.Subscriber("pause",Bool,self.joyCallback)
         self._is_manual = True
         self._state_after_manual = self._next_state 
+    
+    def setup(self):
+        self._catchrobo.init()
 
     def joyCallback(self, msg):
         self._is_manual = msg.data
@@ -41,6 +44,7 @@ class MyStateMachine():
         self._catchrobo.end()
 
     def mainStart(self):
+        self._catchrobo._robot._guide.barDown()
         pass
 
     def calcBiscoAction(self):

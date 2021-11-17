@@ -3,35 +3,45 @@
 
 import rospy
 
+from std_msgs.msg import Bool
+
 from catchrobo_manager.brain import Brain
 from catchrobo_manager.arm import Arm
 from catchrobo_manager.my_robot_result import MyRobotResultMaker
 from catchrobo_manager.gripper_manager import GripperManager
 # from catchrobo_manager.shooter_manager import ShooterManager
-from catchrobo_manager.guide import Guide
+from catchrobo_manager.guide import GuideClient
 from catchrobo_manager.sorter import SorterClient
 from std_msgs.msg import Bool
+
 
 class MyRobot():
     def __init__(self,color):
         self._brain = Brain()
         self._arm = Arm()
         self._gripper = GripperManager(color)
-        self._guide = Guide()
+        self._guide = GuideClient()
         self._sorter = SorterClient()
         self._enable_joints_publisher = rospy.Publisher('arm0_controller/enable_joints', Bool, queue_size=10)
         self._enable_joints_publisher.publish(True)
         rospy.sleep(1)
         self._arm.goHome(color)
         self._guide.barDown()
+        self._color = color
+    
+    def init(self):
+        self._enable_joints_publisher = rospy.Publisher('arm0_controller/enable_joints', Bool, queue_size=1)
+        rospy.sleep(0.3)
+        self._enable_joints_publisher.publish(True)
+        rospy.sleep(0.3)        
+        self._arm.goHome(self._color)
+        self._guide.barUp()
         self._gripper.releaseBisco(0)
         self._gripper.releaseBisco(1)
         open_row = [0,2,4]
         for i in open_row:
             self._sorter.open(i)
 
-        self._color = color
-        
 
     def doAction(self):
         action = self._brain.popAction()
