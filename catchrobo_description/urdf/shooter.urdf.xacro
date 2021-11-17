@@ -123,5 +123,24 @@
       </collision>
     </link>
 
+    <joint name="${prefix}sorter/wire_guide" type="fixed">
+      <parent link="${prefix}shooter/base_link"/>
+      <child link="${prefix}shooter/wire_guide"/>
+      <origin xyz="0 0.37 0.17" rpy="${90*M_PI/180} 0 ${180*M_PI/180}"/>
+    </joint>  
+    <link name="${prefix}shooter/wire_guide">
+      <visual>
+        <geometry>
+          <mesh filename="package://catchrobo_description/mesh/shooter/visual/wire_guide.stl" scale="${visual_mesh_scale}"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://catchrobo_description/mesh/shooter/collision/wire_guide.stl" scale="${collision_mesh_scale}"/>
+        </geometry>
+      </collision>
+    </link>
+
   </xacro:macro>
 </robot>
