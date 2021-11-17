@@ -25,6 +25,10 @@ class CatchroboCenter():
         self._obstacle = Obstacle(self._color)
 
         self._can_go_common = False
+    
+    def init(self):
+        self._robot.init()
+        self._obstacle.makeCommonAreaObstacle()
 
     def doAction(self):
         result = self._robot.doAction()
@@ -81,6 +85,7 @@ class CatchroboCenter():
             if self._can_go_common:
                 self._obstacle.deleteCommonAreaObstacle()
                 self._biscos.setCanGoCommon(True)
+                self._robot._guide.canGoCommon()
 
         return self.doAction()
 
