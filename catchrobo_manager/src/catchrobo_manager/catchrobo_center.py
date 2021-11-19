@@ -27,6 +27,14 @@ class CatchroboCenter():
         self._can_go_common = False
     
         self._next_state = self.calcBiscoAction
+        self.END_BISCO_ID = 23
+        self.makeEndPose()
+
+    def makeEndPose(self):
+        target_bisco = self._biscos._database.getObj(self.END_BISCO_ID)
+        self._robot.makeEndPose(target_bisco)
+
+
         
     def init(self):
         self._robot.init()
@@ -101,12 +109,6 @@ class CatchroboCenter():
             ret = self.calcBiscoAction
         return ret
 
-    def end(self):
-        self._robot.end()
-    
-    def mainStart(self):
-        self._robot._guide.barDown()
-
     def main(self):
         ret = self._next_state()
         if ret == ActionResult.GAME_END:
@@ -114,3 +116,12 @@ class CatchroboCenter():
         else:
             self._next_state = ret
         return ret
+    
+    def end(self):
+        self._robot.end()
+    
+    def mainStart(self):
+        self._robot.mainStart()
+    
+    def emergencyStop(self):
+        self._robot.emergencyStop()

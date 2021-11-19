@@ -38,6 +38,7 @@ class Brain():
         self.BISCO_ABOVE_COMMON_Z =self.BISCO_ABOVE_Z#self.BISCO_SIZE[2] + 0.1
         self.SHOOT_ADD_Z =  self.MAX_HIGHT - 0.12 #self.BISCO_SIZE[2] + 0.01 +0.05
 
+
         
         common_pick_quat1 = tf.transformations.quaternion_from_euler(np.pi, 0, 0)
         common_pick_quat2 = tf.transformations.quaternion_from_euler(np.pi, 0, np.pi)
@@ -227,3 +228,8 @@ class Brain():
 
         return action
 
+    def makeEndPose(self, target_bisco):
+        action = self.arriveBisco(GripperID.NEAR, target_bisco, self.MAX_HIGHT)
+        params = action.getParams()
+        target_pose = params[0]
+        return target_pose
