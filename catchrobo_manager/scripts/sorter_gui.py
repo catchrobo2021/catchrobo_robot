@@ -1,0 +1,25 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import rospy
+from std_msgs.msg import Int8
+from catchrobo_manager.sorter import SorterClient
+
+class SorterFurifuri:
+    def __init__(self, color):
+        self._sorter = SorterClient(color)
+        rospy.Subscriber("sorter/open_row_gui", Int8, callback=self.open)
+        rospy.Subscriber("sorter/close_row_gui", Int8, callback=self.close)
+
+    def open(self, msg):
+        if(self._sorter.color == "blue"):
+            self._sorter.open(msg.data)
+        else:
+            self._sorter.open(5-msg.data)
+    
+    def close(self, msg):
+        if(self._sorter.color == "blue"):
+        self._sorter.close(5-msg.data)
+        
+
+
