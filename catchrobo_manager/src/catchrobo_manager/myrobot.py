@@ -33,7 +33,7 @@ class MyRobot():
         # self._enable_joints_publisher = rospy.Publisher('arm0_controller/enable_joints', Bool, queue_size=1)
         # rospy.sleep(0.3)
         self._arm.enable(True)
-        rospy.sleep(0.3)        
+        rospy.sleep(2.0)        
         self._arm.goHome(self._color)
         self._guide.barUp()
         self._gripper.releaseBisco(0)
