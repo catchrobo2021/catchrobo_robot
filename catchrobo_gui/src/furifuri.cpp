@@ -81,11 +81,11 @@ void Furifuri::onDisable()
 }
 
 void Furifuri::furi1(){
-  furi = 0;
+  furi = 1;
   this->send();
 }
 void Furifuri::furi2(){
-  furi = 1;
+  furi = 0;
   this->send();
 }
 void Furifuri::furi3(){
@@ -93,11 +93,11 @@ void Furifuri::furi3(){
   this->send_center();
 }
 void Furifuri::furi4(){
-  furi = 2;
+  furi = 3;
   this->send();
 }
 void Furifuri::furi5(){
-  furi = 3;
+  furi = 2;
   this->send();
 }
 void Furifuri::furi6(){
@@ -105,11 +105,11 @@ void Furifuri::furi6(){
   this->send_center();
 }
 void Furifuri::furi7(){
-  furi = 4;
+  furi = 5;
   this->send();
 }
 void Furifuri::furi8(){
-  furi = 5;
+  furi = 4;
   this->send();
 }
 void Furifuri::furi9(){

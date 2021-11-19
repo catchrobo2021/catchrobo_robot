@@ -7,19 +7,20 @@ from catchrobo_manager.sorter import SorterClient
 
 class SorterFurifuri:
     def __init__(self, color):
-        self._sorter = SorterClient(color)
+        self._color = color
+        self._sorter = SorterClient()
         rospy.Subscriber("sorter/open_row_gui", Int8, callback=self.open)
         rospy.Subscriber("sorter/close_row_gui", Int8, callback=self.close)
 
     def open(self, msg):
-        if(self._sorter.color == "blue"):
+        if(self._color == "blue"):
             self._sorter.open(msg.data)
         else:
             self._sorter.open(5-msg.data)
     
     def close(self, msg):
-        if(self._sorter.color == "blue"):
-            self._sorter.open(msg.data)
+        if(self._color == "blue"):
+            self._sorter.close(msg.data)
         else:
             self._sorter.close(5-msg.data)
         
