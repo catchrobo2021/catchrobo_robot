@@ -13,6 +13,7 @@ class ActionResult():
     DOING = 0
     FINISH = 1
     GAME_END = 2
+    PERMISSION = 3
 
 
 class CatchroboCenter():
@@ -52,6 +53,10 @@ class CatchroboCenter():
             bisco_id, shooting_box_id = params
             self._biscos.release(bisco_id)
             self._shooting_box.shoot(shooting_box_id)
+        elif result.isPersmission():
+            return ActionResult.PERMISSION
+
+
         return ActionResult.DOING
 
     def calcBiscoAction(self):
@@ -74,8 +79,11 @@ class CatchroboCenter():
         result = self.doAction()
         if result==ActionResult.DOING:
             ret = self.doBiscoAction
+        elif result == ActionResult.PERMISSION:
+            ret = ActionResult.PERMISSION
         else:
             ret = self.calcShootAction
+        
         return ret
 
     def calcShootAction(self):
@@ -111,6 +119,8 @@ class CatchroboCenter():
         ret = self._next_state()
         if ret == ActionResult.GAME_END:
             self._next_state = self.calcBiscoAction
+        elif ret == ActionResult.PERMISSION:
+            self._next_state = self.doBiscoAction
         else:
             self._next_state = ret
         return ret

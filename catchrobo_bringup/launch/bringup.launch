@@ -1,6 +1,7 @@
 <launch>
+<arg name="field" default="blue"/>
     <include file="$(find catchrobo_bringup)/launch/others.launch">
-    <arg name="field" value="blue"/>
+    <arg name="field" value="$(arg field)"/>
     </include>
   
   <include file ="$(find catchrobo_driver)/launch/catchrobo_driver.launch"/>

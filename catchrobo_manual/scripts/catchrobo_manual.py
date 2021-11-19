@@ -1,13 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import rospy
-from sensor_msgs.msg import Joy
-from catchrobo_manager.arm import Arm
-from catchrobo_manager.gripper_manager import GripperManager
-from geometry_msgs.msg import PoseStamped, Pose, Quaternion
 import numpy as np
 import tf
+import rospy
+
+
+from std_msgs.msg import Int8
+from geometry_msgs.msg import PoseStamped, Pose, Quaternion
+from sensor_msgs.msg import Joy
+
+from catchrobo_manager.arm import Arm
+from catchrobo_manager.gripper_manager import GripperManager
+
+
 
 
 class PS3Button():
@@ -63,6 +69,11 @@ class XBoxButton():
 	K_CON = 1
 
 
+class MenuEnum:
+    START = 1
+    PAUSE = 2
+    EMERGENCY_STOP = 3
+
 class GamePad():
 	def __init__(self):
 
@@ -87,6 +98,8 @@ class Manual():
 		self.ButtonEnum = Button
 
 		self._SCALING = 0.1
+		self._pub_menu = rospy.Publisher("menu", Int8, queue_size=1)
+
 
 	def delta_calc(self):
 		_MAX_XBOX_AXES = 1.0
@@ -147,11 +160,11 @@ class Manual():
 
 				pass
 			elif self._state.buttons[self.ButtonEnum.B] == 1:
-				pass
+				self._pub_menu.publish(MenuEnum.EMERGENCY_STOP)
 			elif self._state.buttons[self.ButtonEnum.X] == 1:
-				pass
+				self._pub_menu.publish(MenuEnum.START)
 			elif self._state.buttons[self.ButtonEnum.Y] == 1:
-				pass
+				self._pub_menu.publish(MenuEnum.PAUSE)
 			elif self._state.buttons[self.ButtonEnum.LB] == 1:
 				pass
 			elif self._state.buttons[self.ButtonEnum.RB] == 1:

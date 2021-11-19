@@ -6,6 +6,7 @@ class MyRobotResultEnum:
     GRIP = 0
     SHOOT = 1
     FINISH = 2
+    PERMISSION = 3
 
 class MyRobotResult:
     def __init__(self, type, params):
@@ -33,6 +34,9 @@ class MyRobotResult:
     def isFinish(self):
         return self._type == MyRobotResultEnum.FINISH
 
+    def isPersmission(self):
+        return self._type == MyRobotResultEnum.PERMISSION
+
     def getParams(self):
         return self._params
 
@@ -51,3 +55,6 @@ class MyRobotResultMaker:
     def empty(cls):
         return MyRobotResult(None, None)
 
+    @classmethod 
+    def permission(cls):
+        return MyRobotResult(MyRobotResultEnum.PERMISSION, None)
