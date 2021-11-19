@@ -32,6 +32,7 @@ Red2::Red2(QWidget *parent) :
 {
     ui->setupUi(this);
     scene = new QGraphicsScene;
+
     std::string project_path = ros::package::getPath("catchrobo_gui");
     
     std::string img_path = "/img/red_field.png";
