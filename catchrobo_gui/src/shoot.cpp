@@ -32,19 +32,18 @@ Shoot::Shoot(QWidget *parent) :
 {
     ui->setupUi(this);
     scene = new QGraphicsScene;
-    std::string project_path = ros::package::getPath("catchrobo_gui");
     
-    pub_ = nh_.advertise<std_msgs::Int32MultiArray>("shoot_pub", 1);
-    sub_ = n.subscribe("shoot_sub", sendtime, &Shoot::arrayback, this);
+    pub_ = nh_.advertise<std_msgs::Int32MultiArray>("shoot", 1);
+    //sub_ = n.subscribe("shoot_sub", sendtime, &Shoot::arrayback, this);
 }
 
 Shoot::~Shoot() = default;
 
 void Shoot::onInitialize()
 {
-  connect(findChild<QPushButton*>(QString("nob1")), SIGNAL(clicked()), this, SLOT(move()));
-  connect(findChild<QPushButton*>(QString("nob2")), SIGNAL(clicked()), this, SLOT(move()));
-  connect(findChild<QPushButton*>(QString("nob3")), SIGNAL(clicked()), this, SLOT(move()));
+  connect(findChild<QDial*>(QString("dial1")), SIGNAL(valueChanged(int)), this, SLOT(move1(int)));
+  connect(findChild<QDial*>(QString("dial2")), SIGNAL(valueChanged(int)), this, SLOT(move2(int)));
+  connect(findChild<QDial*>(QString("dial3")), SIGNAL(valueChanged(int)), this, SLOT(move3(int)));
   //QTimer::singleShot(sendtime, this, SLOT(send_msg()));
  }
 
@@ -60,29 +59,31 @@ void Shoot::onDisable()
   parentWidget()->hide();
 }
 
-void Shoot::buttonClicked()
+void Shoot::move1(int value)
 {
-  std_msgs::Int32MultiArray array;
-  array.data.resize(27);
-  for(int i=1; i<28; i++){
-      array.data[i-1] = findChild<QPushButton*>(QString("obj"+QString::number(i)))->isChecked();
-  }
-  pub_.publish(array);
-  ROS_INFO("You pushed the button.");
-  //ROS_INFO_STREAM(array);
+  pos[0] = value%4;
+  if(value != 4)this->send_msg();
 }
 
-void Shoot::send_msg()
+void Shoot::move2(int value)
 {
-  std_msgs::Int32MultiArray array;
-  array.data.resize(27);
-  for(int i=1; i<28; i++){
-      array.data[i-1] = findChild<QPushButton*>(QString("obj"+QString::number(i)))->isChecked();
-  }
-  pub_.publish(array);
-  ROS_INFO("You pushed.");
+  pos[1] = value%4;
+  if(value != 4)this->send_msg();
+}
 
-  QTimer::singleShot(sendtime, this, SLOT(send_msg()));
+void Shoot::move3(int value)
+{
+  pos[2] = value%4;
+  if(value != 4)this->send_msg();
+}
+
+void Shoot::send_msg(){
+  std_msgs::Int32MultiArray array;
+  array.data.resize(3);
+  array.data[0] = pos[0];
+  array.data[1] = pos[1];
+  array.data[2] = pos[2];
+  pub_.publish(array);
 }
 
 void Shoot::arrayback(const std_msgs::Int32MultiArray& msg){
@@ -90,16 +91,8 @@ void Shoot::arrayback(const std_msgs::Int32MultiArray& msg){
 
   int num = msg.data.size();
   ROS_INFO("I susclibed [%i]", num);
-  for (int i = 0; i < num; i++)
-  {
-    ROS_INFO("[%i]:%d", i, msg.data[i]);
-  }
-  ROS_INFO("You get msg.");
-  for(int i=0; i<num; i++){
-      findChild<QPushButton*>(QString("obj"+QString::number(i+1)))->setChecked(msg.data[i]);
-  }
 }
 
 }
 
-PLUGINLIB_EXPORT_CLASS(field_2::Shoot, rviz::Panel )
+PLUGINLIB_EXPORT_CLASS(shoot::Shoot, rviz::Panel )
