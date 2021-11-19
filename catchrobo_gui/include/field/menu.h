@@ -1,5 +1,5 @@
-#ifndef Shoot_H
-#define Shoot_H
+#ifndef Menu_H
+#define Menu_H
 
 #pragma once
 
@@ -20,24 +20,24 @@
 #include <geometry_msgs/PointStamped.h>
 
 namespace Ui {
-class Shoot;
+class Menu;
 }
 
-namespace shoot
+namespace menu
 {
-class Shoot: public rviz::Panel
+class Menu: public rviz::Panel
 {
     Q_OBJECT
 
 public:
-    //explicit Blue2_field(QWidget *parent = 0);
-    Shoot(QWidget *parent = 0);
-    ~Shoot() override; 
+    //explicit Menu(QWidget *parent = 0);
+    Menu(QWidget *parent = 0);
+    ~Menu() override; 
 
-    int Arr[27];
-    int pos[3] = {0,0,0};
+    int data = 0;
 
     void onInitialize() override;
+    void send();
     void onEnable();
     void onDisable();
     void arrayback(const std_msgs::Int32MultiArray& msg);
@@ -45,16 +45,24 @@ public:
 private Q_SLOTS:
   void dialValueChanged(int value);
   void lineEditChanged();
-  void move1(int);
-  void move2(int);
-  void move3(int);
+  void start();
+  void pause();
+  void stop();
   void send_msg();
 
 protected:
-  Ui::Shoot *ui;
+  Ui::Menu *ui;
   QGraphicsScene *scene;
   QGraphicsPixmapItem *pix;
   QIcon icon;
+  QIcon icon_on;
+  QIcon icon_off;
+  QIcon icon_up;
+  QIcon icon_dn;
+
+  std::string project_path;
+  QString icon_on_path;
+  QString icon_off_path;
 
   int sendtime = 100; //ms
   ros::NodeHandle nh_;
@@ -64,4 +72,4 @@ protected:
   ros::NodeHandle n;
 };
 }
-#endif // Shoot_H
+#endif // Menu_H

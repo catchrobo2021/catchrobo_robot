@@ -1,5 +1,5 @@
-#ifndef Shoot_H
-#define Shoot_H
+#ifndef Hand_H
+#define Hand_H
 
 #pragma once
 
@@ -20,22 +20,23 @@
 #include <geometry_msgs/PointStamped.h>
 
 namespace Ui {
-class Shoot;
+class Hand;
 }
 
-namespace shoot
+namespace hand
 {
-class Shoot: public rviz::Panel
+class Hand: public rviz::Panel
 {
     Q_OBJECT
 
 public:
     //explicit Blue2_field(QWidget *parent = 0);
-    Shoot(QWidget *parent = 0);
-    ~Shoot() override; 
+    Hand(QWidget *parent = 0);
+    ~Hand() override; 
 
     int Arr[27];
-    int pos[3] = {0,0,0};
+    int pos[2] = {0,0};
+    int flag[2] = {0,0};
 
     void onInitialize() override;
     void onEnable();
@@ -47,11 +48,10 @@ private Q_SLOTS:
   void lineEditChanged();
   void move1(int);
   void move2(int);
-  void move3(int);
   void send_msg();
 
 protected:
-  Ui::Shoot *ui;
+  Ui::Hand *ui;
   QGraphicsScene *scene;
   QGraphicsPixmapItem *pix;
   QIcon icon;
@@ -64,4 +64,4 @@ protected:
   ros::NodeHandle n;
 };
 }
-#endif // Shoot_H
+#endif // Hand_H

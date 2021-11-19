@@ -1,96 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Shoot</class>
- <widget class="QWidget" name="Shoot">
+ <class>Menu</class>
+ <widget class="QWidget" name="Menu">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>442</width>
-    <height>144</height>
+    <height>150</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Shoot</string>
+   <string>Menu</string>
   </property>
-  <widget class="QDial" name="dial1">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>140</width>
-     <height>140</height>
-    </rect>
-   </property>
-   <property name="palette">
-    <palette>
-     <active>
-      <colorrole role="Button">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>239</red>
-         <green>41</green>
-         <blue>41</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </active>
-     <inactive>
-      <colorrole role="Button">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>239</red>
-         <green>41</green>
-         <blue>41</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </inactive>
-     <disabled>
-      <colorrole role="Button">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>239</red>
-         <green>41</green>
-         <blue>41</blue>
-        </color>
-       </brush>
-      </colorrole>
-     </disabled>
-    </palette>
-   </property>
-   <property name="autoFillBackground">
-    <bool>false</bool>
-   </property>
-   <property name="maximum">
-    <number>4</number>
-   </property>
-   <property name="value">
-    <number>0</number>
-   </property>
-   <property name="tracking">
-    <bool>true</bool>
-   </property>
-   <property name="invertedAppearance">
-    <bool>false</bool>
-   </property>
-   <property name="invertedControls">
-    <bool>false</bool>
-   </property>
-   <property name="wrapping">
-    <bool>true</bool>
-   </property>
-   <property name="notchesVisible">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QDial" name="dial2">
+  <widget class="QPushButton" name="btn2">
    <property name="geometry">
     <rect>
      <x>150</x>
      <y>0</y>
-     <width>140</width>
-     <height>140</height>
+     <width>150</width>
+     <height>150</height>
     </rect>
    </property>
    <property name="palette">
@@ -99,9 +28,9 @@
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>237</red>
-         <green>212</green>
-         <blue>0</blue>
+         <red>252</red>
+         <green>233</green>
+         <blue>79</blue>
         </color>
        </brush>
       </colorrole>
@@ -110,9 +39,9 @@
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>237</red>
-         <green>212</green>
-         <blue>0</blue>
+         <red>252</red>
+         <green>233</green>
+         <blue>79</blue>
         </color>
        </brush>
       </colorrole>
@@ -121,32 +50,97 @@
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>237</red>
-         <green>212</green>
-         <blue>0</blue>
+         <red>252</red>
+         <green>233</green>
+         <blue>79</blue>
         </color>
        </brush>
       </colorrole>
      </disabled>
     </palette>
    </property>
-   <property name="maximum">
-    <number>4</number>
+   <property name="font">
+    <font>
+     <family>Chilanka</family>
+     <pointsize>32</pointsize>
+    </font>
    </property>
-   <property name="wrapping">
+   <property name="text">
+    <string>Pause</string>
+   </property>
+   <property name="checkable">
     <bool>true</bool>
    </property>
-   <property name="notchesVisible">
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn1">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>150</width>
+     <height>150</height>
+    </rect>
+   </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="Button">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>114</red>
+         <green>159</green>
+         <blue>207</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="Button">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>114</red>
+         <green>159</green>
+         <blue>207</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="Button">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>114</red>
+         <green>159</green>
+         <blue>207</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+   <property name="font">
+    <font>
+     <family>Chilanka</family>
+     <pointsize>32</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Start</string>
+   </property>
+   <property name="checkable">
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QDial" name="dial3">
+  <widget class="QPushButton" name="btn3">
    <property name="geometry">
     <rect>
      <x>300</x>
      <y>0</y>
-     <width>140</width>
-     <height>140</height>
+     <width>150</width>
+     <height>150</height>
     </rect>
    </property>
    <property name="palette">
@@ -155,9 +149,9 @@
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
+         <red>239</red>
+         <green>41</green>
+         <blue>41</blue>
         </color>
        </brush>
       </colorrole>
@@ -166,9 +160,9 @@
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
+         <red>239</red>
+         <green>41</green>
+         <blue>41</blue>
         </color>
        </brush>
       </colorrole>
@@ -177,22 +171,25 @@
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>115</red>
-         <green>210</green>
-         <blue>22</blue>
+         <red>239</red>
+         <green>41</green>
+         <blue>41</blue>
         </color>
        </brush>
       </colorrole>
      </disabled>
     </palette>
    </property>
-   <property name="maximum">
-    <number>4</number>
+   <property name="font">
+    <font>
+     <family>Chilanka</family>
+     <pointsize>32</pointsize>
+    </font>
    </property>
-   <property name="wrapping">
-    <bool>true</bool>
+   <property name="text">
+    <string>Stop</string>
    </property>
-   <property name="notchesVisible">
+   <property name="checkable">
     <bool>true</bool>
    </property>
   </widget>
