@@ -58,7 +58,7 @@ class Arm(object):
 
         self._listener = tf.TransformListener()
         self.MIDDLE_POINT_RADIUS = 0.4
-        self.COST_THRESHOLD = 0.1
+        self.COST_THRESHOLD = 0.4
 
         self._listener.waitForTransform("/world", "/base/robot_tip", rospy.Time(), rospy.Duration(4.0))
         try:
@@ -275,6 +275,7 @@ class Arm(object):
             ret = self.go()
     
     def arriveMiddle2(self, target_pose):
+
         if self._color == "blue":
             if target_pose.position.x < self._base_posi[0]:
                 return
@@ -287,7 +288,6 @@ class Arm(object):
 
         d_theta = target_theta - current_theta
         abs_d_theta = abs(d_theta)
-
 
         r_cost = max(target_r - self.MIDDLE_POINT_RADIUS, 0) 
         theta_cost = max(abs_d_theta - math.pi/3, 0)
@@ -315,7 +315,7 @@ class Arm(object):
 
 
     def move(self, target_pose):
-        self.arriveMiddlePoint(target_pose)
+        self.arriveMiddle2(target_pose)
         self.setTargetPose(target_pose)
         ret = self.go()
 

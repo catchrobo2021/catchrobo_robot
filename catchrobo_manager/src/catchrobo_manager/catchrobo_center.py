@@ -82,7 +82,7 @@ class CatchroboCenter():
         self._shooting_box.calcTargetTwin()
         targets, _ = self._shooting_box.getTargetTwin()
         temp = "target shoot : {}".format(targets)
-        rospy.loginfo(temp)
+        # rospy.loginfo(temp)
         biscos, _ = self._biscos.getTargetTwin()
         if targets[0] is None and targets[1] is None:
             return ActionResult.GAME_END
