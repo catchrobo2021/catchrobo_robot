@@ -23,15 +23,15 @@ class MyRobot():
         self._guide = GuideClient()
         self._sorter = SorterClient()
         self._enable_joints_publisher = rospy.Publisher('arm0_controller/enable_joints', Bool, queue_size=10)
-        self._enable_joints_publisher.publish(True)
-        rospy.sleep(1)
-        self._arm.goHome(color)
-        self._guide.barDown()
+        # self._enable_joints_publisher.publish(True)
+        # rospy.sleep(1)
+        # self._arm.goHome(color)
+        # self._guide.barDown()
         self._color = color
     
     def init(self):
-        self._enable_joints_publisher = rospy.Publisher('arm0_controller/enable_joints', Bool, queue_size=1)
-        rospy.sleep(0.3)
+        # self._enable_joints_publisher = rospy.Publisher('arm0_controller/enable_joints', Bool, queue_size=1)
+        # rospy.sleep(0.3)
         self._enable_joints_publisher.publish(True)
         rospy.sleep(0.3)        
         self._arm.goHome(self._color)
