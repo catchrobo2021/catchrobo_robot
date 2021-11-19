@@ -33,8 +33,6 @@ class CatchroboCenter():
     def makeEndPose(self):
         target_bisco = self._biscos._database.getObj(self.END_BISCO_ID)
         self._robot.makeEndPose(target_bisco)
-
-
         
     def init(self):
         self._robot.init()

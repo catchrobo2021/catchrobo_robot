@@ -32,10 +32,11 @@ class GameManager():
         menu = msg.data
         with self._lock:
             if menu == MenuEnum.START:
-                if self._command == GameStatus.SETUP:
+                if self._command == GameStatus.SETUP or self._command == GameStatus.EMERGENCY_STOP:
                     self._command = GameStatus.MAIN_START
                 elif self._command == GameStatus.MANUAL:
                     self._command = GameStatus.MAIN
+                
             elif menu == MenuEnum.PAUSE:
                 if self._command != GameStatus.SETUP:
                     self._command = GameStatus.MANUAL
@@ -68,9 +69,8 @@ class GameManager():
                     self._catchrobo.end()
                     self._command = GameStatus.MANUAL
                     
-                    
                     dt = rospy.Time.now() - self._start_time
-                    rospy.loginfo(dt.secs())
+                    rospy.loginfo(dt.to_sec())
                 
                 elif self._command == GameStatus.MANUAL:
                     pass
