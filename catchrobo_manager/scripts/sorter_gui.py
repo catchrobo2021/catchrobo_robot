@@ -19,7 +19,14 @@ class SorterFurifuri:
     
     def close(self, msg):
         if(self._sorter.color == "blue"):
-        self._sorter.close(5-msg.data)
+            self._sorter.open(msg.data)
+        else:
+            self._sorter.close(5-msg.data)
         
+if __name__ == '__main__':    
+    rospy.init_node("sorter_", anonymous=True)
+    color = rospy.get_param("color")
+    sorter = SorterFurifuri(color)
+    rospy.spin()
 
 
