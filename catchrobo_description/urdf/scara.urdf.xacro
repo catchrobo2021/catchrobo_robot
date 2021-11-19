@@ -61,11 +61,11 @@
       <axis xyz="0 0 1"/>
 
       <xacro:if value="${field=='blue'}">
-        <limit lower="${-90*M_PI/180}" upper="${160*M_PI/180}" effort="6"
+        <limit lower="${-30*M_PI/180}" upper="${160*M_PI/180}" effort="6"
               velocity="5" acceleration="5"/>
       </xacro:if>
       <xacro:if value="${field=='red'}">
-        <limit lower="${-160*M_PI/180}" upper="${90*M_PI/180}" effort="6"
+        <limit lower="${-160*M_PI/180}" upper="${30*M_PI/180}" effort="6"
               velocity="5" acceleration="5"/>
       </xacro:if>
 

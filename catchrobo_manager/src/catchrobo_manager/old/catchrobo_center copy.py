@@ -26,14 +26,6 @@ class CatchroboCenter():
 
         self._can_go_common = False
     
-        self._next_state = self.calcBiscoAction
-        self.END_BISCO_ID = 23
-        self.makeEndPose()
-
-    def makeEndPose(self):
-        target_bisco = self._biscos._database.getObj(self.END_BISCO_ID)
-        self._robot.makeEndPose(target_bisco)
-        
     def init(self):
         self._robot.init()
         self._obstacle.makeCommonAreaObstacle()
@@ -58,7 +50,7 @@ class CatchroboCenter():
         self._biscos.calcTargetTwin()
         targets, is_twin = self._biscos.getTargetTwin()
         temp = "target bisco : {}".format(targets)
-        # rospy.loginfo(temp)
+        rospy.loginfo(temp)
         if targets[0] is None and targets[1] is None:
             return ActionResult.GAME_END
         self._robot.calcBiscoAction(targets, is_twin)
@@ -68,15 +60,10 @@ class CatchroboCenter():
             self._obstacle.makeCommonAreaMiddleObstacle()
         else:
             self._obstacle.deleteCommonAreaMiddleObstacle()
-        return self.doBiscoAction
+        return ActionResult.DOING
 
     def doBiscoAction(self):
-        result = self.doAction()
-        if result==ActionResult.DOING:
-            ret = self.doBiscoAction
-        else:
-            ret = self.calcShootAction
-        return ret
+        return self.doAction()
 
     def calcShootAction(self):
         self._shooting_box.calcTargetTwin()
@@ -88,7 +75,7 @@ class CatchroboCenter():
             return ActionResult.GAME_END
         self._robot.calcShootAction(targets, biscos)
 
-        return self.doShootAction
+        return ActionResult.DOING
 
     def doShootAction(self):
 
@@ -100,26 +87,7 @@ class CatchroboCenter():
                 self._biscos.setCanGoCommon(True)
                 self._robot._guide.canGoCommon()
 
-        result = self.doAction()
-        if result==ActionResult.DOING:
-            ret = self.doShootAction
-        else:
-            ret = self.calcBiscoAction
-        return ret
+        return self.doAction()
 
-    def main(self):
-        ret = self._next_state()
-        if ret == ActionResult.GAME_END:
-            self._next_state = self.calcBiscoAction
-        else:
-            self._next_state = ret
-        return ret
-    
     def end(self):
         self._robot.end()
-    
-    def mainStart(self):
-        self._robot.mainStart()
-    
-    def emergencyStop(self):
-        self._robot.emergencyStop()

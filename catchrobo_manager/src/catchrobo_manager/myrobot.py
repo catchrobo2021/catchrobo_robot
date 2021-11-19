@@ -22,17 +22,17 @@ class MyRobot():
         self._gripper = GripperManager(color)
         self._guide = GuideClient()
         self._sorter = SorterClient()
-        self._enable_joints_publisher = rospy.Publisher('arm0_controller/enable_joints', Bool, queue_size=10)
-        self._enable_joints_publisher.publish(True)
-        rospy.sleep(1)
-        self._arm.goHome(color)
-        self._guide.barDown()
+        
+        # self._enable_joints_publisher.publish(True)
+        # rospy.sleep(1)
+        # self._arm.goHome(color)
+        # self._guide.barDown()
         self._color = color
     
     def init(self):
-        self._enable_joints_publisher = rospy.Publisher('arm0_controller/enable_joints', Bool, queue_size=1)
-        rospy.sleep(0.3)
-        self._enable_joints_publisher.publish(True)
+        # self._enable_joints_publisher = rospy.Publisher('arm0_controller/enable_joints', Bool, queue_size=1)
+        # rospy.sleep(0.3)
+        self._arm.enable(True)
         rospy.sleep(0.3)        
         self._arm.goHome(self._color)
         self._guide.barUp()
@@ -85,5 +85,19 @@ class MyRobot():
         self._brain.calcShootAction(targets, is_twin)
 
     def end(self):
-        self._arm.goHome(self._color)
-        # self._shooter.barUp()
+        self._arm.move(self._end_pose)
+        # self._guide.barUp()
+        # self._arm.enable(False)
+
+    def mainStart(self):
+        self._arm.enable(True)
+        self._guide.barDown()
+        rospy.sleep(0.3)
+    
+    def makeEndPose(self, target_bisco):
+        self._end_pose = self._brain.makeEndPose(target_bisco)
+        
+
+    def emergencyStop(self):
+        self._arm.enable(False)
+        self._guide.barUp()

@@ -75,6 +75,9 @@ set(HEADERS
   include/field/blue_box.h
   include/field/red_box.h
   include/field/servo.h
+  include/field/shoot.h
+  include/field/menu.h
+  include/field/hand.h
   )
 qt5_wrap_ui(UIC_FILES
   src/ui/blue_2.ui
@@ -82,6 +85,9 @@ qt5_wrap_ui(UIC_FILES
   src/ui/blue_box.ui
   src/ui/red_box.ui
   src/ui/servo.ui
+  src/ui/shoot.ui
+  src/ui/menu.ui
+  src/ui/hand.ui
   )
 set(SOURCE_FILES
   src/blue_field_2.cpp
@@ -89,6 +95,9 @@ set(SOURCE_FILES
   src/blue_box.cpp
   src/red_box.cpp
   src/servo.cpp
+  src/shoot.cpp
+  src/menu.cpp
+  src/hand.cpp
   )
 
 #set(HEADERS
