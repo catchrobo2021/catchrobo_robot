@@ -5,7 +5,7 @@ import rospy
 from sensor_msgs.msg import Joy
 from catchrobo_manager.arm import Arm
 from catchrobo_manager.gripper_manager import GripperManager
-from geometry_msgs.msg import PoseStamped
+from geometry_msgs.msg import PoseStamped, Pose, Quaternion
 import numpy as np
 import tf
 
@@ -67,7 +67,9 @@ class GamePad():
 	def __init__(self):
 
 		self._state = Joy()
-		rospy.Subscriber("joy", Joy, self.joyCallback)
+		self._state.buttons = [0] * 11
+		self._state.axes = [0] * 8
+		rospy.Subscriber("joy", Joy, self.joyCallback, queue_size=1)
 
 	def joyCallback(self, joy_msg):
 		# self._button = joy_msg.button + joy_msg.axes
@@ -78,17 +80,69 @@ class GamePad():
 
 class Manual():
 	def __init__(self, Button):
-		color = rospy.get_param("/color", default="blue")
-		self._target_pose = PoseStamped()
+		self._color = rospy.get_param("/color", default="blue")
 		self._arm = Arm()
-		self._gripper = GripperManager(color)
-		self._game_pad = GamePad()
+		self._gripper = GripperManager(self._color)
+		self._gamepad = GamePad()
 		self.ButtonEnum = Button
 
-	def move(self):
-		while not rospy.is_shutdown():
-			self._state = self._game_pad.getState()
-			rospy.loginfo(self._state)
+		self._SCALING = 0.1
+
+	def delta_calc(self):
+		_MAX_XBOX_AXES = 1.0
+		_THRESHOLD_STICK = _MAX_XBOX_AXES * 0.2
+		_THRESHOLD_LRT = -_MAX_XBOX_AXES * 0.8
+		delta_x = 0
+		delta_y = 0
+		delta_z = 0
+		delta_theta = 0
+
+		if self._state.axes[self.ButtonEnum.LX] < -_THRESHOLD_STICK or _THRESHOLD_STICK < self._state.axes[self.ButtonEnum.LX]:
+			delta_x = self._state.axes[self.ButtonEnum.LX] * self._SCALING
+		if self._state.axes[self.ButtonEnum.LY] < -_THRESHOLD_STICK or _THRESHOLD_STICK < self._state.axes[self.ButtonEnum.LY]:
+			delta_y = -self._state.axes[self.ButtonEnum.LY] *self._SCALING
+		if self._state.axes[self.ButtonEnum.RY] < -_THRESHOLD_STICK or _THRESHOLD_STICK < self._state.axes[self.ButtonEnum.RY]:
+			delta_z = -self._state.axes[self.ButtonEnum.RY] *self._SCALING
+		
+		if self._state.axes[self.ButtonEnum.LT] < 0.5:
+			delta_theta =  -(1 - self._state.axes[self.ButtonEnum.LT]) * 0.3
+		if self._state.axes[self.ButtonEnum.RT] < 0.5:
+			delta_theta = (1 - self._state.axes[self.ButtonEnum.RT]) * 0.3
+		
+		return delta_x, delta_y, delta_z, delta_theta
+
+
+
+	def arm_move(self):
+		delta_x, delta_y, delta_z, delta_theta = self.delta_calc()
+		target_pose = self.calc_target_pose(delta_x, delta_y, delta_z, delta_theta)
+		self._arm.setTargetPose(target_pose)
+		self._arm.go()
+
+	def calc_target_pose(self, delta_x, delta_y, delta_z, delta_theta):
+		target_pose = self._arm.getCurrentPose()
+		
+		# if _THRESHOLD_LRT < self._state.axes[self.ButtonEnum.LT] or -_THRESHOLD_LRT < self._state.axes[self.ButtonEnum.RT]:
+		# 	delta_theta = (np.pi / 4) / 65534 * (self._state.axes[self.ButtonEnum.LT] - self._state.axes[self.ButtonEnum.RT])
+		
+		current_orientation = target_pose.orientation
+		orientation_list = [current_orientation.x, current_orientation.y, current_orientation.z, current_orientation.w]
+		eular = tf.transformations.euler_from_quaternion(orientation_list)
+		quat = tf.transformations.quaternion_from_euler(np.pi, 0, eular[2] + delta_theta)
+		target_pose.orientation =  Quaternion(*quat)
+		target_pose.position.x += delta_x
+		target_pose.position.y += delta_y
+		target_pose.position.z += delta_z
+		return target_pose
+
+
+
+	def main(self):
+		# self._button = joy_msg.button + joy_msg.axes
+		
+		rate = rospy.Rate(10)
+		while not rospy. is_shutdown():
+			self._state = self._gamepad.getState()
 			if self._state.buttons[self.ButtonEnum.A] == 1:
 
 				pass
@@ -113,34 +167,17 @@ class Manual():
 			elif self._state.buttons[self.ButtonEnum.RSTICK] == 1:
 				pass
 			else:
-				self._target_pose = self._arm.getTargetPose()
-				_MAX_XBOX_AXES = 32767
-				_THRESHOLD_STICK = _MAX_XBOX_AXES * 0.2
-				_THRESHOLD_LRT = -_MAX_XBOX_AXES *0.8
-				delta_x = 0
-				delta_y = 0
-				delta_z = 0
-				delta_theta = 0
-				if self._state.axes[self.ButtonEnum.LX] < -_THRESHOLD_STICK and _THRESHOLD_STICK < self._state.axes[self.ButtonEnum.LX]:
-					delta_x = self._state.axes[self.ButtonEnum.LX]
-				if self._state.axes[self.ButtonEnum.LY] < -_THRESHOLD_STICK and _THRESHOLD_STICK < self._state.axes[self.ButtonEnum.LY]:
-					delta_y = -self._state.axes[self.ButtonEnum.LY]
-				if self._state.axes[self.ButtonEnum.RY] < -_THRESHOLD_STICK and _THRESHOLD_STICK < self._state.axes[self.ButtonEnum.RY]:
-					delta_z = -self._state.axes[self.ButtonEnum.RY]
-				if _THRESHOLD_LRT < self._state.axes[self.ButtonEnum.LT] or -_THRESHOLD_LRT < self._state.axes[self.ButtonEnum.RT]:
-					delta_theta = (np.pi / 4) / 65534 * (self._state.axes[self.ButtonEnum.LT] - self._state.axes[self.ButtonEnum.RT])
-				eular = tf.transformations.euler_from_quaternion(self._target_pose.pose.orientation)
-				self._target_pose.pose.orientation += tf.transformations.quaternion_from_euler(np.pi, 0, delta_theta)
-				self._target_pose.pose.position.x += delta_x
-				self._target_pose.pose.position.y += delta_y
-				self._target_pose.pose.position.z += delta_z
-				self._arm.setTargetPose(self._target_pose)
-				self._arm.go()
-				rospy.spin()
+				self.arm_move()
+			
+			rate.sleep()
+			
+
+
+
 
 
 if __name__ == "__main__":
 	rospy.init_node("ManualManager", anonymous=True)
 	rospy.loginfo("Manual Mode!!")
 	manual = Manual(XBoxButton)
-	manual.move()
+	manual.main()

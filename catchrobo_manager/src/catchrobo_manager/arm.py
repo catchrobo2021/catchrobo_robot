@@ -58,6 +58,7 @@ class Arm(object):
 
         self._listener = tf.TransformListener()
         self.MIDDLE_POINT_RADIUS = 0.4
+        self.COST_THRESHOLD = 0.1
 
         self._listener.waitForTransform("/world", "/base/robot_tip", rospy.Time(), rospy.Duration(4.0))
         try:
@@ -88,6 +89,9 @@ class Arm(object):
 
     def getTargetPose(self):
         return self._target_pose
+    
+    def getCurrentPose(self):
+        return self._arm.get_current_pose().pose
 
     def go(self, mode ="normal"):
         # self._arm.set_pose_target(self._target_pose)
@@ -277,16 +281,36 @@ class Arm(object):
         else:
             if target_pose.position.x > self._base_posi[1]:
                 return
-        x = target_pose.position.x - self._base_posi[0]
-        y = target_pose.position.y - self._base_posi[1]
+        current_pose = self.getCurrentPose()
+        current_r, current_theta = self.get_r_theta(current_pose)
+        target_r, target_theta = self.get_r_theta(target_pose)
 
-        rad = math.atan2(y,x)
+        d_theta = target_theta - current_theta
+        abs_d_theta = abs(d_theta)
+
+
+        r_cost = max(target_r - self.MIDDLE_POINT_RADIUS, 0) 
+        theta_cost = max(abs_d_theta - math.pi/3, 0)
+
+        cost = r_cost * theta_cost
+
+        rospy.loginfo("r, theta, cost: {}, {}, {}".format(r_cost, theta_cost, cost))
+        if cost > self.COST_THRESHOLD:
+            middle_pose = copy.deepcopy(target_pose)
+            middle_pose.position.x = self.MIDDLE_POINT_RADIUS * math.cos(target_theta) + self._base_posi[0]
+            middle_pose.position.y = self.MIDDLE_POINT_RADIUS * math.sin(target_theta) + self._base_posi[1]
+            self.setTargetPose(middle_pose)
+            ret = self.go()
+    
 
     def get_r_theta(self, pose):
         x = pose.position.x - self._base_posi[0]
         y = pose.position.y - self._base_posi[1]
 
-        rad = math.atan2(y,x)
+        r = math.sqrt(x**2+y**2)
+        rad = math.atan2(y, x)
+
+        return r, rad
 
 
 
