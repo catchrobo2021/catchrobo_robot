@@ -42,6 +42,7 @@ class ODriveNode(object):
         try:
             self.driver = odrive.find_any(serial_number=serial_number, timeout=timeout)
             self.axes = (self.driver.axis0, self.driver.axis1)
+            rospy.loginfo("Find!!")
         except:
             rospy.logerr("No ODrive found. Is device powered?")
             return False
@@ -86,8 +87,11 @@ class ODriveNode(object):
             rospy.logerr("Not connected.")
             return False
         rospy.loginfo("Disconnect")
+        self.get_errors(clear=False)
         for axis in self.axes: 
             axis.requested_state = AXIS_STATE_IDLE
+        rospy.loginfo("IDLE_disconnect")
+        del self.driver
         self.driver = None
         return True
 

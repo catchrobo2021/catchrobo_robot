@@ -12,9 +12,10 @@ class Obstacle:
         rospy.wait_for_service("/get_planning_scene", timeout=10.0)
         rospy.wait_for_service("/apply_planning_scene", timeout=10.0)
         self._scene = moveit_commander.PlanningSceneInterface(synchronous=True)
+        # self._scene = moveit_commander.PlanningSceneInterface()
         self._color = color
         self._common_area_middle_obstacle_exist = False
-        self.makeCommonAreaObstacle()
+        
         
 
     def deleteCommonAreaObstacle(self):

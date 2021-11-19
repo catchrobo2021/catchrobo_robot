@@ -26,6 +26,7 @@ class Arm(object):
           # sleep a bit to update roscore
         self._robot = moveit_commander.RobotCommander()
         self._arm = moveit_commander.MoveGroupCommander("arm0")
+        self._color = rospy.get_param("color", default="blue")
         
 
         accel = rospy.get_param("max_acceleration_scaling_factor")
@@ -50,14 +51,14 @@ class Arm(object):
 
         self.SAFE_JOINT2 = 90.0/180.0 * np.pi
         # self._ik_request.attempts = 1000
-        self._enable_joints_publisher = rospy.Publisher('arm0_controller/enable_joints', Bool, queue_size=1)
-        self._enable_joints_publisher.publish(True)
 
         self.MIDDLE_POINT_X = -0.52
         self.MIDDLE_POINT_Y = 0.35
 
+
         self._listener = tf.TransformListener()
         self.MIDDLE_POINT_RADIUS = 0.4
+        self.COST_THRESHOLD = 0.4
 
         self._listener.waitForTransform("/world", "/base/robot_tip", rospy.Time(), rospy.Duration(4.0))
         try:
@@ -66,6 +67,10 @@ class Arm(object):
             pass
         self._base_posi = trans
 
+        self._enable_joints_publisher = rospy.Publisher('arm0_controller/enable_joints', Bool, queue_size=10)
+
+    def enable(self, is_on):
+        self._enable_joints_publisher.publish(is_on)
 
     def goStartup(self):
         for i in range(2):
@@ -84,6 +89,9 @@ class Arm(object):
 
     def getTargetPose(self):
         return self._target_pose
+    
+    def getCurrentPose(self):
+        return self._arm.get_current_pose().pose
 
     def go(self, mode ="normal"):
         # self._arm.set_pose_target(self._target_pose)
@@ -243,8 +251,13 @@ class Arm(object):
         return ret
 
     def arriveMiddlePoint(self, target_pose):
-        if target_pose.position.x < -0.8:
-            return
+        if self._color == "blue":
+            if target_pose.position.x < self._base_posi[0]:
+                return
+        else:
+            if target_pose.position.x > self._base_posi[1]:
+                return
+
         final_target_joints = self.calcInverseKinematics(target_pose)
         state = self.checkExtention(final_target_joints)
         if state == ArmExtensionState.NEAR2NEAR or state == ArmExtensionState.FAR2NEAR:
@@ -260,10 +273,49 @@ class Arm(object):
             middle_pose.position.y = self.MIDDLE_POINT_RADIUS * math.sin(rad) + self._base_posi[1]
             self.setTargetPose(middle_pose)
             ret = self.go()
-        
+    
+    def arriveMiddle2(self, target_pose):
+
+        if self._color == "blue":
+            if target_pose.position.x < self._base_posi[0]:
+                return
+        else:
+            if target_pose.position.x > self._base_posi[1]:
+                return
+        current_pose = self.getCurrentPose()
+        current_r, current_theta = self.get_r_theta(current_pose)
+        target_r, target_theta = self.get_r_theta(target_pose)
+
+        d_theta = target_theta - current_theta
+        abs_d_theta = abs(d_theta)
+
+        r_cost = max(target_r - self.MIDDLE_POINT_RADIUS, 0) 
+        theta_cost = max(abs_d_theta - math.pi/3, 0)
+
+        cost = r_cost * theta_cost
+
+        rospy.loginfo("r, theta, cost: {}, {}, {}".format(r_cost, theta_cost, cost))
+        if cost > self.COST_THRESHOLD:
+            middle_pose = copy.deepcopy(target_pose)
+            middle_pose.position.x = self.MIDDLE_POINT_RADIUS * math.cos(target_theta) + self._base_posi[0]
+            middle_pose.position.y = self.MIDDLE_POINT_RADIUS * math.sin(target_theta) + self._base_posi[1]
+            self.setTargetPose(middle_pose)
+            ret = self.go()
+    
+
+    def get_r_theta(self, pose):
+        x = pose.position.x - self._base_posi[0]
+        y = pose.position.y - self._base_posi[1]
+
+        r = math.sqrt(x**2+y**2)
+        rad = math.atan2(y, x)
+
+        return r, rad
+
+
 
     def move(self, target_pose):
-        self.arriveMiddlePoint(target_pose)
+        self.arriveMiddle2(target_pose)
         self.setTargetPose(target_pose)
         ret = self.go()
 

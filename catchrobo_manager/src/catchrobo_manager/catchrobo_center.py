@@ -25,6 +25,18 @@ class CatchroboCenter():
         self._obstacle = Obstacle(self._color)
 
         self._can_go_common = False
+    
+        self._next_state = self.calcBiscoAction
+        self.END_BISCO_ID = 23
+        self.makeEndPose()
+
+    def makeEndPose(self):
+        target_bisco = self._biscos._database.getObj(self.END_BISCO_ID)
+        self._robot.makeEndPose(target_bisco)
+        
+    def init(self):
+        self._robot.init()
+        self._obstacle.makeCommonAreaObstacle()
 
     def doAction(self):
         result = self._robot.doAction()
@@ -46,7 +58,7 @@ class CatchroboCenter():
         self._biscos.calcTargetTwin()
         targets, is_twin = self._biscos.getTargetTwin()
         temp = "target bisco : {}".format(targets)
-        rospy.loginfo(temp)
+        # rospy.loginfo(temp)
         if targets[0] is None and targets[1] is None:
             return ActionResult.GAME_END
         self._robot.calcBiscoAction(targets, is_twin)
@@ -56,22 +68,27 @@ class CatchroboCenter():
             self._obstacle.makeCommonAreaMiddleObstacle()
         else:
             self._obstacle.deleteCommonAreaMiddleObstacle()
-        return ActionResult.DOING
+        return self.doBiscoAction
 
     def doBiscoAction(self):
-        return self.doAction()
+        result = self.doAction()
+        if result==ActionResult.DOING:
+            ret = self.doBiscoAction
+        else:
+            ret = self.calcShootAction
+        return ret
 
     def calcShootAction(self):
         self._shooting_box.calcTargetTwin()
         targets, _ = self._shooting_box.getTargetTwin()
         temp = "target shoot : {}".format(targets)
-        rospy.loginfo(temp)
+        # rospy.loginfo(temp)
         biscos, _ = self._biscos.getTargetTwin()
         if targets[0] is None and targets[1] is None:
             return ActionResult.GAME_END
         self._robot.calcShootAction(targets, biscos)
 
-        return ActionResult.DOING
+        return self.doShootAction
 
     def doShootAction(self):
 
@@ -81,8 +98,28 @@ class CatchroboCenter():
             if self._can_go_common:
                 self._obstacle.deleteCommonAreaObstacle()
                 self._biscos.setCanGoCommon(True)
+                self._robot._guide.canGoCommon()
 
-        return self.doAction()
+        result = self.doAction()
+        if result==ActionResult.DOING:
+            ret = self.doShootAction
+        else:
+            ret = self.calcBiscoAction
+        return ret
 
+    def main(self):
+        ret = self._next_state()
+        if ret == ActionResult.GAME_END:
+            self._next_state = self.calcBiscoAction
+        else:
+            self._next_state = ret
+        return ret
+    
     def end(self):
         self._robot.end()
+    
+    def mainStart(self):
+        self._robot.mainStart()
+    
+    def emergencyStop(self):
+        self._robot.emergencyStop()

@@ -27,4 +27,23 @@
         Panel plugin.
     </description>
   </class>
+
+  <class name="meun/Menu" type="menu::Menu" base_class_type="rviz::Panel">
+    <description>
+        Panel plugin.
+    </description>
+  </class>
+
+  <class name="shoot/Shoot" type="shoot::Shoot" base_class_type="rviz::Panel">
+    <description>
+        Panel plugin.
+    </description>
+  </class>
+
+  <class name="hand/Hnad" type="hand::Hand" base_class_type="rviz::Panel">
+    <description>
+        Panel plugin.
+    </description>
+  </class>
+
 </library>

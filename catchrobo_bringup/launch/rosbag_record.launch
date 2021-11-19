@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="file" default=""/>
-    <node name="rosbag_record" pkg="rosbag" type="record" output="screen" args="record -o $(find catchrobo_bringup)/rosbag/$(arg file) -a"/> 
+    <node name="rosbag_record" pkg="rosbag" type="record" output="screen" args="record -o $(find catchrobo_bringup)/rosbag/rosbag -a -x '(.*)/compressed(.*)'"/> 
 </launch>

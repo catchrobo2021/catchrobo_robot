@@ -9,5 +9,7 @@
     <param name="use_gui" value="true" />
     <rosparam param="source_list">[arm0_controller/joint_states]</rosparam>
   </node> -->
+  <include file="$(find catchrobo_bringup)/launch/rosbag_record.launch"/>
   
+    <node name="gamepad_ctrl" pkg="catchrobo_manager" type="gamepad_ctrl.py" output="screen"/>
 </launch>

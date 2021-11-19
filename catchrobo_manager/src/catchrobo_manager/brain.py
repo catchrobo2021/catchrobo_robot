@@ -38,6 +38,7 @@ class Brain():
         self.BISCO_ABOVE_COMMON_Z =self.BISCO_ABOVE_Z#self.BISCO_SIZE[2] + 0.1
         self.SHOOT_ADD_Z =  self.MAX_HIGHT - 0.12 #self.BISCO_SIZE[2] + 0.01 +0.05
 
+
         
         common_pick_quat1 = tf.transformations.quaternion_from_euler(np.pi, 0, 0)
         common_pick_quat2 = tf.transformations.quaternion_from_euler(np.pi, 0, np.pi)
@@ -84,14 +85,14 @@ class Brain():
 
             if targets[1] is not None:
                 add = [
-                    # self.AboveHand(targets),
+                    MyRobotActionMaker.above(self.SAFE_Z_NO_GRIP),
                     self.arriveBisco(GripperID.FAR, targets[1], self.SAFE_Z_NO_GRIP),
                     self.DownHand(),
                     self.graspAction(GripperID.FAR, targets[1], True),
                 ]
                 actions = actions + add
         add = [
-            self.AboveHand(targets),
+            MyRobotActionMaker.above(self.BISCO_ABOVE_Z),
             MyRobotActionMaker.finish(),
         ]
         actions = actions + add
@@ -107,9 +108,9 @@ class Brain():
                     MyRobotActionMaker.openShooter(targets[1]),
                     self.arriveShoot(GripperID.FAR,targets, biscos),
                     self.releaseAction(GripperID.FAR, targets, biscos),
-                    MyRobotActionMaker.finish(),
                 ]
             actions = actions + add
+        actions = actions + [MyRobotActionMaker.finish()]
         self._actoins =  actions
 
     def popAction(self):
@@ -157,12 +158,12 @@ class Brain():
         return action
 
 
-    def AboveHand(self, biscos):
-        if biscos[0]["my_area"] and biscos[1]["my_area"]:
-            z = self.BISCO_ABOVE_Z
-        else:
-            z = self.BISCO_ABOVE_COMMON_Z
-        action = MyRobotActionMaker.above(z)
+    def AboveHand(self, z):
+        # if biscos[0]["my_area"] and biscos[1]["my_area"]:
+        #     z = self.BISCO_ABOVE_Z
+        # else:
+        #     z = self.BISCO_ABOVE_COMMON_Z
+        action = MyRobotActionMaker.above(self.BISCO_ABOVE_Z)
         return action
         
     def DownHand(self):
@@ -227,3 +228,8 @@ class Brain():
 
         return action
 
+    def makeEndPose(self, target_bisco):
+        action = self.arriveBisco(GripperID.NEAR, target_bisco, self.MAX_HIGHT)
+        params = action.getParams()
+        target_pose = params[0]
+        return target_pose

@@ -8,8 +8,8 @@ Panels:
         - /MotionPlanning1/Scene Robot1
         - /MotionPlanning1/Planning Request1
         - /TF1/Frames1
-      Splitter Ratio: 0.4942965805530548
-    Tree Height: 140
+      Splitter Ratio: 0.4649532735347748
+    Tree Height: 264
   - Class: rviz/Help
     Name: Help
   - Class: rviz/Views
@@ -27,6 +27,8 @@ Panels:
     Name: blue_box
   - Class: shootbox/red_box
     Name: red_box
+  - Class: meun/Menu
+    Name: Menu
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -210,6 +212,11 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          shooter/wire_guide:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           world:
             Alpha: 1
             Show Axes: false
@@ -384,6 +391,11 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          shooter/wire_guide:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           world:
             Alpha: 1
             Show Axes: false
@@ -419,6 +431,25 @@ Visualization Manager:
       Transport Hint: raw
       Unreliable: false
       Value: true
+    - Align Bottom: false
+      Background Alpha: 0.20000000298023224
+      Background Color: 0; 0; 0
+      Class: jsk_rviz_plugin/String
+      Enabled: true
+      Foreground Alpha: 0.800000011920929
+      Foreground Color: 238; 238; 236
+      Name: Countdown Timer
+      Overtake Color Properties: true
+      Overtake Position Properties: true
+      Topic: /time_left
+      Value: true
+      font: Ubuntu
+      height: 90
+      left: 20
+      line width: 2
+      text size: 60
+      top: 10
+      width: 316
     - Class: jsk_rviz_plugin/OverlayDiagnostic
       Enabled: true
       Name: Robot Diagnostics
@@ -429,7 +460,7 @@ Visualization Manager:
       left: 20
       size: 128
       stall duration: 5
-      top: 20
+      top: 110
       type: SAC
     - Class: jsk_rviz_plugin/OverlayDiagnostic
       Enabled: true
@@ -441,7 +472,7 @@ Visualization Manager:
       left: 168
       size: 128
       stall duration: 5
-      top: 20
+      top: 110
       type: SAC
     - Class: jsk_rviz_plugin/PieChart
       Enabled: true
@@ -462,7 +493,7 @@ Visualization Manager:
       show caption: false
       size: 128
       text size: 24
-      top: 20
+      top: 110
     - Buffer length: 100
       Class: jsk_rviz_plugin/Plotter2D
       Enabled: true
@@ -485,7 +516,7 @@ Visualization Manager:
       min value: -1
       show caption: true
       text size: 12
-      top: 168
+      top: 258
       update interval: 0.03999999910593033
       width: 276
     - Buffer length: 100
@@ -510,7 +541,7 @@ Visualization Manager:
       min value: -1
       show caption: true
       text size: 12
-      top: 168
+      top: 258
       update interval: 0.03999999910593033
       width: 128
     - Buffer length: 100
@@ -535,7 +566,7 @@ Visualization Manager:
       min value: -1
       show caption: true
       text size: 12
-      top: 326
+      top: 416
       update interval: 0.03999999910593033
       width: 276
     - Buffer length: 100
@@ -560,7 +591,7 @@ Visualization Manager:
       min value: -1
       show caption: true
       text size: 12
-      top: 326
+      top: 416
       update interval: 0.03999999910593033
       width: 128
     - Buffer length: 100
@@ -585,7 +616,7 @@ Visualization Manager:
       min value: -1
       show caption: true
       text size: 12
-      top: 484
+      top: 574
       update interval: 0.03999999910593033
       width: 276
     - Buffer length: 100
@@ -610,7 +641,7 @@ Visualization Manager:
       min value: -1
       show caption: true
       text size: 12
-      top: 484
+      top: 574
       update interval: 0.03999999910593033
       width: 128
     - Buffer length: 100
@@ -635,7 +666,7 @@ Visualization Manager:
       min value: -1
       show caption: true
       text size: 12
-      top: 642
+      top: 732
       update interval: 0.03999999910593033
       width: 276
     - Buffer length: 100
@@ -660,7 +691,7 @@ Visualization Manager:
       min value: -1
       show caption: true
       text size: 12
-      top: 642
+      top: 732
       update interval: 0.03999999910593033
       width: 128
   Enabled: true
@@ -679,22 +710,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 2.4155173301696777
+      Distance: 2.3807339668273926
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -1.0387380123138428
-        Y: 1.0649046897888184
-        Z: 7.152557373046875e-7
+        X: -1.0496653318405151
+        Y: 1.0956848859786987
+        Z: 9.5367431640625e-7
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.6403982639312744
+      Pitch: 0.6253982782363892
       Target Frame: world
       Value: XYOrbit (rviz)
       Yaw: 2.3553998470306396
@@ -704,27 +735,29 @@ Window Geometry:
     collapsed: false
   Displays:
     collapsed: false
-  Height: 1025
+  Height: 832
   Help:
     collapsed: false
   Hide Left Dock: false
   Hide Right Dock: false
   Image:
     collapsed: false
+  Menu:
+    collapsed: false
   MotionPlanning:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000200000000000001f3000003a7fc0200000008fb000000100044006900730070006c006100790073010000003d000000c9000000c900fffffffb0000000800480065006c00700000000342000000bb0000006e00fffffffb0000000a0056006900650077007300000003b0000000b0000000a400fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000001600000016fc0000010c0000019a0000019a0100001cfa000000010100000003fb0000000800520065006400320100000000ffffffff0000005800fffffffb0000000a0042006c0075006500320100000000ffffffff0000005c00fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e0067010000000000000210000001f300fffffffc000002ac00000138000000330100001cfa000000000100000002fb0000000e007200650064005f0062006f00780100000000ffffffff0000006c00fffffffb000000100062006c00750065005f0062006f00780100000000ffffffff0000007300ffffff00000001000001b8000003a7fc0200000002fb0000000a0053006500720076006f010000003d000001e40000001600fffffffb0000000a0049006d0061006700650100000227000001bd0000001600ffffff00000394000003a700000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000200000000000001f3000002e6fc0200000007fb0000000800480065006c00700000000342000000bb0000006e00fffffffb0000000a0056006900650077007300000003b0000000b0000000a400fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000001600000016fc0000003d000001d40000019a0100001cfa000000010100000003fb0000000800520065006400320100000000ffffffff0000005800fffffffb0000000a0042006c0075006500320100000000ffffffff0000005c00fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e0067010000000000000210000001f300fffffffc000002170000010c000000330100001cfa000000000100000002fb0000000e007200650064005f0062006f00780100000000ffffffff0000006c00fffffffb000000100062006c00750065005f0062006f00780100000000ffffffff0000007300ffffff00000001000001ae000002e6fc0200000004fb000000100044006900730070006c006100790073010000003d00000145000000c900fffffffb0000000a0053006500720076006f0000000123000001090000001600fffffffb00000008004d0065006e00750100000188000000ae0000001600fffffffb0000000a0049006d006100670065010000023c000000e70000001600ffffff00000221000002e600000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Red2:
     collapsed: false
   Servo:
     collapsed: false
   Views:
     collapsed: false
-  Width: 1867
-  X: 53
-  Y: 27
+  Width: 1486
+  X: 266
+  Y: 66
   blue_box:
     collapsed: false
   red_box:

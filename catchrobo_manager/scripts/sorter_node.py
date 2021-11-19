@@ -5,7 +5,7 @@ import rospy
 from catchrobo_manager.sorter import SorterServer
 
 if __name__ == "__main__":
-    rospy.init_node("sorter")
+    rospy.init_node("sorter", anonymous=True)
     color = rospy.get_param("color")
     sorter = SorterServer(color)
     rospy.spin()

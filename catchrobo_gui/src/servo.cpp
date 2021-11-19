@@ -34,7 +34,7 @@ Servo::Servo(QWidget *parent) :
     ui->setupUi(this);
     scene = new QGraphicsScene;
 
-    pub_ = nh_.advertise<std_msgs::Bool>("enable_joints", 1);
+    pub_ = nh_.advertise<std_msgs::Bool>("arm0_controller/enable_joints", 1);
     //sub_ = n.subscribe("servo_sub", sendtime, &servo::arrayback, this);
 }
 

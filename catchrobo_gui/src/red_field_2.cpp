@@ -57,6 +57,12 @@ Red2::Red2(QWidget *parent) :
     }
     pub_ = nh_.advertise<std_msgs::Int32MultiArray>("obj", 1);
     sub_ = n.subscribe("ob", sendtime, &Red2::arrayback, this);
+
+    sub2_ = n.subscribe("highlight", sendtime, &Red2::arrayback2, this);
+
+    for(int i=1; i<28; i++){
+      this->marker_off(i);
+    }
 }
 
 Red2::~Red2() = default;
@@ -90,7 +96,7 @@ void Red2::buttonClicked()
       array.data[i-1] = findChild<QPushButton*>(QString("obj"+QString::number(i)))->isChecked();
   }
   pub_.publish(array);
-  ROS_INFO("You pushed the button.");
+  //ROS_INFO("You pushed the button.");
   //ROS_INFO_STREAM(array);
 }
 
@@ -102,7 +108,7 @@ void Red2::send_msg()
       array.data[i-1] = findChild<QPushButton*>(QString("obj"+QString::number(i)))->isChecked();
   }
   pub_.publish(array);
-  ROS_INFO("You pushed.");
+  //ROS_INFO("You pushed.");
 
   QTimer::singleShot(sendtime, this, SLOT(send_msg()));
 }
@@ -111,14 +117,37 @@ void Red2::arrayback(const std_msgs::Int32MultiArray& msg){
   // print all the remaining numbers
 
   int num = msg.data.size();
-  ROS_INFO("I susclibed [%i]", num);
-  for (int i = 0; i < num; i++)
-  {
-    ROS_INFO("[%i]:%d", i, msg.data[i]);
-  }
-  ROS_INFO("You get msg.");
+  //for (int i = 0; i < num; i++)
+  //{
+  //  ROS_INFO("[%i]:%d", i, msg.data[i]);
+  //}
   for(int i=0; i<num; i++){
       findChild<QPushButton*>(QString("obj"+QString::number(i+1)))->setChecked(msg.data[i]);
+  }
+}
+
+void Red2::marker_off(int num){
+  findChild<QFrame*>(QString("frm"+QString::number(num)))->setLineWidth(0);
+}
+void Red2::marker_on(int num){
+  findChild<QFrame*>(QString("frm"+QString::number(num)))->setLineWidth(5);
+}
+
+void Red2::arrayback2(const std_msgs::Int32MultiArray& msg){
+  // print all the remaining numbers
+
+  int num = msg.data.size();
+  //for (int i = 0; i < num; i++)
+  //{
+  //  ROS_INFO("[%i]:%d", i, msg.data[i]);
+  //}
+
+  for(int i=1; i<28; i++){
+    this->marker_off(i);
+  }
+  for(int i=0; i<num; i++){
+    int nu = msg.data[i];
+    this->marker_on(nu);
   }
 }
 
