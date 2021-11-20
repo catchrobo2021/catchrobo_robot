@@ -15,13 +15,14 @@ class BiscoManager():
         self._database.readCsv(color)
 
         self._calculator = TargetBiscoCalculator()
+        self._gui = BiscoGUI(self._database)
+        self._gui.sendGUI()
         if rviz:
             self._rviz = BiscoRviz()
             self._rviz.addBox2Scene(self._database)
-        self._gui = BiscoGUI(self._database)
 
-        
-        self._gui.sendGUI()
+            self._gui.setObstacle(self._rviz)
+
         self._can_go_common = False
 
         
