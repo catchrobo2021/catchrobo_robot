@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
+from rospy.core import rospyinfo
 import tf
 import rospy
 
@@ -13,36 +14,16 @@ from sensor_msgs.msg import Joy
 from catchrobo_manager.arm import Arm
 from catchrobo_manager.gripper_manager import GripperManager,GripperID,GripWay
 
-
-class PS3Button():
-    # Buttons
-    SELECT = 0
-    LSTICK = 1
-    RSTICK = 2
-    START = 3
-    UP = 4
-    RIGHT = 5
-    DOWN = 6
-    LEFT = 7
-    L2 = 8
-    R2 = 9
-    L1 = 10
-    R1 = 11
-    TRIANGLE = 12
-    CIRCLE = 13
-    CROSS = 14
-    SQUARE = 15
-    PS = 16
+class XBoxButton:
     # Axes
     LX = 0
     LY = 1
-    RX = 2
-    RY = 3
-
-    K_CON = 1
-
-
-class XBoxButton():
+    LT = 2
+    RX = 3
+    RY = 4
+    RT = 5
+    LEFTRIGHT = 6
+    UPDOWN = 7
     # Buttons
     A = 0
     B = 1
@@ -55,15 +36,6 @@ class XBoxButton():
     XBOX = 8
     LSTICK = 9
     RSTICK = 10
-    # Axes
-    LX = 0
-    LY = 1
-    LT = 2
-    RX = 3
-    RY = 4
-    RT = 5
-    LEFTRIGHT = 6
-    UPDOWN = 7
 
     K_CON = 1
 
@@ -75,15 +47,17 @@ class MenuEnum:
 
 
 class GamePad():
-    def __init__(self):
+    def __init__(self,Button):
 
         self._state = Joy()
         self._state.buttons = [0] * 11
         self._state.axes = [0, 0, 1, 0, 0, 1, 0, 0]
+        self.ButtonEnum = Button
         rospy.Subscriber("joy", Joy, self.joyCallback, queue_size=1)
+        self._flag_LT = 1
+        self._flag_RT = 1
 
     def joyCallback(self, joy_msg):
-        # self._button = joy_msg.button + joy_msg.axes
         self._state = joy_msg
 
     def getState(self):
@@ -95,7 +69,7 @@ class Manual():
         self._color = rospy.get_param("/color", default="blue")
         self._arm = Arm()
         self._gripper = GripperManager(self._color)
-        self._gamepad = GamePad()
+        self._gamepad = GamePad(Button)
         self.ButtonEnum = Button
 
         self._SCALING = 0.1
@@ -154,47 +128,44 @@ class Manual():
         target_pose.position.z += delta_z
         return target_pose
 
-    def main(self):
-        # self._button = joy_msg.button + joy_msg.axes
+    def buttonRiseUp(self,button_state,old_button_state,buttonID):
+        return (button_state.buttons[buttonID] == 1 and old_button_state.buttons[buttonID] == 0)
 
+    def main(self):
         rate = rospy.Rate(10)
         toggle_grispper_open = 1
-        while not rospy. is_shutdown():
+        self._old_state = Joy()
+        self._old_state.buttons = [0] * 11
+        self._old_state.axes = [0, 0, 1, 0, 0, 1, 0, 0]
+        is_manual_mode = 0
+        while not rospy.is_shutdown():
             self._state = self._gamepad.getState()
-            if self._state.buttons[self.ButtonEnum.A] == 1:
-
-                pass
-            elif self._state.buttons[self.ButtonEnum.B] == 1:
+            #rospy.loginfo(self._state)
+            if self.buttonRiseUp(self._state,self._old_state,self.ButtonEnum.B):
+                is_manual_mode = 0
                 self._pub_menu.publish(MenuEnum.EMERGENCY_STOP)
-            elif self._state.buttons[self.ButtonEnum.X] == 1:
-                self._pub_menu.publish(MenuEnum.START)
-            elif self._state.buttons[self.ButtonEnum.Y] == 1:
+            elif self.buttonRiseUp(self._state,self._old_state,self.ButtonEnum.Y):
+                is_manual_mode = 1
                 self._pub_menu.publish(MenuEnum.PAUSE)
-            elif self._state.buttons[self.ButtonEnum.LB] == 1:
-                if toggle_grispper_open == 1:
-                    self._gripper.graspBisco(GripperID.NEAR,GripWay.LONG_GRIP)
-                    self._gripper.graspBisco(GripperID.FAR,GripWay.LONG_GRIP)
-                    toggle_grispper_open = 0
-                elif toggle_grispper_open == 0:
-                    self._gripper.releaseBisco(GripperID.NEAR)
-                    self._gripper.releaseBisco(GripperID.FAR)
-                    toggle_grispper_open = 1
-                pass
-            elif self._state.buttons[self.ButtonEnum.RB] == 1:
-                pass
-            elif self._state.buttons[self.ButtonEnum.START] == 1:
-                pass
-            elif self._state.buttons[self.ButtonEnum.BACK] == 1:
-                pass
-            elif self._state.buttons[self.ButtonEnum.XBOX] == 1:
-                pass
-            elif self._state.buttons[self.ButtonEnum.LSTICK] == 1:
-                pass
-            elif self._state.buttons[self.ButtonEnum.RSTICK] == 1:
-                pass
-            else:
-                self.arm_move()
-                pass
+            elif self.buttonRiseUp(self._state,self._old_state,self.ButtonEnum.X):
+                is_manual_mode = 0
+                self._pub_menu.publish(MenuEnum.START)
+
+            if is_manual_mode == 1:
+                if self.buttonRiseUp(self._state,self._old_state,self.ButtonEnum.LB):
+                    if toggle_grispper_open == 1:
+                        self._gripper.graspBisco(GripperID.NEAR,GripWay.LONG_GRIP,True)
+                        self._gripper.graspBisco(GripperID.FAR,GripWay.LONG_GRIP,True)
+                        toggle_grispper_open = 0
+                    elif toggle_grispper_open == 0:
+                        self._gripper.releaseBisco(GripperID.NEAR)
+                        self._gripper.releaseBisco(GripperID.FAR)
+                        toggle_grispper_open = 1
+
+                else:
+                    self.arm_move()
+                    pass
+            self._old_state = self._state
 
             rate.sleep()
 
