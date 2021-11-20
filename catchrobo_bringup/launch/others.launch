@@ -18,6 +18,8 @@
   <!-- By default, we are not in debug mode -->
   <arg name="debug" default="false" />
   <arg name="field" default="red" />
+  <arg name="dummy" default="false" />
+
 <param name="color" value="$(arg field)" />
 
   <!--
@@ -34,6 +36,7 @@
   <include file="$(find catchrobo_my_moveit)/launch/planning_context.launch">
     <arg name="load_robot_description" value="true" />
     <arg name="field" value="$(arg field)" />
+    <arg name="dummy" value="$(arg dummy)"/>
   </include>
 
   <!-- Run the main MoveIt! executable without trajectory execution (we do not have controllers configured by default) -->
@@ -58,6 +61,7 @@
   </node>
 
   <node name="sorter" pkg="catchrobo_manager" type="sorter_node.py" output="screen" />
+  <node name="sorter_" pkg="catchrobo_manager" type="sorter_gui.py" output="screen" />
   <node name="guide" pkg="catchrobo_manager" type="guide_node.py" output="screen" />
 
   <node name="timer" pkg="catchrobo_driver" type="count_down_timer.py" output="screen"/>

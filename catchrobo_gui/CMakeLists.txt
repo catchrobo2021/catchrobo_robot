@@ -78,6 +78,7 @@ set(HEADERS
   include/field/shoot.h
   include/field/menu.h
   include/field/hand.h
+  include/field/furifuri.h
   )
 qt5_wrap_ui(UIC_FILES
   src/ui/blue_2.ui
@@ -88,6 +89,7 @@ qt5_wrap_ui(UIC_FILES
   src/ui/shoot.ui
   src/ui/menu.ui
   src/ui/hand.ui
+  src/ui/furifuri.ui
   )
 set(SOURCE_FILES
   src/blue_field_2.cpp
@@ -98,6 +100,7 @@ set(SOURCE_FILES
   src/shoot.cpp
   src/menu.cpp
   src/hand.cpp
+  src/furifuri.cpp
   )
 
 #set(HEADERS

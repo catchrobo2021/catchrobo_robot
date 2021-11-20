@@ -39,7 +39,7 @@ class Guide:
         self.guideOnOff(True)
         rospy.sleep(0.1)
         self._bar.move(self.BAR_HORIZONTAL)
-        rospy.sleep(0.5)
+        rospy.sleep(1)
         self.barDown()
     
 class GuideActionEnum:

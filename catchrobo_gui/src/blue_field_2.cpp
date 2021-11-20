@@ -32,6 +32,7 @@ Blue2::Blue2(QWidget *parent) :
 {
     ui->setupUi(this);
     scene = new QGraphicsScene;
+
     std::string project_path = ros::package::getPath("catchrobo_gui");
     
     std::string img_path = "/img/blue_field.png";

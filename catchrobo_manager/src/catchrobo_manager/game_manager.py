@@ -61,6 +61,9 @@ class GameManager():
                     ret = self._catchrobo.main()
                     if ret == ActionResult.GAME_END:
                         self._command = GameStatus.END
+                    elif ret == ActionResult.PERMISSION:
+                        self._command = GameStatus.MANUAL
+                    
 
                 elif self._command == GameStatus.EMERGENCY_STOP:
                     self._catchrobo.emergencyStop()

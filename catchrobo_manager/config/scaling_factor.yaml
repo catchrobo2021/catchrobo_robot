@@ -1,2 +1,2 @@
-max_acceleration_scaling_factor: 0.1
-max_velosity_scaling_factor: 0.1
+max_acceleration_scaling_factor: 0.3
+max_velosity_scaling_factor: 0.3
