@@ -16,6 +16,13 @@ class Guide:
 
         self.guideOnOff(True)
 
+        self._now_deg = self.BAR_UP
+    
+    def move(self, deg):
+        self._now_deg  = deg
+        self._bar.move(deg)
+
+
     def guideOnOff(self, on_off):
         msg = Bool()
         msg.data =on_off
@@ -24,23 +31,23 @@ class Guide:
     def barUp(self):
         self.guideOnOff(True)
         rospy.sleep(0.1)
-        self._bar.move(self.BAR_UP)
+        self.move(self.BAR_UP)
         # self.guideOnOff(False)
 
     def barDown(self):
         self.guideOnOff(True)
         rospy.sleep(0.1)
-        self._bar.move(self.BAR_HORIZONTAL)
-        rospy.sleep(1)
-        self._bar.move(self.BAR_DOWN)
-        rospy.sleep(0.5)
-        # self.guideOnOff(False)
+
+        for i in range(self._now_deg, self.BAR_DOWN, 10):
+            self.move(i)
+            rospy.sleep(0.1)
+        self.move(self.BAR_DOWN)
         
     
     def canGoCommon(self):
         self.guideOnOff(True)
         rospy.sleep(1)
-        self._bar.move(self.BAR_HORIZONTAL)
+        self.move(self.BAR_HORIZONTAL)
         rospy.sleep(1)
         self.barDown()
     
