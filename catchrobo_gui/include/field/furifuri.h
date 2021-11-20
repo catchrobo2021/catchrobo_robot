@@ -10,6 +10,7 @@
 #include <rviz/panel.h>
 
 #include <std_msgs/Int32MultiArray.h>
+#include <std_msgs/Int8.h>
 
 #include <QMainWindow>
 #include <QGraphicsScene>
@@ -42,7 +43,9 @@ public:
     void send_center();
     void onEnable();
     void onDisable();
-    void arrayback(const std_msgs::Int32MultiArray& msg);
+    void arrayback(const std_msgs::Int8& msg);
+    void arrayback2(const std_msgs::Int8& msg);
+    void set_check();
 
 private Q_SLOTS:
   void dialValueChanged(int value);
@@ -77,6 +80,7 @@ protected:
   ros::Publisher pub_;
   ros::Publisher pub2_;
   ros::Subscriber sub_;
+  ros::Subscriber sub2_;
   ros::Timer ti_; 
   ros::NodeHandle n;
 };
