@@ -93,7 +93,7 @@ class MyRobot():
 
     def end(self):
         self._arm.move(self._end_pose)
-        # self._guide.barUp()
+        self._guide.barUp()
         # self._arm.enable(False)
 
     def mainStart(self):
