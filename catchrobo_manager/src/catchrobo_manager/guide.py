@@ -9,8 +9,8 @@ class Guide:
     def __init__(self):
         self._bar = Servo("guide")
         self._pub_enable = rospy.Publisher("guide_enable", Bool, queue_size=1)
-        self.BAR_UP = -115
-        self.BAR_DOWN = 0
+        self.BAR_UP = -150
+        self.BAR_DOWN = 5
 
         self.BAR_HORIZONTAL = -30
 
@@ -38,7 +38,7 @@ class Guide:
         self.guideOnOff(True)
         rospy.sleep(0.1)
 
-        for i in range(self._now_deg, self.BAR_DOWN, 10):
+        for i in range(self._now_deg, self.BAR_DOWN, 5):
             self.move(i)
             rospy.sleep(0.1)
         self.move(self.BAR_DOWN)
