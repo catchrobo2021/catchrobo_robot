@@ -7,12 +7,12 @@
     </include>
   
   <include file ="$(find catchrobo_driver)/launch/catchrobo_driver.launch"/>
-  <include file ="$(find catchrobo_driver)/launch/arduino.launch"/>
+  <!-- <include file ="$(find catchrobo_driver)/launch/arduino.launch"/> -->
 <!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
     <param name="use_gui" value="true" />
     <rosparam param="source_list">[arm0_controller/joint_states]</rosparam>
   </node> -->
-  <include file="$(find catchrobo_bringup)/launch/rosbag_record.launch"/>
+  <!-- <include file="$(find catchrobo_bringup)/launch/rosbag_record.launch"/> -->
   
-    <node name="gamepad_ctrl" pkg="catchrobo_manager" type="gamepad_ctrl.py" output="screen"/>
+    <!-- <node name="gamepad_ctrl" pkg="catchrobo_manager" type="gamepad_ctrl.py" output="screen"/> -->
 </launch>

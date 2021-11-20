@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 import rospy
 import datetime
-from std_msgs.msg import Float32,Bool,String
+from std_msgs.msg import Float32,Bool,String, Int8
+
+from catchrobo_manager.game_manager import MenuEnum
+from catchrobo_manager.guide import GuideClient
+
 
 class count_down_timer:
     def __init__(self):
@@ -12,12 +16,16 @@ class count_down_timer:
         self._time_start = 0
         self._game_has_started = False
 
-        rospy.Subscriber("pause", Bool, self.game_start_callback)
+        self._bar_has_up = False
+        self._guide = GuideClient()
+        rospy.Subscriber("/menu", Int8, self.game_start_callback)
         rospy.Timer(rospy.Duration(0.05), self.timer_callback)
         rospy.spin()
 
+
     def game_start_callback(self,data):
-        if self._game_has_started is False and data.data is False:
+
+        if self._game_has_started is False and data.data == MenuEnum.START:
             self._time_start = rospy.get_time()
             self._game_has_started = True
         else: 
@@ -30,6 +38,11 @@ class count_down_timer:
             time_left = 180 - (rospy.get_time() - self._time_start)
             if time_left < 0:
                 time_left = 0
+
+            if time_left < 5 and self._bar_has_up is False:
+                self._guide.barSafe()
+
+
         self._time_left_publisher.publish(str(int(time_left/60)).zfill(2)  + ":" + str(int(time_left%60)).zfill(2) + ":" + str(int((time_left - int(time_left))*100)).zfill(2))
         #self._time_left_publisher.publish(str(int(time_left/60)).zfill(2)  + ":" + str(int(time_left%60)).zfill(2) )
         

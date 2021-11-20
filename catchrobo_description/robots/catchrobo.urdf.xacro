@@ -35,7 +35,8 @@
     <xacro:if value="${dummy=='false'}">
       <origin xyz="0 0 -0.02" rpy="0 0 0" />
     </xacro:if> -->
-<origin xyz="0 0 0.019" rpy="0 0 0" />
+<!-- <origin xyz="0 0 0.019" rpy="0 0 0" /> -->
+<origin xyz="0 0 -0.02" rpy="0 0 0" />
   </xacro:scara>
 
   <xacro:gripper prefix="" parent="arm/link_tip">
@@ -44,12 +45,17 @@
 
   <xacro:shooter prefix="" parent="base/shooter_tip">
     <!-- <xacro:if value="${dummy=='true'}">
-      <origin xyz="0 0 0.0" rpy="0 0 0" />
+      <origin xyz="0 0 0.039" rpy="0 0 0" />
     </xacro:if>
     <xacro:if value="${dummy=='false'}">
-      <origin xyz="0 0 0.039" rpy="0 0 0" />
+      <origin xyz="0 0 0.0" rpy="0 0 0" />
     </xacro:if> -->
-    <origin xyz="0 0 0.0" rpy="0 0 0" />
+
+    <!-- honnbann -->
+    <origin xyz="0 0 0.016" rpy="0 0 0" />
+
+    <!-- ie -->
+          <!-- <origin xyz="0 0 0.039" rpy="0 0 0" /> -->
 
 
   </xacro:shooter>

@@ -61,6 +61,7 @@
   </node>
 
   <node name="sorter" pkg="catchrobo_manager" type="sorter_node.py" output="screen" />
+  <node name="sorter_" pkg="catchrobo_manager" type="sorter_gui.py" output="screen" />
   <node name="guide" pkg="catchrobo_manager" type="guide_node.py" output="screen" />
 
   <node name="timer" pkg="catchrobo_driver" type="count_down_timer.py" output="screen"/>

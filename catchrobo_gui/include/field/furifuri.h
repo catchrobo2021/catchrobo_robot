@@ -1,5 +1,5 @@
-#ifndef Blue_BOX_H
-#define Blue_BOX_H
+#ifndef Furifuri_H
+#define Furifuri_H
 
 #pragma once
 
@@ -10,6 +10,7 @@
 #include <rviz/panel.h>
 
 #include <std_msgs/Int32MultiArray.h>
+#include <std_msgs/Int8.h>
 
 #include <QMainWindow>
 #include <QGraphicsScene>
@@ -20,51 +21,48 @@
 #include <geometry_msgs/PointStamped.h>
 
 namespace Ui {
-class blue_box;
+class Furifuri;
 }
 
-namespace shootbox
+namespace furifuri
 {
-class blue_box: public rviz::Panel
+class Furifuri: public rviz::Panel
 {
     Q_OBJECT
 
 public:
-    //explicit blue_box_field(QWidget *parent = 0);
-    blue_box(QWidget *parent = 0);
-    ~blue_box() override; 
+    //explicit Furifuri(QWidget *parent = 0);
+    Furifuri(QWidget *parent = 0);
+    ~Furifuri() override; 
 
-    int Arr[27];
-    int box[7] = {0,0,0,0,0,0};
+    int furi = 0;
+    int furi_center = 0;
 
     void onInitialize() override;
-    void check_goal();
+    void send();
+    void send_center();
     void onEnable();
     void onDisable();
-    void arrayback(const std_msgs::Int32MultiArray& msg);
-    void marker_off(int value);
-    void marker_on(int value);
-    void arrayback2(const std_msgs::Int32MultiArray& msg);
+    void arrayback(const std_msgs::Int8& msg);
+    void arrayback2(const std_msgs::Int8& msg);
+    void set_check();
 
 private Q_SLOTS:
   void dialValueChanged(int value);
   void lineEditChanged();
-  void click1_up();
-  void click1_dn();
-  void click2_up();
-  void click2_dn();
-  void click3_up();
-  void click3_dn();
-  void click4_up();
-  void click4_dn();
-  void click5_up();
-  void click5_dn();
-  void click6_up();
-  void click6_dn();
+  void furi1();
+  void furi2();
+  void furi3();
+  void furi4();
+  void furi5();
+  void furi6();
+  void furi7();
+  void furi8();
+  void furi9();
   void send_msg();
 
 protected:
-  Ui::blue_box *ui;
+  Ui::Furifuri *ui;
   QGraphicsScene *scene;
   QGraphicsPixmapItem *pix;
   QIcon icon;
@@ -80,10 +78,11 @@ protected:
   int sendtime = 100; //ms
   ros::NodeHandle nh_;
   ros::Publisher pub_;
+  ros::Publisher pub2_;
   ros::Subscriber sub_;
   ros::Subscriber sub2_;
   ros::Timer ti_; 
   ros::NodeHandle n;
 };
 }
-#endif // blue_box_FIELD_2_H
+#endif // Furifuri_H

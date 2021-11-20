@@ -129,17 +129,17 @@
       <parent link="base/base_link"/>
       <child link="base/entry_prohibited_area_2"/>
       <xacro:if value="${field=='blue'}">
-        <origin xyz="-0.25 1.2 0.25" rpy="0 0 0"/>
+        <origin xyz="-0.25 1.1 0.25" rpy="0 0 0"/>
       </xacro:if>
       <xacro:if value="${field=='red'}">
-        <origin xyz="0.25 1.2 0.25" rpy="0 0 0"/>
+        <origin xyz="0.25 1.1 0.25" rpy="0 0 0"/>
       </xacro:if>
     </joint>
 
     <link name="base/entry_prohibited_area_2">
       <visual>
         <geometry>
-          <box size="1.0 0.1 0.5"/>
+          <box size="3.0 0.1 0.5"/>
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <material name="clear_grey"/>
