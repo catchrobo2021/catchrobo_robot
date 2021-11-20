@@ -10,6 +10,16 @@ class BiscoGUI():
         self._database = database
         self._pub2gui = rospy.Publisher("ob", Int32MultiArray, queue_size=1)
         rospy.Subscriber("obj", Int32MultiArray, self.guiCallback)
+        self._pub_highlight = rospy.Publisher("/highlight", Int32MultiArray, queue_size=1)
+    
+    def highlight(self, target_ids):
+        if target_ids[0] is not None:
+            highlight_id = Int32MultiArray()
+            if target_ids[1] is not None:
+                highlight_id.data  = target_ids
+            else:
+                highlight_id.data  = target_ids[0:1]
+        self._pub_highlight.publish(highlight_id)
 
     def sendGUI(self):
         info = Int32MultiArray()
