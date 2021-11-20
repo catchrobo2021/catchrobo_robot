@@ -17,6 +17,9 @@ class GripWay:
     LONG_GRIP = 0
     SMALL_GRIP = 1
 
+    
+    MAX = 2
+
 class GripperManager():
     def __init__(self, color):
         self._grippers = [Servo("gripper1"), Servo("gripper2")]
@@ -35,6 +38,8 @@ class GripperManager():
 
         self._grip_dist = rospy.get_param("grip_dist")
 
+
+        self._grip_status = [GripWay.MAX, GripWay.MAX]
         self.releaseBisco(0)
         self.releaseBisco(1)
 
@@ -52,6 +57,8 @@ class GripperManager():
     def graspBisco(self, target_gripper, grip_way,wait):
         target_gripper_id = self._id_map[target_gripper]
         dist = self.getGripDist(target_gripper, grip_way)
+
+        self._grip_status[target_gripper] = grip_way
 
         if wait is True:
             wait_s = self.GRIP_WAIT_S

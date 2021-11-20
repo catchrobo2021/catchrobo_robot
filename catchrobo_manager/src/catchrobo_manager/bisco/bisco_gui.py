@@ -19,7 +19,7 @@ class BiscoGUI():
                 highlight_id.data  = target_ids
             else:
                 highlight_id.data  = target_ids[0:1]
-        self._pub_highlight.publish(highlight_id)
+            self._pub_highlight.publish(highlight_id)
 
     def sendGUI(self):
         info = Int32MultiArray()
