@@ -18,6 +18,8 @@
   <!-- By default, we are not in debug mode -->
   <arg name="debug" default="false" />
   <arg name="field" default="red" />
+  <arg name="dummy" default="false" />
+
 <param name="color" value="$(arg field)" />
 
   <!--
@@ -34,6 +36,7 @@
   <include file="$(find catchrobo_my_moveit)/launch/planning_context.launch">
     <arg name="load_robot_description" value="true" />
     <arg name="field" value="$(arg field)" />
+    <arg name="dummy" value="$(arg dummy)"/>
   </include>
 
   <!-- Run the main MoveIt! executable without trajectory execution (we do not have controllers configured by default) -->

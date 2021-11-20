@@ -180,7 +180,8 @@ class Manual():
 			elif self._state.buttons[self.ButtonEnum.RSTICK] == 1:
 				pass
 			else:
-				self.arm_move()
+				# self.arm_move()
+				pass
 			
 			rate.sleep()
 			
