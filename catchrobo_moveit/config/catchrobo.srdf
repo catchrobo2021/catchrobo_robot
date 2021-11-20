@@ -59,13 +59,13 @@
     <group_state name="home_red" group="arm0">
         <joint name="arm/joint1" value="2.7925" />
         <joint name="arm/joint2" value="-2.5148" />
-        <joint name="arm/joint3" value="-0.2623" />
+        <joint name="arm/joint3" value=" 1.2764290951533774" />
         <joint name="arm/joint4" value="0" />
     </group_state>
     <group_state name="home_blue" group="arm0">
         <joint name="arm/joint1" value="-2.7925" />
         <joint name="arm/joint2" value="2.5148" />
-        <joint name="arm/joint3" value="0.2623" />
+        <joint name="arm/joint3" value="-1.2764290951533774" />
         <joint name="arm/joint4" value="0" />
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
