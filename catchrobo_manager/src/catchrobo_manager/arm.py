@@ -14,6 +14,8 @@ from moveit_msgs.msg import RobotTrajectory, PositionIKRequest
 from moveit_msgs.srv import GetPositionIK
 from std_msgs.msg import Bool
 
+from catchrobo_manager.base_polar_coordinates import BasePolarCoordinates
+
 class ArmExtensionState:
     NEAR2NEAR = 0
     NEAR2FAR = 1
@@ -54,20 +56,24 @@ class Arm(object):
 
         self.MIDDLE_POINT_X = -0.52
         self.MIDDLE_POINT_Y = 0.35
-
-
-        self._listener = tf.TransformListener()
+        
         self.MIDDLE_POINT_RADIUS = 0.4
         self.COST_THRESHOLD = 0.4
 
-        self._listener.waitForTransform("/world", "/base/robot_tip", rospy.Time(), rospy.Duration(4.0))
-        try:
-            (trans,rot) = self._listener.lookupTransform('/world', '/base/robot_tip', rospy.Time(0))
-        except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-            pass
-        self._base_posi = trans
+        # self._listener.waitForTransform("/world", "/base/robot_tip", rospy.Time(), rospy.Duration(4.0))
+        # try:
+        #     (trans,rot) = self._listener.lookupTransform('/world', '/base/robot_tip', rospy.Time(0))
+        # except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
+        #     pass
+        # self._base_posi = trans
+
+        self._base_polar_coordinates = BasePolarCoordinates()
 
         self._enable_joints_publisher = rospy.Publisher('arm0_controller/enable_joints', Bool, queue_size=10)
+
+    def setBasePolar(self, base_polar_coordinates):
+        
+        self._base_polar_coordinates = base_polar_coordinates
 
     def enable(self, is_on):
         self._enable_joints_publisher.publish(is_on)
@@ -251,11 +257,12 @@ class Arm(object):
         return ret
 
     def arriveMiddlePoint(self, target_pose):
+        base_posi = self._base_polar_coordinates.getBasePosi()
         if self._color == "blue":
-            if target_pose.position.x < self._base_posi[0]:
+            if target_pose.position.x < base_posi[0]:
                 return
         else:
-            if target_pose.position.x > self._base_posi[1]:
+            if target_pose.position.x > base_posi[1]:
                 return
 
         final_target_joints = self.calcInverseKinematics(target_pose)
@@ -264,27 +271,27 @@ class Arm(object):
             return
         if state == ArmExtensionState.NEAR2FAR or state == ArmExtensionState.FAR2FAR:
             
-            x = target_pose.position.x - self._base_posi[0]
-            y = target_pose.position.y - self._base_posi[1]
+            x = target_pose.position.x - base_posi[0]
+            y = target_pose.position.y - base_posi[1]
 
             rad = math.atan2(y,x)
             middle_pose = copy.deepcopy(target_pose)
-            middle_pose.position.x = self.MIDDLE_POINT_RADIUS * math.cos(rad) + self._base_posi[0]
-            middle_pose.position.y = self.MIDDLE_POINT_RADIUS * math.sin(rad) + self._base_posi[1]
+            middle_pose.position.x = self.MIDDLE_POINT_RADIUS * math.cos(rad) + base_posi[0]
+            middle_pose.position.y = self.MIDDLE_POINT_RADIUS * math.sin(rad) + base_posi[1]
             self.setTargetPose(middle_pose)
             ret = self.go()
     
     def arriveMiddle2(self, target_pose):
-
+        base_posi = self._base_polar_coordinates.getBasePosi()
         if self._color == "blue":
-            if target_pose.position.x < self._base_posi[0]:
+            if target_pose.position.x < base_posi[0]:
                 return
         else:
-            if target_pose.position.x > self._base_posi[1]:
+            if target_pose.position.x > base_posi[1]:
                 return
         current_pose = self.getCurrentPose()
-        current_r, current_theta = self.get_r_theta(current_pose)
-        target_r, target_theta = self.get_r_theta(target_pose)
+        current_r, current_theta = self._base_polar_coordinates.get_r_theta(current_pose)
+        target_r, target_theta = self._base_polar_coordinates.get_r_theta(target_pose)
 
         d_theta = target_theta - current_theta
         abs_d_theta = abs(d_theta)
@@ -297,20 +304,13 @@ class Arm(object):
         rospy.loginfo("r, theta, cost: {}, {}, {}".format(r_cost, theta_cost, cost))
         if cost > self.COST_THRESHOLD:
             middle_pose = copy.deepcopy(target_pose)
-            middle_pose.position.x = self.MIDDLE_POINT_RADIUS * math.cos(target_theta) + self._base_posi[0]
-            middle_pose.position.y = self.MIDDLE_POINT_RADIUS * math.sin(target_theta) + self._base_posi[1]
+            middle_pose.position.x = self.MIDDLE_POINT_RADIUS * math.cos(target_theta) + base_posi[0]
+            middle_pose.position.y = self.MIDDLE_POINT_RADIUS * math.sin(target_theta) + base_posi[1]
             self.setTargetPose(middle_pose)
             ret = self.go()
     
 
-    def get_r_theta(self, pose):
-        x = pose.position.x - self._base_posi[0]
-        y = pose.position.y - self._base_posi[1]
 
-        r = math.sqrt(x**2+y**2)
-        rad = math.atan2(y, x)
-
-        return r, rad
 
 
 

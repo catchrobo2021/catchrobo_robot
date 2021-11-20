@@ -7,12 +7,15 @@ from std_msgs.msg import Bool
 
 from catchrobo_manager.brain import Brain
 from catchrobo_manager.arm import Arm
-from catchrobo_manager.my_robot_result import MyRobotResultMaker
+from catchrobo_manager.my_robot_result import MyRobotResult, MyRobotResultMaker
 from catchrobo_manager.gripper_manager import GripperManager
 # from catchrobo_manager.shooter_manager import ShooterManager
 from catchrobo_manager.guide import GuideClient
 from catchrobo_manager.sorter import SorterClient
-from std_msgs.msg import Bool
+
+
+
+
 
 
 class MyRobot():
@@ -22,7 +25,8 @@ class MyRobot():
         self._gripper = GripperManager(color)
         self._guide = GuideClient()
         self._sorter = SorterClient()
-        
+
+
         # self._enable_joints_publisher.publish(True)
         # rospy.sleep(1)
         # self._arm.goHome(color)
@@ -75,6 +79,9 @@ class MyRobot():
         elif action.isOpenShooter():
             shooting_box = params[0]
             self._sorter.open(shooting_box.name)
+        
+        elif action.isPermision():
+            result = MyRobotResultMaker.permission()
 
         return result
     

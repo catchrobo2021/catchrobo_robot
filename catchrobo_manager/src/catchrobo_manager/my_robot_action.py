@@ -10,6 +10,7 @@ class MyRobotActionEnum:
     SHOOT = 3
     FINISH = 4
     OPEN_SHOOTER = 5
+    PERMISSION = 6
 
 
 class MyRobotAction:
@@ -34,6 +35,9 @@ class MyRobotAction:
     
     def isOpenShooter(self):
         return self._type == MyRobotActionEnum.OPEN_SHOOTER
+    
+    def isPermision(self):
+        return self._type == MyRobotActionEnum.PERMISSION
 
     def show_action(self):
         if self.isMove():
@@ -48,6 +52,9 @@ class MyRobotAction:
             temp = "FINISH"
         elif self.isOpenShooter():
             temp = "OPEN_SHOOTER"
+        elif self.isPermision():
+            temp = "PERMISSION"
+        
         rospy.loginfo("ActionType : " + temp)
 
     def getParams(self):
@@ -75,3 +82,7 @@ class MyRobotActionMaker:
     @classmethod
     def openShooter(cls, shooting_box):
         return MyRobotAction(MyRobotActionEnum.OPEN_SHOOTER, [shooting_box])
+    
+    @classmethod
+    def permission(cls):
+        return MyRobotAction(MyRobotActionEnum.PERMISSION, None)

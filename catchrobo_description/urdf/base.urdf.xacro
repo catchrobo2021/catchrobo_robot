@@ -4,6 +4,8 @@
   <!-- Field Side Parameters-->
   <xacro:arg name="field" default=""/>
   <xacro:property name="field" value="$(arg field)" />
+   <xacro:arg name="dummy" default="false" />
+  <xacro:property name="dummy" value="$(arg dummy)" />
 
   <!-- Constants -->
   <xacro:property name="visual_mesh_scale" value="1.0 1.0 1.0"/>
@@ -53,6 +55,12 @@
       <child link="base/robot_tip"/>
       <xacro:if value="${field=='blue'}">
         <origin xyz="-0.795 0.350 0.0044" rpy="0 0 0"/>
+        <!-- <xacro:if value="${dummy=='true'}">
+          <origin xyz="-0.795 0.350 0.0234" rpy="0 0 0"/>
+        </xacro:if>
+        <xacro:if value="${dummy=='false'}">
+          <origin xyz="-0.795 0.350 -0.0156" rpy="0 0 0"/>
+        </xacro:if> -->
       </xacro:if>
       <xacro:if value="${field=='red'}">
         <origin xyz="0.795 0.350 0.0044" rpy="0 0 ${180*M_PI/180}"/>

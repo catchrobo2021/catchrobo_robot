@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import math
 import numpy as np
+import copy
 
 import rospy
 import tf
@@ -9,6 +11,8 @@ import tf
 from geometry_msgs.msg import Pose, Point, Quaternion, PoseStamped
 from catchrobo_manager.my_robot_action import MyRobotActionMaker
 from catchrobo_manager.gripper_manager import GripperID, GripWay
+
+
 
 #helper function
 def getObjectPosi(obj):
@@ -66,14 +70,24 @@ class Brain():
         self.MY_GRIP_QUAT = Quaternion(*my_pick_quat)
         self.MY_RELEASE_EULER = [np.pi, 0, -np.pi / 2]
 
+        self._COMMON_PERMISSION_X = 0.25
+
     def calcBiscoAction(self, targets,is_twin):
-        if is_twin:
+        if not targets[0]["my_area"]:
+            actions = self.arriveCommonBisco(GripperID.NEAR, targets[0], self.SAFE_Z_NO_GRIP)
+
+            actions += [
+                self.DownHand(),
+                self.graspAction(GripperID.NEAR, targets[0], False),
+                self.graspAction(GripperID.FAR, targets[1], True),
+            ]
+        
+        elif is_twin:           
             actions = [
                 self.arriveBisco(GripperID.NEAR, targets[0], self.SAFE_Z_NO_GRIP),
                 self.DownHand(),
                 self.graspAction(GripperID.NEAR, targets[0], False),
                 self.graspAction(GripperID.FAR, targets[1], True),
-                
             ]
 
         else:     
@@ -120,6 +134,24 @@ class Brain():
         return self._actoins.pop(0)
 
     
+    def arriveCommonBisco(self, target_gripper, target, height):
+        action_arrive_bisco = self.arriveBisco(target_gripper, target, height)
+        params = action_arrive_bisco.getParams()
+        target_pose = params[0]
+
+        middle_pose = copy.deepcopy(target_pose)
+
+        middle_pose.position.x = self._COMMON_PERMISSION_X
+        if self._color == "blue":
+            middle_pose.position.x *= -1
+
+        action_middle = MyRobotActionMaker.move(middle_pose, True)
+
+        actions = [action_middle, 
+        MyRobotActionMaker.permission(),
+        action_arrive_bisco,
+        ]
+        return actions
 
     def arriveBisco(self, target_gripper, target, height):
         target_pose = Pose()
