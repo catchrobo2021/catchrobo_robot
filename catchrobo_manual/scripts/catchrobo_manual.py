@@ -117,6 +117,7 @@ class Manual():
         if self._state.axes[self.ButtonEnum.RY] < -_THRESHOLD_STICK or _THRESHOLD_STICK < self._state.axes[self.ButtonEnum.RY]:
             delta_z = self._state.axes[self.ButtonEnum.RY] * self._SCALING
 
+
         if self._state.axes[self.ButtonEnum.LT] < 0.5:
             delta_theta = (1 - self._state.axes[self.ButtonEnum.LT]) * 0.3
         if self._state.axes[self.ButtonEnum.RT] < 0.5:
