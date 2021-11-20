@@ -37,6 +37,8 @@ Furifuri::Furifuri(QWidget *parent) :
 
     pub_ = nh_.advertise<std_msgs::Int8>("sorter/open_row_gui", 1);
     pub2_ = nh_.advertise<std_msgs::Int8>("sorter/close_row_gui", 1);
+    sub_ = n.subscribe("sorter/open_row", sendtime, &Furifuri::arrayback, this);
+    sub2_ = n.subscribe("sorter/close_row", sendtime, &Furifuri::arrayback2, this);
 }
 
 Furifuri::~Furifuri() = default;
@@ -83,38 +85,124 @@ void Furifuri::onDisable()
 void Furifuri::furi1(){
   furi = 1;
   this->send();
+  ui->btn1->setChecked(1);
+  ui->btn2->setChecked(0);
+  ui->btn3->setChecked(0);
 }
 void Furifuri::furi2(){
   furi = 0;
   this->send();
+  ui->btn1->setChecked(0);
+  ui->btn2->setChecked(1);
+  ui->btn3->setChecked(0);
 }
 void Furifuri::furi3(){
   furi_center = 0;
   this->send_center();
+  ui->btn1->setChecked(0);
+  ui->btn2->setChecked(0);
+  ui->btn3->setChecked(1);
 }
 void Furifuri::furi4(){
   furi = 3;
   this->send();
+  ui->btn4->setChecked(1);
+  ui->btn5->setChecked(0);
+  ui->btn6->setChecked(0);
 }
 void Furifuri::furi5(){
   furi = 2;
   this->send();
+  ui->btn4->setChecked(0);
+  ui->btn5->setChecked(1);
+  ui->btn6->setChecked(0);
 }
 void Furifuri::furi6(){
   furi_center = 2;
   this->send_center();
+  ui->btn4->setChecked(0);
+  ui->btn5->setChecked(0);
+  ui->btn6->setChecked(1);
 }
 void Furifuri::furi7(){
   furi = 5;
   this->send();
+  ui->btn7->setChecked(1);
+  ui->btn8->setChecked(0);
+  ui->btn9->setChecked(0);
 }
 void Furifuri::furi8(){
   furi = 4;
   this->send();
+  ui->btn7->setChecked(0);
+  ui->btn8->setChecked(1);
+  ui->btn9->setChecked(0);
 }
 void Furifuri::furi9(){
   furi_center = 4;
   this->send_center();
+  ui->btn7->setChecked(0);
+  ui->btn8->setChecked(0);
+  ui->btn9->setChecked(1);
+}
+
+
+void Furifuri::arrayback(const std_msgs::Int8& msg){
+  int num = msg.data;
+  if(num == 0){
+    ui->btn1->setChecked(0);
+    ui->btn2->setChecked(1);
+    ui->btn3->setChecked(0);
+  }else if(num == 1){
+    ui->btn1->setChecked(1);
+    ui->btn2->setChecked(0);
+    ui->btn3->setChecked(0);
+  }else if(num == 2){
+    ui->btn4->setChecked(0);
+    ui->btn5->setChecked(1);
+    ui->btn6->setChecked(0);
+  }else if(num == 3){
+    ui->btn4->setChecked(1);
+    ui->btn5->setChecked(0);
+    ui->btn6->setChecked(0);
+  }else if(num == 4){
+    ui->btn7->setChecked(0);
+    ui->btn8->setChecked(1);
+    ui->btn9->setChecked(0);
+  }else if(num == 5){
+    ui->btn7->setChecked(1);
+    ui->btn8->setChecked(0);
+    ui->btn9->setChecked(0);
+  }
+}
+
+void Furifuri::arrayback2(const std_msgs::Int8& msg){
+  int num = msg.data;
+  if(num == 0){
+    ui->btn1->setChecked(0);
+    ui->btn2->setChecked(0);
+    ui->btn3->setChecked(1);
+  }else if(num == 1){
+    ui->btn1->setChecked(0);
+    ui->btn2->setChecked(0);
+    ui->btn3->setChecked(1);
+  }else if(num == 2){
+    ui->btn4->setChecked(0);
+    ui->btn5->setChecked(0);
+    ui->btn6->setChecked(1);
+  }else if(num == 3){
+    ui->btn4->setChecked(0);
+    ui->btn5->setChecked(0);
+    ui->btn6->setChecked(1);
+  }else if(num == 4){
+    ui->btn7->setChecked(0);
+    ui->btn8->setChecked(0);
+    ui->btn9->setChecked(1);
+  }else if(num == 5){
+    ui->btn7->setChecked(0);
+    ui->btn8->setChecked(0);
+    ui->btn9->setChecked(1);
+  }
 }
 
 }
