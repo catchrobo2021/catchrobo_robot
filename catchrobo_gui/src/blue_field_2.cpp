@@ -60,7 +60,7 @@ Blue2::Blue2(QWidget *parent) :
 
     sub2_ = n.subscribe("highlight", sendtime, &Blue2::arrayback2, this);
 
-    for(int i=1; i<28; i++){
+    for(int i=0; i<27; i++){
       this->marker_off(i);
     }
 }
@@ -129,10 +129,10 @@ void Blue2::arrayback(const std_msgs::Int32MultiArray& msg){
 }
 
 void Blue2::marker_off(int num){
-  findChild<QFrame*>(QString("frm"+QString::number(num)))->setLineWidth(0);
+  findChild<QFrame*>(QString("frm"+QString::number(num+1)))->setLineWidth(0);
 }
 void Blue2::marker_on(int num){
-  findChild<QFrame*>(QString("frm"+QString::number(num)))->setLineWidth(5);
+  findChild<QFrame*>(QString("frm"+QString::number(num+1)))->setLineWidth(5);
 }
 
 void Blue2::arrayback2(const std_msgs::Int32MultiArray& msg){
@@ -144,7 +144,7 @@ void Blue2::arrayback2(const std_msgs::Int32MultiArray& msg){
   //  ROS_INFO("[%i]:%d", i, msg.data[i]);
   //}
 
-  for(int i=1; i<28; i++){
+  for(int i=0; i<27; i++){
     this->marker_off(i);
   }
   for(int i=0; i<num; i++){
