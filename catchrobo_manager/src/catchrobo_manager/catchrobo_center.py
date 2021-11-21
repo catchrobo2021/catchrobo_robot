@@ -14,6 +14,7 @@ class ActionResult():
     FINISH = 1
     GAME_END = 2
     PERMISSION = 3
+    SHOOT_PERMISSION = 4
 
 
 class CatchroboCenter():
@@ -101,13 +102,17 @@ class CatchroboCenter():
     def doShootAction(self):
 
         # obstacle to prevent robot intrude common area before filling all shooting box
+        can_go_common = self._shooting_box.canGoCommon()
         if not self._can_go_common:
-            self._can_go_common = self._shooting_box.canGoCommon()
-            if self._can_go_common:
+            # self._can_go_common = self._shooting_box.canGoCommon()
+            if can_go_common:
                 self._obstacle.deleteCommonAreaObstacle()
                 self._biscos.setCanGoCommon(True)
                 self._robot._guide.canGoCommon()
-
+                ret = ActionResult.SHOOT_PERMISSION
+                self._can_go_common = can_go_common
+                return ret
+        self._can_go_common = can_go_common
         result = self.doAction()
         if result==ActionResult.DOING:
             ret = self.doShootAction
@@ -121,6 +126,8 @@ class CatchroboCenter():
             self._next_state = self.calcBiscoAction
         elif ret == ActionResult.PERMISSION:
             self._next_state = self.doBiscoAction
+        elif ret == ActionResult.SHOOT_PERMISSION:
+            self._next_state = self.doShootAction
         else:
             self._next_state = ret
         return ret

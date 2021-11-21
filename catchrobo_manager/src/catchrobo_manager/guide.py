@@ -50,9 +50,9 @@ class Guide:
     
     def canGoCommon(self):
         self.guideOnOff(True)
-        rospy.sleep(1)
+        rospy.sleep(3)
         self.move(self.BAR_HORIZONTAL)
-        rospy.sleep(10)
+        rospy.sleep(3)
         self.barDown()
     
     def barSafe(self):
