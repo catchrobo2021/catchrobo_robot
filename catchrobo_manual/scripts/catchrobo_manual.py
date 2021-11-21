@@ -151,7 +151,7 @@ class Manual():
                 is_manual_mode = 0
                 self._pub_menu.publish(MenuEnum.START)
             elif self.buttonRiseUp(self._state,self._old_state,self.ButtonEnum.A):
-                is_manual_mode = 1
+                is_manual_mode = 0
                 self._pub_menu.publish(MenuEnum.PAUSE)
 
             if is_manual_mode == 1:

@@ -52,7 +52,7 @@ class Guide:
         self.guideOnOff(True)
         rospy.sleep(1)
         self.move(self.BAR_HORIZONTAL)
-        rospy.sleep(1)
+        rospy.sleep(10)
         self.barDown()
     
     def barSafe(self):
