@@ -207,10 +207,14 @@ void red_box::click6_dn(){
 
 
 void red_box::marker_off(int num){
-  findChild<QFrame*>(QString("frm"+QString::number(num)))->setLineWidth(0);
+  if(num > -1 && num < 6){
+    findChild<QFrame*>(QString("frm"+QString::number(num)))->setLineWidth(0);
+  }
 }
 void red_box::marker_on(int num){
-  findChild<QFrame*>(QString("frm"+QString::number(num)))->setLineWidth(5);
+  if(num > -1 && num < 6){
+    findChild<QFrame*>(QString("frm"+QString::number(num)))->setLineWidth(5);
+  }
 }
 
 void red_box::arrayback(const std_msgs::Int32MultiArray& msg){

@@ -212,10 +212,14 @@ void blue_box::click6_dn(){
 }
 
 void blue_box::marker_off(int num){
-  findChild<QFrame*>(QString("frm"+QString::number(num)))->setLineWidth(0);
+  if(num > -1 && num < 6){
+    findChild<QFrame*>(QString("frm"+QString::number(num)))->setLineWidth(0);
+  }
 }
 void blue_box::marker_on(int num){
-  findChild<QFrame*>(QString("frm"+QString::number(num)))->setLineWidth(5);
+  if(num > -1 && num < 6){
+    findChild<QFrame*>(QString("frm"+QString::number(num)))->setLineWidth(5);
+  }
 }
 
 void blue_box::arrayback(const std_msgs::Int32MultiArray& msg){
