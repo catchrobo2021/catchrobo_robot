@@ -9,8 +9,8 @@ class Guide:
     def __init__(self):
         self._bar = Servo("guide")
         self._pub_enable = rospy.Publisher("guide_enable", Bool, queue_size=1)
-        self.BAR_UP = -150
-        self.BAR_DOWN = 5
+        self.BAR_UP = -165
+        self.BAR_DOWN = 0
 
         self.BAR_HORIZONTAL = -30
         self.BAR_SAFE = -60
