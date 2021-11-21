@@ -118,7 +118,7 @@ class Manual():
         eular = tf.transformations.euler_from_quaternion(orientation_list)
         quat = tf.transformations.quaternion_from_euler(
             np.pi, 0, eular[2] + delta_theta)
-        target_pose.orientation = Quaternion(*quat)
+        # target_pose.orientation = Quaternion(*quat)
         if self._color == "blue":
             target_pose.position.x += delta_y
             target_pose.position.y -= delta_x
@@ -145,11 +145,14 @@ class Manual():
                 is_manual_mode = 0
                 self._pub_menu.publish(MenuEnum.EMERGENCY_STOP)
             elif self.buttonRiseUp(self._state,self._old_state,self.ButtonEnum.Y):
-                is_manual_mode = 1
+                is_manual_mode = 0
                 self._pub_menu.publish(MenuEnum.PAUSE)
             elif self.buttonRiseUp(self._state,self._old_state,self.ButtonEnum.X):
                 is_manual_mode = 0
                 self._pub_menu.publish(MenuEnum.START)
+            elif self.buttonRiseUp(self._state,self._old_state,self.ButtonEnum.A):
+                is_manual_mode = 1
+                self._pub_menu.publish(MenuEnum.PAUSE)
 
             if is_manual_mode == 1:
                 if self.buttonRiseUp(self._state,self._old_state,self.ButtonEnum.LB):
