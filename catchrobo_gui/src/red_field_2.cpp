@@ -128,10 +128,14 @@ void Red2::arrayback(const std_msgs::Int32MultiArray& msg){
 }
 
 void Red2::marker_off(int num){
-  findChild<QFrame*>(QString("frm"+QString::number(num+1)))->setLineWidth(0);
+  if(num+1 > 0 && num+1 < 28){
+    findChild<QFrame*>(QString("frm"+QString::number(num+1)))->setLineWidth(0);
+  }
 }
 void Red2::marker_on(int num){
-  findChild<QFrame*>(QString("frm"+QString::number(num+1)))->setLineWidth(5);
+  if(num+1 > 0 && num+1 < 28){
+    findChild<QFrame*>(QString("frm"+QString::number(num+1)))->setLineWidth(5);
+  }
 }
 
 void Red2::arrayback2(const std_msgs::Int32MultiArray& msg){
