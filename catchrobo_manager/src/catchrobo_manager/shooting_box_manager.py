@@ -26,6 +26,8 @@ class ShootingBoxManager():
                               5, 4, 5, 4, 5, 4, 5]
         '''
 
+        self._pub_highlight = rospy.Publisher("/highlight_goal", Int32MultiArray, queue_size=1)
+
     def sendGUI(self):
         info = Int32MultiArray()
         info.data = list(self._objects["exist"])
@@ -130,8 +132,11 @@ class ShootingBoxManager():
                     self._target_ids = [5, 5]
                 elif box3_l <= box3_r:
                     self._target_ids = [4, 4]
+        
+
 
     def getTargetTwin(self):
+        self.highlight(self._target_ids)
         return [self.getObj(id) for id in self._target_ids], None
 
     def getObj(self, id):
@@ -139,6 +144,15 @@ class ShootingBoxManager():
             return None
         else:
             return self._objects.loc[id]
+
+    def highlight(self, target_ids):
+        if target_ids[0] is not None:
+            highlight_id = Int32MultiArray()
+            if target_ids[1] is not None:
+                highlight_id.data  = target_ids
+            else:
+                highlight_id.data  = target_ids[0:1]
+            self._pub_highlight.publish(highlight_id)
 
 
 if __name__ == "__main__":
