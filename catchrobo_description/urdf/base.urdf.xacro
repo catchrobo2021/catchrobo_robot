@@ -129,10 +129,10 @@
       <parent link="base/base_link"/>
       <child link="base/entry_prohibited_area_2"/>
       <xacro:if value="${field=='blue'}">
-        <origin xyz="-0.25 1.1 0.25" rpy="0 0 0"/>
+        <origin xyz="-0.25 1.2 0.25" rpy="0 0 0"/>
       </xacro:if>
       <xacro:if value="${field=='red'}">
-        <origin xyz="0.25 1.1 0.25" rpy="0 0 0"/>
+        <origin xyz="0.25 1.2 0.25" rpy="0 0 0"/>
       </xacro:if>
     </joint>
 
@@ -168,6 +168,28 @@
       </visual>
     </link>
 
+    
+
+    <!-- <joint name="base/entry_prohibited_area_4" type="fixed">
+      <parent link="base/base_link"/>
+      <child link="base/entry_prohibited_area_4"/>
+      <xacro:if value="${field=='blue'}">
+        <origin xyz="-1.0 0.5 0.1" rpy="0 0 0"/>
+      </xacro:if>
+      <xacro:if value="${field=='red'}">
+        <origin xyz="1.0 0.5 0.1" rpy="0 0 0"/>
+      </xacro:if>
+    </joint>
+
+    <link name="base/entry_prohibited_area_4">
+      <visual>
+        <geometry>
+          <box size="0.4 0.3 0.2"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <material name="clear_grey"/>
+      </visual>
+    </link> -->
 
     
     <joint name="base/weight_box" type="fixed">

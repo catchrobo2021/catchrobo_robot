@@ -9,10 +9,11 @@ class Guide:
     def __init__(self):
         self._bar = Servo("guide")
         self._pub_enable = rospy.Publisher("guide_enable", Bool, queue_size=1)
-        self.BAR_UP = -150
-        self.BAR_DOWN = 5
+        self.BAR_UP = -165
+        self.BAR_DOWN = 0
 
         self.BAR_HORIZONTAL = -30
+        self.BAR_SAFE = -60
 
         self.guideOnOff(True)
 
@@ -20,7 +21,10 @@ class Guide:
     
     def move(self, deg):
         self._now_deg  = deg
-        self._bar.move(deg)
+
+        ####[TODO] 前日。本当はservoクラスに入れる
+        for i in range(5):
+            self._bar.move(deg)
 
 
     def guideOnOff(self, on_off):
@@ -51,10 +55,15 @@ class Guide:
         rospy.sleep(1)
         self.barDown()
     
+    def barSafe(self):
+        self.move(self.BAR_SAFE)
+
+    
 class GuideActionEnum:
     UP = 0
     DOWN = 1
     CAN_GO_COMMON = 2
+    BAR_SAFE = 3
 
 class GuideServer:
     def __init__(self):
@@ -69,6 +78,9 @@ class GuideServer:
             self._guide.barDown()
         elif action == GuideActionEnum.CAN_GO_COMMON:
             self._guide.canGoCommon()
+        elif action == GuideActionEnum.BAR_SAFE:
+            self._guide.barSafe()
+
 
 class GuideClient:
     def __init__(self):
@@ -82,3 +94,6 @@ class GuideClient:
     
     def canGoCommon(self):
         self._pub.publish(GuideActionEnum.CAN_GO_COMMON)
+    
+    def barSafe(self):
+        self._pub.publish(GuideActionEnum.BAR_SAFE)
