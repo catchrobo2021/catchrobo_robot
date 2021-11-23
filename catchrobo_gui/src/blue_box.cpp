@@ -83,6 +83,11 @@ blue_box::blue_box(QWidget *parent) :
 
     pub_ = nh_.advertise<std_msgs::Int32MultiArray>("goal_pub", 1);
     sub_ = n.subscribe("goal_sub", sendtime, &blue_box::arrayback, this);
+    sub2_ = n.subscribe("highlight_goal", sendtime, &blue_box::arrayback2, this);
+
+    for(int i=0; i<6; i++){
+      this->marker_off(i);
+    }
 }
 
 blue_box::~blue_box() = default;
@@ -206,6 +211,17 @@ void blue_box::click6_dn(){
   this->check_goal();
 }
 
+void blue_box::marker_off(int num){
+  if(num > -1 && num < 6){
+    findChild<QFrame*>(QString("frm"+QString::number(num)))->setLineWidth(0);
+  }
+}
+void blue_box::marker_on(int num){
+  if(num > -1 && num < 6){
+    findChild<QFrame*>(QString("frm"+QString::number(num)))->setLineWidth(5);
+  }
+}
+
 void blue_box::arrayback(const std_msgs::Int32MultiArray& msg){
   // print all the remaining numbers
 
@@ -217,6 +233,24 @@ void blue_box::arrayback(const std_msgs::Int32MultiArray& msg){
     ROS_INFO("[%i]:%d", i, msg.data[i]);
   }
   this->check_goal();
+}
+
+void blue_box::arrayback2(const std_msgs::Int32MultiArray& msg){
+  // print all the remaining numbers
+
+  int num = msg.data.size();
+  //for (int i = 0; i < num; i++)
+  //{
+  //  ROS_INFO("[%i]:%d", i, msg.data[i]);
+  //}
+
+  for(int i=0; i<6; i++){
+    this->marker_off(i);
+  }
+  for(int i=0; i<num; i++){
+    int nu = msg.data[i];
+    this->marker_on(nu);
+  }
 }
 
 }

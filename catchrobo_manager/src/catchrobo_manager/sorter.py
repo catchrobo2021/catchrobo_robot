@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import rospy
+import threading
+from rospy.core import is_shutdown
 from std_msgs.msg import Int8
 from catchrobo_manager.servo import Servo
 
@@ -25,11 +27,12 @@ class SorterManager:
         self._color = color
 
         self.CLOSE_WAIT_S = 0.5
-        self.OPEN_WAIT_S = 0.5
         self._is_closing = False
         self._open_miss = False
         self.RELEASE_BISCO_WAIT = 0.5
-    
+
+        # self._lock = threading.Lock()
+
     def init(self):
         open_row = [0,2,4]
         for i in open_row:
@@ -58,7 +61,9 @@ class SorterManager:
         sorter_id, sign = self.getRow2Direction(row)
         deg = sign * self.OPEN_DEG
         shooter = self._shooters[sorter_id]
-        shooter.move(deg, self.OPEN_WAIT_S)
+
+        for i in range(5):
+            shooter.move(deg, 0)
 
     def open(self, row):
         self.setOpenRow(row)
@@ -70,7 +75,8 @@ class SorterManager:
     def closeAction(self, row):
         sorter_id, sign = self.getRow2Direction(row)
         shooter = self._shooters[sorter_id]
-        shooter.move(self.CLOSE_DEG, self.CLOSE_WAIT_S)
+        for i in range(5):
+            shooter.move(self.CLOSE_DEG, self.CLOSE_WAIT_S*0.2)
 
     def close(self, row):
         self._is_closing = True
@@ -80,6 +86,14 @@ class SorterManager:
         if self._open_miss:
             self.openAcion()
             self._open_miss = False
+        
+    # def spin(self):
+    #     rate = rospy.Rate(10)
+    #     while not rospy.is_shutdown():
+    #         with self._lock:
+    #             deg = self._deg
+    #             shooter.move(deg, 0)
+    #         rate.sleep()
 
 class SorterServer:
     def __init__(self, color):

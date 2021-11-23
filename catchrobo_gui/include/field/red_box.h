@@ -42,6 +42,9 @@ public:
     void onEnable();
     void onDisable();
     void arrayback(const std_msgs::Int32MultiArray& msg);
+    void marker_off(int value);
+    void marker_on(int value);
+    void arrayback2(const std_msgs::Int32MultiArray& msg);
 
 private Q_SLOTS:
   void dialValueChanged(int value);
@@ -78,6 +81,7 @@ protected:
   ros::NodeHandle nh_;
   ros::Publisher pub_;
   ros::Subscriber sub_;
+  ros::Subscriber sub2_;
   ros::Timer ti_; 
   ros::NodeHandle n;
 };
